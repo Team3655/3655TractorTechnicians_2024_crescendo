@@ -88,7 +88,8 @@ public class PathfindingCommands {
     PathPlannerPath closestPath = paths.get(0);
 
     for (PathPlannerPath p : paths) {
-      if (getDistToPath(closestPath, positionSupplier.get()) > getDistToPath(p, positionSupplier.get())) {
+      if (getDistToPath(closestPath, positionSupplier.get())
+          > getDistToPath(p, positionSupplier.get())) {
         closestPath = p;
       }
     }

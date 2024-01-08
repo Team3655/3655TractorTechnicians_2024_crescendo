@@ -1,46 +1,45 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.flywheel;
+package frc.robot.subsystems.shooter;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
+
 import edu.wpi.first.math.util.Units;
 
+/** Add your docs here. */
 public class FlywheelIOSparkMax implements FlywheelIO {
-  private static final double GEAR_RATIO = 1.5;
+  
+  private static final double GEAR_RATIO = 1;
 
   private final CANSparkMax leader = new CANSparkMax(10, MotorType.kBrushless);
-  private final CANSparkMax follower = new CANSparkMax(11, MotorType.kBrushless);
   private final RelativeEncoder encoder = leader.getEncoder();
   private final SparkMaxPIDController pid = leader.getPIDController();
 
   public FlywheelIOSparkMax() {
     leader.restoreFactoryDefaults();
-    follower.restoreFactoryDefaults();
 
     leader.setCANTimeout(250);
-    follower.setCANTimeout(250);
 
     leader.setInverted(false);
-    follower.follow(leader, false);
 
     leader.enableVoltageCompensation(12.0);
     leader.setSmartCurrentLimit(30);
 
     leader.burnFlash();
-    follower.burnFlash();
   }
 
   @Override
   public void updateInputs(FlywheelIOInputs inputs) {
     inputs.positionRad = Units.rotationsToRadians(encoder.getPosition() / GEAR_RATIO);
-    inputs.velocityRadPerSec =
-        Units.rotationsPerMinuteToRadiansPerSecond(encoder.getVelocity() / GEAR_RATIO);
+    inputs.velocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(encoder.getVelocity() / GEAR_RATIO);
     inputs.appliedVolts = leader.getAppliedOutput() * leader.getBusVoltage();
-    inputs.currentAmps = new double[] {leader.getOutputCurrent(), follower.getOutputCurrent()};
   }
 
   @Override
