@@ -5,46 +5,45 @@
 package frc.robot.subsystems.shooter;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
-
 import edu.wpi.first.math.util.Units;
 
 /** Add your docs here. */
 public class FlywheelIOSparkMax implements FlywheelIO {
-  
+
   private static final double GEAR_RATIO = 1;
 
-  private final CANSparkMax leader = new CANSparkMax(10, MotorType.kBrushless);
-  private final RelativeEncoder encoder = leader.getEncoder();
-  private final SparkMaxPIDController pid = leader.getPIDController();
+  private final CANSparkMax motor = new CANSparkMax(10, MotorType.kBrushless);
+  private final RelativeEncoder encoder = motor.getEncoder();
+  private final SparkMaxPIDController pid = motor.getPIDController();
 
   public FlywheelIOSparkMax() {
-    leader.restoreFactoryDefaults();
+    motor.restoreFactoryDefaults();
 
-    leader.setCANTimeout(250);
+    motor.setCANTimeout(250);
 
-    leader.setInverted(false);
+    motor.setInverted(false);
 
-    leader.enableVoltageCompensation(12.0);
-    leader.setSmartCurrentLimit(30);
+    motor.enableVoltageCompensation(12.0);
+    motor.setSmartCurrentLimit(30);
 
-    leader.burnFlash();
+    motor.burnFlash();
   }
 
   @Override
   public void updateInputs(FlywheelIOInputs inputs) {
     inputs.positionRad = Units.rotationsToRadians(encoder.getPosition() / GEAR_RATIO);
     inputs.velocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(encoder.getVelocity() / GEAR_RATIO);
-    inputs.appliedVolts = leader.getAppliedOutput() * leader.getBusVoltage();
+    inputs.appliedVolts = motor.getAppliedOutput() * motor.getBusVoltage();
   }
 
   @Override
   public void setVoltage(double volts) {
-    leader.setVoltage(volts);
+    motor.setVoltage(volts);
   }
 
   @Override
@@ -59,7 +58,7 @@ public class FlywheelIOSparkMax implements FlywheelIO {
 
   @Override
   public void stop() {
-    leader.stopMotor();
+    motor.stopMotor();
   }
 
   @Override

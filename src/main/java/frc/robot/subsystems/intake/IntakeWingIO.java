@@ -4,5 +4,16 @@
 
 package frc.robot.subsystems.intake;
 
+import org.littletonrobotics.junction.AutoLog;
+
 /** Add your docs here. */
-public interface IntakeWingIO {}
+public interface IntakeWingIO {
+
+  @AutoLog
+  public static class IntakeWingIOInputs {
+    public double positionRad = 0.0;
+    public double appliedVolts = 0.0;
+    public double[] currentAmps = new double[] {};
+  }
+
+}
