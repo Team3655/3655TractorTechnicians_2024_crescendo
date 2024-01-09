@@ -15,5 +15,4 @@ public interface IntakeWingIO {
     public double appliedVolts = 0.0;
     public double[] currentAmps = new double[] {};
   }
-
 }

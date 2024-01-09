@@ -5,11 +5,12 @@
 package frc.robot.subsystems.shooter;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.SparkPIDController.ArbFFUnits;
+
 import edu.wpi.first.math.util.Units;
 
 /** Add your docs here. */
@@ -19,7 +20,8 @@ public class FlywheelIOSparkMax implements FlywheelIO {
 
   private final CANSparkMax motor = new CANSparkMax(10, MotorType.kBrushless);
   private final RelativeEncoder encoder = motor.getEncoder();
-  private final SparkMaxPIDController pid = motor.getPIDController();
+  private final SparkPIDController pid = motor.getPIDController();
+  // private final SparkMaxPIDController pid = motor.getPIDController();
 
   public FlywheelIOSparkMax() {
     motor.restoreFactoryDefaults();
