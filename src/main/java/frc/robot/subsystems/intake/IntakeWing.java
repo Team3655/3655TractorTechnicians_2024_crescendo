@@ -5,4 +5,5 @@
 package frc.robot.subsystems.intake;
 
 /** Add your docs here. */
-public class IntakeWing {}
+public interface IntakeWing { 
+}

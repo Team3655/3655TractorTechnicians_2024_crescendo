@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.0,
-        "y": 7.0739056905416815
+        "x": 2.5826498289767885,
+        "y": 4.325526139841517
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.0,
-        "y": 6.5739056905416815
+        "x": 2.2513329331591403,
+        "y": 4.5003878348563875
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Pickup3End"
     },
     {
       "anchor": {
-        "x": 6.039765597844181,
-        "y": 4.788340897436512
+        "x": 1.3862277051908372,
+        "y": 4.969753437264722
       },
       "prevControl": {
-        "x": 5.039765597844181,
-        "y": 5.788340897436512
-      },
-      "nextControl": {
-        "x": 7.039765597844181,
-        "y": 3.7883408974365116
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 7.0,
-        "y": 1.0
-      },
-      "prevControl": {
-        "x": 6.75,
-        "y": 2.5
+        "x": 1.8095770720689428,
+        "y": 4.6476397885531195
       },
       "nextControl": null,
       "isLocked": false,
@@ -51,15 +35,15 @@
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0
+    "maxAngularAcceleration": 540.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": -28.705952543401136,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "3PeiceAmp",
   "previewStartingState": null,
   "useDefaultConstraints": false
 }

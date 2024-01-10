@@ -2,32 +2,49 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3862277051895042,
-      "y": 4.353135881156963
+      "x": 0.7512036548736781,
+      "y": 6.607931422140871
     },
-    "rotation": 0
+    "rotation": 59.5
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "pickup1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Run Flywheel"
-                }
-              }
-            ]
+            "pathName": "pickup1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "shoot1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "pickup2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "shoot2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "pickup3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "New Path"
           }
         }
       ]

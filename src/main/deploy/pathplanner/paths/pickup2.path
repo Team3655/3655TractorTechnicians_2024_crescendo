@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.478260176251295,
+        "y": 5.650793723112111
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.0304550026140418,
+        "y": 5.521948263627469
+      },
+      "isLocked": false,
+      "linkedName": "Shoot1End"
+    },
+    {
+      "anchor": {
+        "x": 2.591853076082834,
+        "y": 5.549558004945607
+      },
+      "prevControl": {
+        "x": 2.18691020341682,
+        "y": 5.531151510733515
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Pickup2End"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "3PeiceAmp",
+  "previewStartingState": null,
+  "useDefaultConstraints": false
+}
