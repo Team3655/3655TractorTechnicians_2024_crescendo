@@ -4,13 +4,12 @@
 
 package frc.robot.subsystems.shooter;
 
+import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.CANSparkBase.ControlType;
-import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
-
 import edu.wpi.first.math.util.Units;
 
 /** Add your docs here. */
@@ -18,28 +17,41 @@ public class FlywheelIOSparkMax implements FlywheelIO {
 
   private static final double GEAR_RATIO = 1;
 
-  private final CANSparkMax motor = new CANSparkMax(10, MotorType.kBrushless);
-  private final RelativeEncoder encoder = motor.getEncoder();
-  private final SparkPIDController pid = motor.getPIDController();
+  private final CANSparkMax motor;
+  private final RelativeEncoder encoder;
+  private final SparkPIDController pid;
   // private final SparkMaxPIDController pid = motor.getPIDController();
 
-  public FlywheelIOSparkMax() {
+  public FlywheelIOSparkMax(int index) {
+
+    switch (index) {
+      case 1:
+        motor = new CANSparkMax(20, MotorType.kBrushless);
+        break;
+      case 2:
+        motor = new CANSparkMax(21, MotorType.kBrushless);
+        break;
+
+      default:
+        throw new RuntimeException("Invalid flywheel index");
+    }
+
+    encoder = motor.getEncoder();
+    pid = motor.getPIDController();
+
     motor.restoreFactoryDefaults();
-
     motor.setCANTimeout(250);
-
     motor.setInverted(false);
-
     motor.enableVoltageCompensation(12.0);
     motor.setSmartCurrentLimit(30);
-
     motor.burnFlash();
   }
 
   @Override
   public void updateInputs(FlywheelIOInputs inputs) {
     inputs.positionRad = Units.rotationsToRadians(encoder.getPosition() / GEAR_RATIO);
-    inputs.velocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(encoder.getVelocity() / GEAR_RATIO);
+    inputs.velocityRadPerSec =
+        Units.rotationsPerMinuteToRadiansPerSecond(encoder.getVelocity() / GEAR_RATIO);
     inputs.appliedVolts = motor.getAppliedOutput() * motor.getBusVoltage();
   }
 

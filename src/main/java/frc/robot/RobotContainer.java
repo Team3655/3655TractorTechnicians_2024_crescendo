@@ -10,14 +10,16 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.FeedForwardCharacterization;
-import frc.robot.commands.PathfindingCommands;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
-import java.util.ArrayList;
+import frc.robot.subsystems.shooter.FlywheelIO;
+import frc.robot.subsystems.shooter.FlywheelIOSim;
+import frc.robot.subsystems.shooter.FlywheelIOSparkMax;
+import frc.robot.subsystems.shooter.Shooter;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
@@ -30,6 +32,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+  private final Shooter shooter;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(1);
@@ -37,9 +40,7 @@ public class RobotContainer {
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
   private final LoggedDashboardNumber flywheelSpeedInput =
-      new LoggedDashboardNumber("Flywheel Speed", 1500.0);
-
-  private final ArrayList<String> pathsList = new ArrayList<>();
+      new LoggedDashboardNumber("Flywheel Speed", 1000);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -60,6 +61,8 @@ public class RobotContainer {
                 new ModuleIOTalonFX(1),
                 new ModuleIOTalonFX(2),
                 new ModuleIOTalonFX(3));
+
+        shooter = new Shooter(new FlywheelIOSparkMax(1), new FlywheelIOSparkMax(2));
         break;
 
       case SIM:
@@ -71,6 +74,7 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 new ModuleIOSim(),
                 new ModuleIOSim());
+        shooter = new Shooter(new FlywheelIOSim(), new FlywheelIOSim());
         break;
 
       default:
@@ -82,6 +86,8 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 new ModuleIO() {});
+
+        shooter = new Shooter(new FlywheelIO() {}, new FlywheelIO() {});
         break;
     }
 
@@ -96,8 +102,6 @@ public class RobotContainer {
         new FeedForwardCharacterization(
             drive, drive::runCharacterizationVolts, drive::getCharacterizationVelocity));
 
-    pathsList.add("test2");
-    pathsList.add("test1");
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -119,19 +123,6 @@ public class RobotContainer {
             () -> -controller.getLeftX() * (1 - controller.getRightTriggerAxis()),
             () -> -controller.getRightX()));
 
-    // Pathfind to the intaking path at the 2023 single substation
-    controller.leftBumper().whileTrue(PathfindingCommands.pathfindToPath("single sub", 0.5));
-
-    controller
-        .y()
-        .whileTrue(PathfindingCommands.pathfindToNearestPath(pathsList, () -> drive.getPose()));
-
-    controller
-        .rightBumper()
-        .whileTrue(
-            PathfindingCommands.pathfindToPose(
-                new Pose2d(1.629, 2.262, Rotation2d.fromDegrees(180)), 0, 0));
-
     controller.x().whileTrue(Commands.run(drive::stopWithX, drive));
 
     controller
@@ -143,6 +134,14 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
                     drive)
                 .ignoringDisable(true));
+
+    controller
+        .a()
+        .whileTrue(
+            Commands.startEnd(
+                () -> shooter.runVelocity(flywheelSpeedInput.get(), flywheelSpeedInput.get()),
+                shooter::stop,
+                shooter));
   }
 
   /**
