@@ -11,8 +11,22 @@ public interface IntakeWingIO {
 
   @AutoLog
   public static class IntakeWingIOInputs {
-    public double positionRad = 0.0;
-    public double appliedVolts = 0.0;
-    public double[] currentAmps = new double[] {};
+    public double intakeAngularVelRadsPerSec = 0.0;
+    public double intakeAppliedVolts = 0.0;
+    public double intakeCurrentAmps = 0.0;
+    public double intakeMotorTemp = 0.0;
+
+    public double deployPositionRads = 0.0;
+    public double deployAppliedVolts = 0.0;
+    public double deployCurrentAmps = 0.0;
+    public double deployMotorTemp = 0.0;
   }
+
+  public default void updateInputs(IntakeWingIOInputs inputs) {}
+
+  public default void configureDeployPID(double p, double i, double d) {}
+
+  public default void setVoltage(double volts) {}
+
+  public default void stop() {}
 }

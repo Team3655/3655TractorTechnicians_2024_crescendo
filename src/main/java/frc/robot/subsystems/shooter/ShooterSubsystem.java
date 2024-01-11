@@ -6,12 +6,12 @@ package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Shooter extends SubsystemBase {
+public class ShooterSubsystem extends SubsystemBase {
 
   private final Flywheels flywheels;
 
   /** Creates a new shooter. */
-  public Shooter(FlywheelIO leftIo, FlywheelIO rightIo) {
+  public ShooterSubsystem(FlywheelIO leftIo, FlywheelIO rightIo) {
     flywheels = new Flywheels(leftIo, rightIo);
   }
 

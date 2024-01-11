@@ -20,7 +20,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
-public class Drive extends SubsystemBase {
+public class DriveSubsystem extends SubsystemBase {
 
   // General drive constants (these are accessed by other drive classes)
   public static final double DRIVE_GEAR_RATIO = (50.0 / 14.0) * (16.0 / 28.0) * (45.0 / 15.0);
@@ -42,7 +42,7 @@ public class Drive extends SubsystemBase {
   private Pose2d pose = new Pose2d();
   private Rotation2d lastGyroRotation = new Rotation2d();
 
-  public Drive(
+  public DriveSubsystem(
       GyroIO gyroIO,
       ModuleIO flModuleIO,
       ModuleIO frModuleIO,

@@ -20,16 +20,18 @@ public class FlywheelIOSparkMax implements FlywheelIO {
   private final CANSparkMax motor;
   private final RelativeEncoder encoder;
   private final SparkPIDController pid;
-  // private final SparkMaxPIDController pid = motor.getPIDController();
 
   public FlywheelIOSparkMax(int index) {
 
+    // switch can id's and inverts based on index (index represents left vs right)
     switch (index) {
       case 1:
         motor = new CANSparkMax(20, MotorType.kBrushless);
+        motor.setInverted(false);
         break;
       case 2:
         motor = new CANSparkMax(21, MotorType.kBrushless);
+        motor.setInverted(true);
         break;
 
       default:
@@ -41,7 +43,6 @@ public class FlywheelIOSparkMax implements FlywheelIO {
 
     motor.restoreFactoryDefaults();
     motor.setCANTimeout(250);
-    motor.setInverted(false);
     motor.enableVoltageCompensation(12.0);
     motor.setSmartCurrentLimit(30);
     motor.burnFlash();
