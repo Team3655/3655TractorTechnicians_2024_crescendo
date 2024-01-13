@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7512036548736781,
-      "y": 6.607931422140871
+      "x": 1.478260176251295,
+      "y": 5.650793723112111
     },
-    "rotation": 59.5
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -14,37 +14,37 @@
         {
           "type": "path",
           "data": {
-            "pathName": "pickup1"
+            "pathName": "pickup2close"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "shoot1"
+            "pathName": "shoot2close"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "pickup2"
+            "pathName": "pickup3close"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "shoot2"
+            "pathName": "shoot3close"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "pickup3"
+            "pathName": "center pickup"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "New Path"
+            "pathName": "center shoot"
           }
         }
       ]

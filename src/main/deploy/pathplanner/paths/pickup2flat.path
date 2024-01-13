@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.4690569291452127,
-        "y": 7.371800931940842
+        "x": 2.60105632318888,
+        "y": 2.015511116224026
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.873999801811191,
-        "y": 7.565069121165975
+        "x": 3.7514622114446072,
+        "y": 1.490926031179418
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.9447304006715647,
-        "y": 7.59267886248777
+        "x": 7.8008909381047475,
+        "y": 2.4388604831021325
       },
       "prevControl": {
-        "x": 2.7667147710976683,
-        "y": 7.804353545924994
-      },
-      "nextControl": {
-        "x": 5.158154062577488,
-        "y": 7.374641798240941
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 7.745671455468436,
-        "y": 7.436223661683163
-      },
-      "prevControl": {
-        "x": 6.135103211910423,
-        "y": 7.57427236827385
+        "x": 5.684144103714217,
+        "y": 1.6749909733003323
       },
       "nextControl": null,
       "isLocked": false,
@@ -59,10 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "3AmpDropoff",
-  "previewStartingState": {
-    "rotation": 0,
-    "velocity": 0
-  },
+  "folder": "3LongFlat",
+  "previewStartingState": null,
   "useDefaultConstraints": false
 }
