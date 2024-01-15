@@ -11,6 +11,7 @@ import org.littletonrobotics.junction.Logger;
 public class IntakeSubsystem extends SubsystemBase {
 
   public static final double SUCKER_GEAR_RATIO = 1.5;
+  public static final double DEPLOY_GEAR_RATIO = 100.0;
 
   private final IntakeWingIO wingIO;
   private final IntakeWingIOInputsAutoLogged wingIOInputs = new IntakeWingIOInputsAutoLogged();
