@@ -18,7 +18,7 @@ import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSparkMax;
 import frc.robot.subsystems.shooter.FlywheelIO;
 import frc.robot.subsystems.shooter.FlywheelIOSim;
-import frc.robot.subsystems.shooter.FlywheelIOSparkMax;
+import frc.robot.subsystems.shooter.FlywheelIOSpark;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
@@ -62,7 +62,7 @@ public class RobotContainer {
         // new ModuleIOTalonFX(2),
         // new ModuleIOTalonFX(3));
 
-        shooter = new ShooterSubsystem(new FlywheelIOSparkMax(1), new FlywheelIOSparkMax(2));
+        shooter = new ShooterSubsystem(new FlywheelIOSpark(1), new FlywheelIOSpark(2));
         break;
 
       case SIM:

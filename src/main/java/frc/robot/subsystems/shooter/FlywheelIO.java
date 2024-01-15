@@ -8,6 +8,7 @@ import org.littletonrobotics.junction.AutoLog;
 
 /** Add your docs here. */
 public interface FlywheelIO {
+  
   @AutoLog
   public static class FlywheelIOInputs {
     public double positionRad = 0.0;
