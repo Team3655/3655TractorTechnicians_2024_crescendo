@@ -1,0 +1,55 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7512036548736781,
+      "y": 6.607931422140871
+    },
+    "rotation": 59.5
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "pickup1close"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "shoot1close"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "pickup2close"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "shoot2close"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "pickup3close"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "shoot3close"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

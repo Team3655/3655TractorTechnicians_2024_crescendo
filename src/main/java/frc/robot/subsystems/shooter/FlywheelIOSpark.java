@@ -13,7 +13,7 @@ import com.revrobotics.SparkPIDController.ArbFFUnits;
 import edu.wpi.first.math.util.Units;
 
 /** Add your docs here. */
-public class FlywheelIOSparkMax implements FlywheelIO {
+public class FlywheelIOSpark implements FlywheelIO {
 
   private static final double GEAR_RATIO = 1;
 
@@ -21,7 +21,7 @@ public class FlywheelIOSparkMax implements FlywheelIO {
   private final RelativeEncoder encoder;
   private final SparkPIDController pid;
 
-  public FlywheelIOSparkMax(int index) {
+  public FlywheelIOSpark(int index) {
 
     // switch can id's and inverts based on index (index represents left vs right)
     switch (index) {

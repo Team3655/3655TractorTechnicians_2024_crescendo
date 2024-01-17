@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.4690569291452489,
-        "y": 5.117005390961455
+        "x": 2.757511523991659,
+        "y": 6.948451565064565
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9108127902354468,
-        "y": 5.006566425688906
+        "x": 2.2605361802651864,
+        "y": 6.745980128731558
       },
       "isLocked": false,
-      "linkedName": "Shoot2End"
+      "linkedName": "Pickup1End"
     },
     {
       "anchor": {
-        "x": 2.5826498289767885,
-        "y": 4.325526139841517
+        "x": 1.478260176251295,
+        "y": 5.650793723112111
       },
       "prevControl": {
-        "x": 2.0764712381442707,
-        "y": 4.804094989355897
+        "x": 2.0488614968261336,
+        "y": 5.788842429702797
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Pickup3End"
+      "linkedName": "Shoot1End"
     }
   ],
   "rotationTargets": [],
@@ -39,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -34.07719528013079,
-    "rotateFast": true
+    "rotation": 0,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "3PeiceAmp",
+  "folder": "4PeiceAmp",
   "previewStartingState": null,
   "useDefaultConstraints": false
 }

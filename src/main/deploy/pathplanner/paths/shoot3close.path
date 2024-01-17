@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.757511523991659,
-        "y": 6.948451565064565
+        "x": 2.5826498289767885,
+        "y": 4.325526139841517
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2605361802651864,
-        "y": 6.745980128731558
+        "x": 2.2513329331591403,
+        "y": 4.5003878348563875
       },
       "isLocked": false,
-      "linkedName": "Pickup1End"
+      "linkedName": "Pickup3End"
     },
     {
       "anchor": {
-        "x": 1.478260176251295,
-        "y": 5.650793723112111
+        "x": 1.3862277051908372,
+        "y": 4.969753437264722
       },
       "prevControl": {
-        "x": 2.0488614968261336,
-        "y": 5.788842429702797
+        "x": 1.8095770720689428,
+        "y": 4.6476397885531195
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Shoot1End"
+      "linkedName": "Shoot3End"
     }
   ],
   "rotationTargets": [],
@@ -35,15 +35,15 @@
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0
+    "maxAngularAcceleration": 540.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": -28.705952543401136,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "3PeiceAmp",
+  "folder": "4PeiceAmp",
   "previewStartingState": null,
   "useDefaultConstraints": false
 }

@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.591853076082834,
-        "y": 5.549558004945607
+        "x": 2.4906173579163307,
+        "y": 2.5677059425867736
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1040809794624074,
-        "y": 5.291867085976324
+        "x": 3.3189095974604514,
+        "y": 1.8406494212091558
       },
       "isLocked": false,
-      "linkedName": "Pickup2End"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.4690569291452489,
-        "y": 5.117005390961455
+        "x": 7.72726496125638,
+        "y": 0.8466987337562125
       },
       "prevControl": {
-        "x": 1.9936420141898585,
-        "y": 5.1262086380675
+        "x": 5.969444764001759,
+        "y": 1.288454594841354
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Shoot2End"
+      "linkedName": "Pickup1FlatEnd"
     }
   ],
   "rotationTargets": [],
@@ -33,17 +33,20 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxAcceleration": 2.5,
     "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0
+    "maxAngularAcceleration": 540.0
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": -13.706961004079938,
+    "velocity": 1.0,
+    "rotation": -6.340191745909939,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "3PeiceAmp",
-  "previewStartingState": null,
+  "folder": "3LongFlat",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
   "useDefaultConstraints": false
 }
