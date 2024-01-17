@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class VisionSubsystem extends SubsystemBase {
 
-  private final VisionIO[] cameras;
+  /// private final VisionIO[] cameras;
 
   /** Creates a new VisionSubsystem. */
   public VisionSubsystem(VisionIO... cameras) {
-    this.cameras = cameras;
+    // this.cameras = cameras;
   }
 
   @Override

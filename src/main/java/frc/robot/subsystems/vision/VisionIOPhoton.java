@@ -4,33 +4,33 @@
 
 package frc.robot.subsystems.vision;
 
-import java.io.IOException;
-import java.util.function.Supplier;
-
-import org.photonvision.PhotonCamera;
-import org.photonvision.simulation.PhotonCameraSim;
-import org.photonvision.simulation.SimCameraProperties;
-import org.photonvision.simulation.VisionSystemSim;
-
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import frc.robot.Constants;
+import java.io.IOException;
+import java.util.function.Supplier;
+import org.photonvision.PhotonCamera;
+import org.photonvision.simulation.PhotonCameraSim;
+import org.photonvision.simulation.SimCameraProperties;
+import org.photonvision.simulation.VisionSystemSim;
 
 // docs: https://docs.photonvision.org/en/latest/docs/simulation/simulation.html
 
 /** Add your docs here. */
-public class VisionIOSim {
+public class VisionIOPhoton implements VisionIO {
 
   // A vision system sim labelled as "main" in NetworkTables
   private static final VisionSystemSim SIM_SYSTEM = new VisionSystemSim("main");
-  private static final boolean isSim =  Constants.currentMode == Constants.Mode.SIM;
+  private static final boolean isSim = Constants.currentMode == Constants.Mode.SIM;
 
-  public VisionIOSim(String cameraName, Transform3d trans, Supplier<Pose2d> robotPose) throws IOException {
+  public VisionIOPhoton(String cameraName, Transform3d trans, Supplier<Pose2d> robotPose)
+      throws IOException {
 
-    AprilTagFieldLayout tagLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
+    AprilTagFieldLayout tagLayout =
+        AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
     SIM_SYSTEM.addAprilTags(tagLayout);
 
     PhotonCamera camera = new PhotonCamera(cameraName);
@@ -58,8 +58,4 @@ public class VisionIOSim {
       cameraSim.enableDrawWireframe(true);
     }
   }
-
-  
-
-
 }
