@@ -119,9 +119,9 @@ public class RobotContainer {
             drive,
             // multiply by (1 - RightTrigger) to act as a variable "brake" or "damper" on
             // the robots zoomieness
-            () -> -controller.getLeftY() * (1 - controller.getRightTriggerAxis()),
-            () -> -controller.getLeftX() * (1 - controller.getRightTriggerAxis()),
-            () -> -controller.getRightX()));
+            () -> -controller.getLeftY() * (1.4 - controller.getRightTriggerAxis()),
+            () -> -controller.getLeftX() * (1.4 - controller.getRightTriggerAxis()),
+            () -> -controller.getRightX() * (1.4 - controller.getRightTriggerAxis())));
 
     controller.x().whileTrue(Commands.run(drive::stopWithX, drive));
 
