@@ -12,6 +12,9 @@ public interface VisionIO {
 
   @AutoLog
   public class VisionIOInputs {
+
+    public boolean hasValidTarget = false;
+
     public Pose2d pose = new Pose2d();
     public double timeStamp = 0.0;
 
