@@ -55,6 +55,8 @@ public class FlywheelIOSpark implements FlywheelIO {
     inputs.velocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(encoder.getVelocity() / GEAR_RATIO);
     inputs.appliedVolts = motor.getAppliedOutput() * motor.getBusVoltage();
+    inputs.currentAmps = new double[] {motor.getOutputCurrent()};
+    inputs.motorTemp = motor.getMotorTemperature();
   }
 
   @Override

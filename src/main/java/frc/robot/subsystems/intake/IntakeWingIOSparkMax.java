@@ -46,6 +46,9 @@ public class IntakeWingIOSparkMax implements IntakeWingIO {
 
     inputs.deployPositionRads =
         Units.rotationsToRadians(deployEncoder.getPosition() / IntakeSubsystem.DEPLOY_GEAR_RATIO);
+    inputs.deployAppliedVolts = deployMotor.getAppliedOutput() * deployMotor.getBusVoltage();
+    inputs.deployCurrentAmps = deployMotor.getOutputCurrent();
+    inputs.deployMotorTemp = deployMotor.getMotorTemperature();
   }
 
   @Override
