@@ -6,6 +6,7 @@ package frc.robot.subsystems.shooter;
 
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
@@ -17,7 +18,7 @@ public class FlywheelIOSpark implements FlywheelIO {
 
   private static final double GEAR_RATIO = 1;
 
-  private final CANSparkMax motor;
+  private final CANSparkFlex motor;
   private final RelativeEncoder encoder;
   private final SparkPIDController pid;
 
@@ -26,11 +27,11 @@ public class FlywheelIOSpark implements FlywheelIO {
     // switch can id's and inverts based on index (index represents left vs right)
     switch (index) {
       case 1:
-        motor = new CANSparkMax(20, MotorType.kBrushless);
+        motor = new CANSparkFlex(20, MotorType.kBrushless);
         motor.setInverted(false);
         break;
       case 2:
-        motor = new CANSparkMax(21, MotorType.kBrushless);
+        motor = new CANSparkFlex(21, MotorType.kBrushless);
         motor.setInverted(true);
         break;
 
