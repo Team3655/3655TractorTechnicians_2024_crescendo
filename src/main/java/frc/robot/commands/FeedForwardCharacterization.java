@@ -77,10 +77,11 @@ public class FeedForwardCharacterization extends Command {
         return;
       }
 
-      PolynomialRegression regression = new PolynomialRegression(
-          velocityData.stream().mapToDouble(Double::doubleValue).toArray(),
-          voltageData.stream().mapToDouble(Double::doubleValue).toArray(),
-          1);
+      PolynomialRegression regression =
+          new PolynomialRegression(
+              velocityData.stream().mapToDouble(Double::doubleValue).toArray(),
+              voltageData.stream().mapToDouble(Double::doubleValue).toArray(),
+              1);
 
       System.out.println("FF Characterization Results:");
       System.out.println("\tCount=" + Integer.toString(velocityData.size()) + "");

@@ -4,10 +4,16 @@
 
 package frc.robot.subsystems.vision;
 
-import java.util.List;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform3d;
+import frc.robot.Constants;
+import frc.robot.Constants.Mode;
 import java.io.IOException;
+import java.util.List;
 import java.util.function.Supplier;
-
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.simulation.PhotonCameraSim;
@@ -16,14 +22,6 @@ import org.photonvision.simulation.VisionSystemSim;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform3d;
-import frc.robot.Constants;
-import frc.robot.Constants.Mode;
-
 // docs: https://docs.photonvision.org/en/latest/docs/simulation/simulation.html
 
 /** Add your docs here. */
@@ -31,7 +29,8 @@ public class VisionIOPhoton implements VisionIO {
 
   // A vision system sim labelled as "main" in NetworkTables
   private static final VisionSystemSim SIM_SYSTEM = new VisionSystemSim("main");
-  private final AprilTagFieldLayout tagLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
+  private final AprilTagFieldLayout tagLayout =
+      AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
   private final PhotonPoseEstimator poseEstimator;
   private final PhotonCamera camera;
 
@@ -49,8 +48,12 @@ public class VisionIOPhoton implements VisionIO {
 
     camera = new PhotonCamera(cameraName);
 
-    poseEstimator = new PhotonPoseEstimator(
-      tagLayout, PhotonPoseEstimator.PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, trans);
+    poseEstimator =
+        new PhotonPoseEstimator(
+            tagLayout,
+            PhotonPoseEstimator.PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
+            camera,
+            trans);
     poseEstimator.setMultiTagFallbackStrategy(PhotonPoseEstimator.PoseStrategy.LOWEST_AMBIGUITY);
 
     if (isSim) {
@@ -79,26 +82,24 @@ public class VisionIOPhoton implements VisionIO {
 
   @Override
   public void updateInputs(VisionIOInputs inputs) {
-    if (isSim)
-      SIM_SYSTEM.update(robotPose.get());
+    if (isSim) SIM_SYSTEM.update(robotPose.get());
 
     PhotonPipelineResult result = camera.getLatestResult();
-
-
   }
 
   /**
    * Checks if all tag ID are less than the greatest tag ID on the field
+   *
    * @param targets
    * @return
    */
   private boolean checkInvalidIDs(List<PhotonTrackedTarget> targets) {
     for (PhotonTrackedTarget target : targets) {
-      if (target.getFiducialId() > tagLayout.getTags().size() + 1); 
-        return false;
+      if (target.getFiducialId() > tagLayout.getTags().size() + 1)
+        ;
+      return false;
     }
 
     return true;
   }
-
 }
