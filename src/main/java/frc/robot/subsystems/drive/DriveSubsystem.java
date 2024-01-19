@@ -42,6 +42,8 @@ public class DriveSubsystem extends SubsystemBase {
   private Pose2d pose = new Pose2d();
   private Rotation2d lastGyroRotation = new Rotation2d();
 
+  private Rotation2d gyroOffset = new Rotation2d();
+
   public DriveSubsystem(
       GyroIO gyroIO,
       ModuleIO flModuleIO,
@@ -221,7 +223,11 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Returns the current odometry rotation. */
   public Rotation2d getRotation() {
-    return pose.getRotation();
+    return pose.getRotation().minus(lastGyroRotation).minus(gyroOffset);
+  }
+
+  public void updateGyroOffset() {
+    gyroOffset = gyroInputs.yawPosition;
   }
 
   /** Resets the current odometry pose. */
