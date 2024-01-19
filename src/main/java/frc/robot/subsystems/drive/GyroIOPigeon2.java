@@ -15,12 +15,16 @@ public class GyroIOPigeon2 implements GyroIO {
   private final StatusSignal<Double> yaw = pigeon.getYaw();
   private final Queue<Double> yawPositionQueue;
   private final StatusSignal<Double> yawVelocity = pigeon.getAngularVelocityZDevice();
+  private final StatusSignal<Double> xAcceleration = pigeon.getAccelerationX();
+  private final StatusSignal<Double> yAcceleration = pigeon.getAccelerationY();
 
   public GyroIOPigeon2(boolean phoenixDrive) {
     pigeon.getConfigurator().apply(new Pigeon2Configuration());
     pigeon.getConfigurator().setYaw(0.0);
     yaw.setUpdateFrequency(Module.ODOMETRY_FREQUENCY);
     yawVelocity.setUpdateFrequency(100.0);
+    xAcceleration.setUpdateFrequency(50.0);
+    yAcceleration.setUpdateFrequency(100.0);
     pigeon.optimizeBusUtilization();
     if (phoenixDrive) {
       yawPositionQueue =
@@ -34,9 +38,13 @@ public class GyroIOPigeon2 implements GyroIO {
 
   @Override
   public void updateInputs(GyroIOInputs inputs) {
-    inputs.connected = BaseStatusSignal.refreshAll(yaw, yawVelocity).equals(StatusCode.OK);
+    inputs.connected =
+        BaseStatusSignal.refreshAll(yaw, yawVelocity, xAcceleration, yAcceleration)
+            .equals(StatusCode.OK);
     inputs.yawPosition = Rotation2d.fromDegrees(yaw.getValueAsDouble());
     inputs.yawVelocityRadPerSec = Units.degreesToRadians(yawVelocity.getValueAsDouble());
+    inputs.xAccelerationMetersPerSec = xAcceleration.getValueAsDouble();
+    inputs.yAccelerationMetersPerSec = yAcceleration.getValueAsDouble();
 
     inputs.odometryYawPositions =
         yawPositionQueue.stream()
