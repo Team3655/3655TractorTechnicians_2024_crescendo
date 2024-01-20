@@ -221,7 +221,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Returns the current odometry rotation. */
   public Rotation2d getRotation() {
-    return pose.getRotation().minus(lastGyroRotation);
+    return pose.getRotation(); // .minus(lastGyroRotation);
   }
 
   /** Resets the current odometry pose. */

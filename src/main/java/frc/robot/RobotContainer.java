@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -117,13 +118,24 @@ public class RobotContainer {
             drive,
             // multiply by (1 - RightTrigger) to act as a variable "brake" or "damper" on
             // the robots zoomieness
-            () -> -controller.getLeftY() * (1.4 - controller.getRightTriggerAxis()),
-            () -> -controller.getLeftX() * (1.4 - controller.getRightTriggerAxis()),
-            () -> -controller.getRightX() * (1.4 - controller.getRightTriggerAxis())));
+            () -> -controller.getLeftY(),
+            () -> -controller.getLeftX(),
+            () -> -controller.getRightX()));
+    // () -> -controller.getRawAxis(2))); // MacOS
+
+    controller
+        .rightBumper()
+        .whileTrue(
+            DriveCommands.orbitDrive(
+                drive,
+                () -> -controller.getLeftY(),
+                () -> -controller.getLeftX(),
+                new Translation2d(0.0, 0.0))); // 0.0, 5.5
 
     controller.x().whileTrue(Commands.run(drive::stopWithX, drive));
 
-    controller.back().onTrue(DriveCommands.zeroDrive(drive));
+    controller.b().onTrue(DriveCommands.zeroDrive(drive));
+    // controller.button(1).onTrue(DriveCommands.zeroDrive(drive)); // MacOS
 
     controller
         .a()
