@@ -93,9 +93,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void periodic() {
-
-    vision.updateRobotPose(pose);
-
+    
     odometryLock.lock(); // Prevents odometry updates while reading data
     gyroIO.updateInputs(gyroInputs);
     for (var module : modules) {
