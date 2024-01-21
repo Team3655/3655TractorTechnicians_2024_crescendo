@@ -13,7 +13,9 @@ import frc.robot.Constants;
 import frc.robot.Constants.Mode;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
+import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.simulation.PhotonCameraSim;
@@ -82,9 +84,23 @@ public class VisionIOPhoton implements VisionIO {
 
   @Override
   public void updateInputs(VisionIOInputs inputs) {
+
     if (isSim) SIM_SYSTEM.update(robotPose.get());
 
+    // Gets the latest result and estimated pose from the camera
     PhotonPipelineResult result = camera.getLatestResult();
+    Optional<EstimatedRobotPose> robotPose = poseEstimator.update(result);
+
+    // Sets valid target to false if the estimator did not return a result or if the
+    // camera collected an invalid tag ID
+    if (robotPose.isPresent() && checkInvalidIDs(result.getTargets())) {
+      inputs.hasValidTarget = true;
+      inputs.robotPose = robotPose.get().estimatedPose.toPose2d();
+      inputs.timeStamp = robotPose.get().timestampSeconds;
+      // result.targets.forEach((t) -> inputs.ambiguity.);
+    } else {
+      inputs.hasValidTarget = false;
+    }
   }
 
   /**
@@ -99,7 +115,6 @@ public class VisionIOPhoton implements VisionIO {
         ;
       return false;
     }
-
     return true;
   }
 }

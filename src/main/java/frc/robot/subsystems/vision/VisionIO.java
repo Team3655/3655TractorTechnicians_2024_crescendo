@@ -15,10 +15,11 @@ public interface VisionIO {
 
     public boolean hasValidTarget = false;
 
-    public Pose2d pose = new Pose2d();
-    public double timeStamp = 0.0;
+    public double[] ambiguity = new double[] {};
+    public Pose2d[] targetPoses = new Pose2d[] {};
 
-    public double maxDistanceToTarget = 0.0;
+    public Pose2d robotPose = new Pose2d();
+    public double timeStamp = 0.0;
   }
 
   /** Updates the set of loggable inputs. */
