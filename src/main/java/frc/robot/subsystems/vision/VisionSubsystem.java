@@ -4,24 +4,22 @@
 
 package frc.robot.subsystems.vision;
 
-import java.util.function.Supplier;
-
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.littletonrobotics.junction.Logger;
 
 public class VisionSubsystem extends SubsystemBase {
 
   private final VisionIO[] cameras;
   private final VisionIOInputsAutoLogged[] inputs;
 
+  private Pose2d robotPose = new Pose2d();
+
   /** Creates a new VisionSubsystem. */
-  public VisionSubsystem(Supplier<Pose2d> robotPose, VisionIO... cameras) {
+  public VisionSubsystem(VisionIO... cameras) {
     this.cameras = cameras;
     inputs = new VisionIOInputsAutoLogged[cameras.length];
     for (int i = 0; i < cameras.length; i++) {
-      cameras[i].setPoseSupplier(robotPose);
       inputs[i] = new VisionIOInputsAutoLogged();
     }
   }
@@ -29,8 +27,14 @@ public class VisionSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     for (int i = 0; i < cameras.length; i++) {
+      cameras[i].updateRobotPose(robotPose);
       cameras[i].updateInputs(inputs[i]);
-      Logger.processInputs("Vision/" +cameras[i].getName(), inputs[i]);
+      Logger.processInputs("Vision/" + cameras[i].getName(), inputs[i]);
+      Logger.recordOutput("Vision/Robot Pose", robotPose);
     }
+  }
+
+  public void updateRobotPose(Pose2d robotPose) {
+    this.robotPose = robotPose;
   }
 }

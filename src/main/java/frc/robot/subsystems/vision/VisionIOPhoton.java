@@ -4,20 +4,6 @@
 
 package frc.robot.subsystems.vision;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Supplier;
-
-import org.photonvision.EstimatedRobotPose;
-import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.simulation.PhotonCameraSim;
-import org.photonvision.simulation.SimCameraProperties;
-import org.photonvision.simulation.VisionSystemSim;
-import org.photonvision.targeting.PhotonPipelineResult;
-import org.photonvision.targeting.PhotonTrackedTarget;
-
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -26,6 +12,18 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import frc.robot.Constants;
 import frc.robot.Constants.Mode;
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+import org.littletonrobotics.junction.Logger;
+import org.photonvision.EstimatedRobotPose;
+import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.simulation.PhotonCameraSim;
+import org.photonvision.simulation.SimCameraProperties;
+import org.photonvision.simulation.VisionSystemSim;
+import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 // docs: https://docs.photonvision.org/en/latest/docs/simulation/simulation.html
 
@@ -41,10 +39,9 @@ public class VisionIOPhoton implements VisionIO {
 
   private static final boolean isSim = Constants.currentMode == Mode.SIM;
 
-  private Supplier<Pose2d> robotPose;
+  private Pose2d robotPose;
 
-  public VisionIOPhoton(String cameraName, Transform3d trans)
-      throws IOException {
+  public VisionIOPhoton(String cameraName, Transform3d trans) throws IOException {
 
     tagLayout.setOrigin(AprilTagFieldLayout.OriginPosition.kBlueAllianceWallRightSide);
     SIM_SYSTEM.addAprilTags(tagLayout);
@@ -59,6 +56,7 @@ public class VisionIOPhoton implements VisionIO {
             trans);
     poseEstimator.setMultiTagFallbackStrategy(PhotonPoseEstimator.PoseStrategy.LOWEST_AMBIGUITY);
 
+    Logger.recordOutput("Vision/isSim", isSim);
     if (isSim) {
       SimCameraProperties cameraProperties = new SimCameraProperties();
       // A 640 x 480 camera with a 70 degree diagonal FOV.
@@ -79,6 +77,7 @@ public class VisionIOPhoton implements VisionIO {
       // robot-to-camera transform.
       SIM_SYSTEM.addCamera(cameraSim, trans);
 
+      cameraSim.enableRawStream(true);
       cameraSim.enableDrawWireframe(true);
     }
   }
@@ -86,7 +85,7 @@ public class VisionIOPhoton implements VisionIO {
   @Override
   public void updateInputs(VisionIOInputs inputs) {
 
-    if (isSim) SIM_SYSTEM.update(robotPose.get());
+    if (isSim) SIM_SYSTEM.update(robotPose);
 
     // Gets the latest result and estimated pose from the camera
     PhotonPipelineResult result = camera.getLatestResult();
@@ -95,7 +94,7 @@ public class VisionIOPhoton implements VisionIO {
     // Sets valid target to false if the estimator did not return a result or if the
     // camera collected an invalid tag ID
     if (robotPose.isPresent() && checkInvalidIDs(result.getTargets())) {
-      //Basic inputs
+      // Basic inputs
       inputs.hasValidTarget = true;
       inputs.robotPose = robotPose.get().estimatedPose.toPose2d();
       inputs.timeStamp = robotPose.get().timestampSeconds;
@@ -133,7 +132,7 @@ public class VisionIOPhoton implements VisionIO {
   }
 
   @Override
-  public void setPoseSupplier(Supplier<Pose2d> robotPose) {
+  public void updateRobotPose(Pose2d robotPose) {
     this.robotPose = robotPose;
   }
 }

@@ -4,12 +4,9 @@
 
 package frc.robot.subsystems.vision;
 
-import java.util.function.Supplier;
-
-import org.littletonrobotics.junction.AutoLog;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import org.littletonrobotics.junction.AutoLog;
 
 /** Add your docs here. */
 public interface VisionIO {
@@ -34,6 +31,5 @@ public interface VisionIO {
     return "";
   }
 
-  public default void setPoseSupplier(Supplier<Pose2d> robotPose) {}
-
+  public default void updateRobotPose(Pose2d robotPose) {}
 }

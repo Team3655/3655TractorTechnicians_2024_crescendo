@@ -1,7 +1,10 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -19,6 +22,10 @@ import frc.robot.subsystems.shooter.FlywheelIO;
 import frc.robot.subsystems.shooter.FlywheelIOSim;
 import frc.robot.subsystems.shooter.FlywheelIOSpark;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
+import frc.robot.subsystems.vision.VisionIO;
+import frc.robot.subsystems.vision.VisionIOPhoton;
+import frc.robot.subsystems.vision.VisionSubsystem;
+import java.io.IOException;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
@@ -31,6 +38,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 public class RobotContainer {
   // Subsystems
   private final DriveSubsystem drive;
+  private final VisionSubsystem vision;
   private final ShooterSubsystem shooter;
 
   // Controller
@@ -41,18 +49,31 @@ public class RobotContainer {
   private final LoggedDashboardNumber flywheelSpeedInput =
       new LoggedDashboardNumber("Flywheel Speed", 1000);
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   *
+   * @throws IOException
+   */
+  public RobotContainer() throws IOException {
+
+    Translation3d robotToCameraTrl = new Translation3d(0.1, 0, 0.5);
+    // and pitched 15 degrees up.
+    Rotation3d robotToCameraRot = new Rotation3d(0, Math.toRadians(-15), 0);
+    Transform3d robotToCamera = new Transform3d(robotToCameraTrl, robotToCameraRot);
+
     switch (Constants.currentMode) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
+        vision = new VisionSubsystem(new VisionIOPhoton("camera1", robotToCamera));
+
         drive =
             new DriveSubsystem(
                 new GyroIOPigeon2(false),
                 new ModuleIOSparkMax(0),
                 new ModuleIOSparkMax(1),
                 new ModuleIOSparkMax(2),
-                new ModuleIOSparkMax(3));
+                new ModuleIOSparkMax(3),
+                vision);
         // drive =
         // new DriveSubsystem(
         // new GyroIOPigeon2(true),
@@ -66,25 +87,32 @@ public class RobotContainer {
 
       case SIM:
         // Sim robot, instantiate physics sim IO implementations
+        vision = new VisionSubsystem(new VisionIOPhoton("camera1", new Transform3d()));
+
         drive =
             new DriveSubsystem(
                 new GyroIO() {},
                 new ModuleIOSim(),
                 new ModuleIOSim(),
                 new ModuleIOSim(),
-                new ModuleIOSim());
+                new ModuleIOSim(),
+                vision);
+
         shooter = new ShooterSubsystem(new FlywheelIOSim(), new FlywheelIOSim());
         break;
 
       default:
         // Replayed robot, disable IO implementations
+        vision = new VisionSubsystem(new VisionIO() {});
+
         drive =
             new DriveSubsystem(
                 new GyroIO() {},
                 new ModuleIO() {},
                 new ModuleIO() {},
                 new ModuleIO() {},
-                new ModuleIO() {});
+                new ModuleIO() {},
+                vision);
 
         shooter = new ShooterSubsystem(new FlywheelIO() {}, new FlywheelIO() {});
         break;
