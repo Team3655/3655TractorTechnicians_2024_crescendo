@@ -4,17 +4,11 @@
 
 package frc.robot.subsystems.vision;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform3d;
-import frc.robot.Constants;
-import frc.robot.Constants.Mode;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
+
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -23,6 +17,15 @@ import org.photonvision.simulation.SimCameraProperties;
 import org.photonvision.simulation.VisionSystemSim;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
+
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform3d;
+import frc.robot.Constants;
+import frc.robot.Constants.Mode;
 
 // docs: https://docs.photonvision.org/en/latest/docs/simulation/simulation.html
 
@@ -40,10 +43,8 @@ public class VisionIOPhoton implements VisionIO {
 
   private Supplier<Pose2d> robotPose;
 
-  public VisionIOPhoton(String cameraName, Transform3d trans, Supplier<Pose2d> robotPose)
+  public VisionIOPhoton(String cameraName, Transform3d trans)
       throws IOException {
-
-    this.robotPose = robotPose;
 
     tagLayout.setOrigin(AprilTagFieldLayout.OriginPosition.kBlueAllianceWallRightSide);
     SIM_SYSTEM.addAprilTags(tagLayout);
@@ -94,10 +95,18 @@ public class VisionIOPhoton implements VisionIO {
     // Sets valid target to false if the estimator did not return a result or if the
     // camera collected an invalid tag ID
     if (robotPose.isPresent() && checkInvalidIDs(result.getTargets())) {
+      //Basic inputs
       inputs.hasValidTarget = true;
       inputs.robotPose = robotPose.get().estimatedPose.toPose2d();
       inputs.timeStamp = robotPose.get().timestampSeconds;
-      // result.targets.forEach((t) -> inputs.ambiguity.);
+      // List inputs
+      inputs.ambiguity = new double[result.targets.size()];
+      inputs.targetPoses = new Pose3d[result.targets.size()];
+      // Fill list inputs
+      for (int i = 0; i < result.targets.size(); i++) {
+        inputs.ambiguity[i] = result.targets.get(i).getPoseAmbiguity();
+        inputs.targetPoses[i] = tagLayout.getTagPose(result.targets.get(i).getFiducialId()).get();
+      }
     } else {
       inputs.hasValidTarget = false;
     }
@@ -116,5 +125,15 @@ public class VisionIOPhoton implements VisionIO {
       return false;
     }
     return true;
+  }
+
+  @Override
+  public String getName() {
+    return camera.getName();
+  }
+
+  @Override
+  public void setPoseSupplier(Supplier<Pose2d> robotPose) {
+    this.robotPose = robotPose;
   }
 }

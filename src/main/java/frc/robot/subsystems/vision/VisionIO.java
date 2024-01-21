@@ -4,8 +4,12 @@
 
 package frc.robot.subsystems.vision;
 
-import edu.wpi.first.math.geometry.Pose2d;
+import java.util.function.Supplier;
+
 import org.littletonrobotics.junction.AutoLog;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 
 /** Add your docs here. */
 public interface VisionIO {
@@ -16,7 +20,7 @@ public interface VisionIO {
     public boolean hasValidTarget = false;
 
     public double[] ambiguity = new double[] {};
-    public Pose2d[] targetPoses = new Pose2d[] {};
+    public Pose3d[] targetPoses = new Pose3d[] {};
 
     public Pose2d robotPose = new Pose2d();
     public double timeStamp = 0.0;
@@ -24,4 +28,12 @@ public interface VisionIO {
 
   /** Updates the set of loggable inputs. */
   public default void updateInputs(VisionIOInputs inputs) {}
+
+  /** Returns the name of the camera */
+  public default String getName() {
+    return "";
+  }
+
+  public default void setPoseSupplier(Supplier<Pose2d> robotPose) {}
+
 }
