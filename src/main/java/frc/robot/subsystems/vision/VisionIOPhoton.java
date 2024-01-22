@@ -89,15 +89,15 @@ public class VisionIOPhoton implements VisionIO {
 
     // Gets the latest result and estimated pose from the camera
     PhotonPipelineResult result = camera.getLatestResult();
-    Optional<EstimatedRobotPose> robotPose = poseEstimator.update(result);
+    Optional<EstimatedRobotPose> EstimatedRobotPose = poseEstimator.update(result);
 
     // Sets valid target to false if the estimator did not return a result or if the
     // camera collected an invalid tag ID
-    if (robotPose.isPresent() && checkInvalidIDs(result.getTargets())) {
+    if (EstimatedRobotPose.isPresent() && checkInvalidIDs(result.getTargets())) {
       // Basic inputs
       inputs.hasValidTarget = true;
-      inputs.robotPose = robotPose.get().estimatedPose.toPose2d();
-      inputs.timeStamp = robotPose.get().timestampSeconds;
+      inputs.robotPose = EstimatedRobotPose.get().estimatedPose.toPose2d();
+      inputs.timeStamp = EstimatedRobotPose.get().timestampSeconds;
       // List inputs
       inputs.ambiguity = new double[result.targets.size()];
       inputs.targetPoses = new Pose3d[result.targets.size()];
