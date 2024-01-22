@@ -4,30 +4,25 @@
 
 package frc.robot.subsystems.intake;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import org.littletonrobotics.junction.AutoLog;
 
 /** Add your docs here. */
-public interface IntakeWingIO {
+public interface IntakeIO {
 
   @AutoLog
-  public static class IntakeWingIOInputs {
+  public static class IntakeIOInputs {
     public double intakeAngularVelRadsPerSec = 0.0;
     public double intakeAppliedVolts = 0.0;
     public double[] intakeCurrentAmps = new double[] {};
     public double intakeMotorTemp = 0.0;
 
+    public boolean deploySolenoidState = false;
     public double deployPositionRads = 0.0;
-    public double deployAppliedVolts = 0.0;
-    public double[] deployCurrentAmps = new double[] {};
-    public double deployMotorTemp = 0.0;
   }
 
-  public default void setDeployAngle(Rotation2d angle) {}
+  public default void updateInputs(IntakeIOInputs inputs) {}
 
-  public default void updateInputs(IntakeWingIOInputs inputs) {}
-
-  public default void configureDeployPID(double p, double i, double d) {}
+  public default void setDeploy(boolean isDeployed) {}
 
   public default void setVoltage(double volts) {}
 
