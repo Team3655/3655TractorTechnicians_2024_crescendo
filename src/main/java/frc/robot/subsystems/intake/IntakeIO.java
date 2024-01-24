@@ -11,7 +11,7 @@ public interface IntakeIO {
 
   @AutoLog
   public static class IntakeIOInputs {
-    public double intakeAngularVelRadsPerSec = 0.0;
+    public double intakeVelRadsPerSec = 0.0;
     public double intakeAppliedVolts = 0.0;
     public double[] intakeCurrentAmps = new double[] {};
     public double intakeMotorTemp = 0.0;

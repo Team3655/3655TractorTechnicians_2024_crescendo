@@ -5,7 +5,7 @@
 package frc.robot.subsystems.intake;
 
 import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.CANSparkFlex;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
@@ -16,10 +16,10 @@ import edu.wpi.first.wpilibj.Solenoid;
 /** Add your docs here. */
 public class IntakeIOHardware implements IntakeIO {
 
-  private final CANSparkFlex suckerMotor = new CANSparkFlex(31, MotorType.kBrushless);
+  private final CANSparkMax suckerMotor = new CANSparkMax(31, MotorType.kBrushless);
+  private final RelativeEncoder suckerEncoder = suckerMotor.getEncoder();
   private final AbsoluteEncoder deployEncoder =
       suckerMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
-  private final RelativeEncoder suckerEncoder = suckerMotor.getEncoder();
   private final Solenoid deploySolenoid = new Solenoid(50, PneumaticsModuleType.REVPH, 0);
 
   public IntakeIOHardware() {
@@ -32,7 +32,7 @@ public class IntakeIOHardware implements IntakeIO {
 
   @Override
   public void updateInputs(IntakeIOInputs inputs) {
-    inputs.intakeAngularVelRadsPerSec =
+    inputs.intakeVelRadsPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(
             suckerEncoder.getVelocity() / IntakeSubsystem.SUCKER_GEAR_RATIO);
     inputs.intakeAppliedVolts = suckerMotor.getAppliedOutput() * suckerMotor.getBusVoltage();

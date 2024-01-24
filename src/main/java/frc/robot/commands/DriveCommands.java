@@ -77,11 +77,11 @@ public class DriveCommands {
                       omega * drive.getMaxAngularSpeedRadPerSec(),
                       drive.getRotation()));
 
-              Logger.recordOutput("Drive/Orbit Robot Rotation", driveAngle);
+              Logger.recordOutput("Drive/Orbit/Robot Rotation", driveAngle);
               Logger.recordOutput(
-                  "Drive/Orbit Target Rotation",
+                  "Drive/Orbit/Target Rotation",
                   new Pose2d(drive.getPose().getTranslation(), rotationTarget));
-              Logger.recordOutput("Drive/Orbit Target", target);
+              Logger.recordOutput("Drive/Orbit/Target", target);
             },
             drive)
         .beforeStarting(
