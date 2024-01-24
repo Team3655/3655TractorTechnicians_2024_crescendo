@@ -4,27 +4,25 @@
 
 package frc.robot.subsystems.intake;
 
-
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
-
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 
 /** Add your docs here. */
-public class IntakeIOSparkMax implements IntakeIO {
+public class IntakeIOHardware implements IntakeIO {
 
   private final CANSparkFlex suckerMotor = new CANSparkFlex(31, MotorType.kBrushless);
-  private final AbsoluteEncoder deployEncoder = suckerMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+  private final AbsoluteEncoder deployEncoder =
+      suckerMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
   private final RelativeEncoder suckerEncoder = suckerMotor.getEncoder();
-  private final Solenoid deploySolenoid = new Solenoid(PneumaticsModuleType.REVPH, 1);
+  private final Solenoid deploySolenoid = new Solenoid(50, PneumaticsModuleType.REVPH, 0);
 
-  public IntakeIOSparkMax() {
-
+  public IntakeIOHardware() {
     suckerMotor.restoreFactoryDefaults();
     suckerMotor.setCANTimeout(250);
     suckerMotor.enableVoltageCompensation(12.0);
@@ -49,5 +47,4 @@ public class IntakeIOSparkMax implements IntakeIO {
   public void setDeploy(boolean isDeployed) {
     deploySolenoid.set(isDeployed);
   }
-
 }

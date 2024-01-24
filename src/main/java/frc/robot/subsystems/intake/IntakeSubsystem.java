@@ -10,16 +10,18 @@ import org.littletonrobotics.junction.Logger;
 public class IntakeSubsystem extends SubsystemBase {
 
   public static final double SUCKER_GEAR_RATIO = 1.5;
-  public static final double DEPLOY_GEAR_RATIO = 100.0;
 
   private final IntakeIO io;
   private final IntakeIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
 
-  private IntakeState targetState = new IntakeState();
+  public static final IntakeState TUCKED_INTAKE_STATE = new IntakeState(0, true);
+  public static final IntakeState SUCK_INTAKE_STATE = new IntakeState(1, false);
+
+  private IntakeState targetState = TUCKED_INTAKE_STATE;
 
   /** Creates a new intake. */
-  public IntakeSubsystem(IntakeIO wingIO) {
-    this.io = wingIO;
+  public IntakeSubsystem(IntakeIO io) {
+    this.io = io;
   }
 
   @Override
@@ -37,7 +39,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   /** A class with two finals variables that control the intake's state */
-  public class IntakeState {
+  public static class IntakeState {
     public final boolean isDeployed;
     public final double outputPercent;
 

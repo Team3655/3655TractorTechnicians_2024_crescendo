@@ -18,6 +18,10 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSparkMax;
+import frc.robot.subsystems.intake.IntakeIO;
+import frc.robot.subsystems.intake.IntakeIOSim;
+import frc.robot.subsystems.intake.IntakeIOHardware;
+import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.FlywheelIO;
 import frc.robot.subsystems.shooter.FlywheelIOSim;
 import frc.robot.subsystems.shooter.FlywheelIOSpark;
@@ -40,6 +44,7 @@ public class RobotContainer {
   private final DriveSubsystem drive;
   private final VisionSubsystem vision;
   private final ShooterSubsystem shooter;
+  private final IntakeSubsystem intake;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(1);
@@ -74,6 +79,7 @@ public class RobotContainer {
                 new ModuleIOSparkMax(2),
                 new ModuleIOSparkMax(3),
                 vision);
+
         // drive =
         // new DriveSubsystem(
         // new GyroIOPigeon2(true),
@@ -83,6 +89,8 @@ public class RobotContainer {
         // new ModuleIOTalonFX(3));
 
         shooter = new ShooterSubsystem(new FlywheelIOSpark(1), new FlywheelIOSpark(2));
+
+        intake = new IntakeSubsystem(new IntakeIOHardware());
         break;
 
       case SIM:
@@ -99,6 +107,8 @@ public class RobotContainer {
                 vision);
 
         shooter = new ShooterSubsystem(new FlywheelIOSim(), new FlywheelIOSim());
+
+        intake = new IntakeSubsystem(new IntakeIOSim());
         break;
 
       default:
@@ -113,6 +123,8 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 vision);
+
+        intake = new IntakeSubsystem(new IntakeIO() {});
 
         shooter = new ShooterSubsystem(new FlywheelIO() {}, new FlywheelIO() {});
         break;
@@ -164,6 +176,14 @@ public class RobotContainer {
 
     controller.b().onTrue(DriveCommands.zeroDrive(drive));
     // controller.button(1).onTrue(DriveCommands.zeroDrive(drive)); // MacOS
+
+    controller
+        .y()
+        .whileTrue(
+            Commands.startEnd(
+                () -> intake.setIntakeState(IntakeSubsystem.SUCK_INTAKE_STATE),
+                () -> intake.setIntakeState(IntakeSubsystem.TUCKED_INTAKE_STATE),
+                intake));
 
     controller
         .a()
