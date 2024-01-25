@@ -6,6 +6,7 @@ package frc.robot.subsystems.shooter;
 
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkFlex;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
@@ -17,55 +18,86 @@ public class FlywheelIOSpark implements FlywheelIO {
 
   private static final double GEAR_RATIO = 1;
 
-  private final CANSparkFlex motor;
-  private final RelativeEncoder encoder;
-  private final SparkPIDController pid;
+  private final CANSparkFlex top;
+  private final RelativeEncoder topEncoder;
+  private final SparkPIDController topPID;
+
+  private final CANSparkFlex bottom;
+  private final RelativeEncoder bottomEncoder;
+  private final SparkPIDController bottomPID;
+
+  private final CANSparkMax kicker;
+  private final RelativeEncoder kickerEncoder;
 
   public FlywheelIOSpark(int index) {
 
-    // switch can id's and inverts based on index (index represents left vs right)
-    switch (index) {
-      case 1:
-        motor = new CANSparkFlex(20, MotorType.kBrushless);
-        motor.setInverted(false);
-        break;
-      case 2:
-        motor = new CANSparkFlex(21, MotorType.kBrushless);
-        motor.setInverted(true);
-        break;
+    // top flywheel
+    top = new CANSparkFlex(30, MotorType.kBrushless);
 
-      default:
-        throw new RuntimeException("Invalid flywheel index");
-    }
+    top.restoreFactoryDefaults();
+    top.setCANTimeout(250);
+    top.enableVoltageCompensation(12.0);
+    top.setSmartCurrentLimit(30);
+    top.burnFlash();
 
-    encoder = motor.getEncoder();
-    pid = motor.getPIDController();
+    topEncoder = top.getEncoder();
+    topPID = top.getPIDController();
 
-    motor.restoreFactoryDefaults();
-    motor.setCANTimeout(250);
-    motor.enableVoltageCompensation(12.0);
-    motor.setSmartCurrentLimit(30);
-    motor.burnFlash();
+    // bottom flywheel
+    bottom = new CANSparkFlex(31, MotorType.kBrushless);
+
+    bottom.restoreFactoryDefaults();
+    bottom.setCANTimeout(250);
+    bottom.enableVoltageCompensation(12.0);
+    bottom.setSmartCurrentLimit(30);
+    bottom.burnFlash();
+
+    bottomEncoder = bottom.getEncoder();
+    bottomPID = bottom.getPIDController();
+
+    // kicker
+    kicker = new CANSparkMax(32, MotorType.kBrushless);
+
+    kicker.restoreFactoryDefaults();
+    kicker.setCANTimeout(250);
+    kicker.enableVoltageCompensation(12.0);
+    kicker.setSmartCurrentLimit(20);
+    kicker.burnFlash();
+
+    kickerEncoder = kicker.getEncoder();
+
   }
 
   @Override
   public void updateInputs(FlywheelIOInputs inputs) {
-    inputs.positionRad = Units.rotationsToRadians(encoder.getPosition() / GEAR_RATIO);
-    inputs.velocityRadPerSec =
-        Units.rotationsPerMinuteToRadiansPerSecond(encoder.getVelocity() / GEAR_RATIO);
-    inputs.appliedVolts = motor.getAppliedOutput() * motor.getBusVoltage();
-    inputs.currentAmps = new double[] {motor.getOutputCurrent()};
-    inputs.motorTemp = motor.getMotorTemperature();
+    inputs.topPositionRad = Units.rotationsToRadians(topEncoder.getPosition() / GEAR_RATIO);
+    inputs.topVelocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(topEncoder.getVelocity() / GEAR_RATIO);
+    inputs.topAppliedVolts = top.getAppliedOutput() * top.getBusVoltage();
+    inputs.topCurrentAmps = new double[] { top.getOutputCurrent() };
+    inputs.topMotorTemp = top.getMotorTemperature();
+
+    inputs.bottomPositionRad = Units.rotationsToRadians(bottomEncoder.getPosition() / GEAR_RATIO);
+    inputs.bottomVelocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(bottomEncoder.getVelocity() / GEAR_RATIO);
+    inputs.bottomAppliedVolts = bottom.getAppliedOutput() * bottom.getBusVoltage();
+    inputs.bottomCurrentAmps = new double[] { bottom.getOutputCurrent() };
+    inputs.bottomMotorTemp = bottom.getMotorTemperature();
+
+    inputs.kickerPositionRad = Units.rotationsToRadians(kickerEncoder.getPosition() / GEAR_RATIO);
+    inputs.kickerVelocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(kickerEncoder.getVelocity() / GEAR_RATIO);
+    inputs.kickerAppliedVolts = kicker.getAppliedOutput() * kicker.getBusVoltage();
+    inputs.kickerCurrentAmps = new double[] { kicker.getOutputCurrent() };
+    inputs.kickerMotorTemp = kicker.getMotorTemperature();
   }
 
   @Override
   public void setVoltage(double volts) {
-    motor.setVoltage(volts);
+    top.setVoltage(volts);
+    bottom.setVoltage(volts);
   }
 
   @Override
   public void setVelocity(double velocityRadPerSec, double ffVolts) {
-    pid.setReference(
+    topPID.setReference(
         Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO,
         ControlType.kVelocity,
         0,
@@ -75,14 +107,20 @@ public class FlywheelIOSpark implements FlywheelIO {
 
   @Override
   public void stop() {
-    motor.stopMotor();
+    top.stopMotor();
   }
 
   @Override
   public void configurePID(double kP, double kI, double kD) {
-    pid.setP(kP, 0);
-    pid.setI(kI, 0);
-    pid.setD(kD, 0);
-    pid.setFF(0, 0);
+    // top PID
+    topPID.setP(kP, 0);
+    topPID.setI(kI, 0);
+    topPID.setD(kD, 0);
+    topPID.setFF(0, 0);
+    // bottom PID
+    bottomPID.setP(kP, 0);
+    bottomPID.setI(kI, 0);
+    bottomPID.setD(kD, 0);
+    bottomPID.setFF(0, 0);
   }
 }

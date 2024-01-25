@@ -107,20 +107,20 @@ public class DriveSubsystem extends SubsystemBase {
 
     odometryLock.lock(); // Prevents odometry updates while reading data
     gyroIO.updateInputs(gyroInputs);
-    for (var module : modules) {
+    for (Module module : modules) {
       module.updateInputs();
     }
     odometryLock.unlock();
 
     Logger.processInputs("Drive/Gyro", gyroInputs);
 
-    for (var module : modules) {
+    for (Module module : modules) {
       module.periodic();
     }
 
     // Stop moving when disabled
     if (DriverStation.isDisabled()) {
-      for (var module : modules) {
+      for (Module module : modules) {
         module.stop();
       }
     }
@@ -148,7 +148,7 @@ public class DriveSubsystem extends SubsystemBase {
       // The twist represents the motion of the robot since the last
       // sample in x, y, and theta based only on the modules, without
       // the gyro. The gyro is always disconnected in simulation.
-      var twist = kinematics.toTwist2d(wheelDeltas);
+      Twist2d twist = kinematics.toTwist2d(wheelDeltas);
       if (gyroInputs.connected) {
         // If the gyro is connected, replace the theta component of the twist
         // with the change in angle since the last sample.
@@ -215,7 +215,7 @@ public class DriveSubsystem extends SubsystemBase {
   /** Returns the average drive velocity in radians/sec. */
   public double getCharacterizationVelocity() {
     double driveVelocityAverage = 0.0;
-    for (var module : modules) {
+    for (Module module : modules) {
       driveVelocityAverage += module.getCharacterizationVelocity();
     }
     return driveVelocityAverage / 4.0;

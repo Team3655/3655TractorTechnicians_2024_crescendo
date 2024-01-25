@@ -11,11 +11,23 @@ public interface FlywheelIO {
 
   @AutoLog
   public static class FlywheelIOInputs {
-    public double positionRad = 0.0;
-    public double velocityRadPerSec = 0.0;
-    public double appliedVolts = 0.0;
-    public double[] currentAmps = new double[] {};
-    public double motorTemp = 0.0;
+    public double topPositionRad = 0.0;
+    public double topVelocityRadPerSec = 0.0;
+    public double topAppliedVolts = 0.0;
+    public double[] topCurrentAmps = new double[] {};
+    public double topMotorTemp = 0.0;
+
+    public double bottomPositionRad = 0.0;
+    public double bottomVelocityRadPerSec = 0.0;
+    public double bottomAppliedVolts = 0.0;
+    public double[] bottomCurrentAmps = new double[] {};
+    public double bottomMotorTemp = 0.0;
+
+    public double kickerPositionRad = 0.0;
+    public double kickerVelocityRadPerSec = 0.0;
+    public double kickerAppliedVolts = 0.0;
+    public double[] kickerCurrentAmps = new double[] {};
+    public double kickerMotorTemp = 0.0;
   }
 
   /** Updates the set of loggable inputs. */

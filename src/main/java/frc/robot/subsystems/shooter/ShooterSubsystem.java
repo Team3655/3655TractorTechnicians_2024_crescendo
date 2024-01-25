@@ -10,7 +10,6 @@ import java.util.HashMap;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-  private final Flywheels flywheels;
   HashMap<Double, Rotation2d> distanceToAngleMap =
       new HashMap<>() {
         {
@@ -24,21 +23,21 @@ public class ShooterSubsystem extends SubsystemBase {
 
   /** Creates a new shooter. */
   public ShooterSubsystem(FlywheelIO leftIo, FlywheelIO rightIo) {
-    flywheels = new Flywheels(leftIo, rightIo);
+    //flywheels = new Flywheels(leftIo, rightIo);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    flywheels.periodic();
+    //flywheels.periodic();
   }
 
   public void runVelocity(double leftVel, double rightVel) {
-    flywheels.setVelocity(leftVel, rightVel);
+    //flywheels.setVelocity(leftVel, rightVel);
   }
 
   public void stop() {
-    flywheels.stop();
+    //flywheels.stop();
   }
 
   public void setShooterAngleFromDist() {}
