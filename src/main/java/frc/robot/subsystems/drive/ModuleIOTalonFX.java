@@ -12,6 +12,8 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import frc.robot.Constants;
+
 import java.util.Queue;
 
 /**
@@ -55,27 +57,27 @@ public class ModuleIOTalonFX implements ModuleIO {
     // TODO: calibrate offsets
     switch (index) {
       case 0:
-        driveTalon = new TalonFX(0);
-        turnTalon = new TalonFX(1);
-        cancoder = new CANcoder(2);
+        driveTalon = new TalonFX(0, Constants.CTREBusName);
+        turnTalon = new TalonFX(1, Constants.CTREBusName);
+        cancoder = new CANcoder(2, Constants.CTREBusName);
         absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
         break;
       case 1:
-        driveTalon = new TalonFX(3);
-        turnTalon = new TalonFX(4);
-        cancoder = new CANcoder(5);
+        driveTalon = new TalonFX(3, Constants.CTREBusName);
+        turnTalon = new TalonFX(4, Constants.CTREBusName);
+        cancoder = new CANcoder(5, Constants.CTREBusName);
         absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
         break;
       case 2:
-        driveTalon = new TalonFX(6);
-        turnTalon = new TalonFX(7);
-        cancoder = new CANcoder(8);
+        driveTalon = new TalonFX(6, Constants.CTREBusName);
+        turnTalon = new TalonFX(7, Constants.CTREBusName);
+        cancoder = new CANcoder(8, Constants.CTREBusName);
         absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
         break;
       case 3:
-        driveTalon = new TalonFX(9);
-        turnTalon = new TalonFX(10);
-        cancoder = new CANcoder(11);
+        driveTalon = new TalonFX(9, Constants.CTREBusName);
+        turnTalon = new TalonFX(10, Constants.CTREBusName);
+        cancoder = new CANcoder(11, Constants.CTREBusName);
         absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
         break;
       default:

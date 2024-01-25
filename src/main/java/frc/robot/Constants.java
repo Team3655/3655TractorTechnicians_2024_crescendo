@@ -9,6 +9,7 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
   public static final Mode currentMode = Mode.SIM;
 
   public static enum Mode {
@@ -19,4 +20,6 @@ public final class Constants {
     /** Replaying from a log file. */
     REPLAY
   }
+
+  public static final String CTREBusName = "ctre";
 }
