@@ -1,10 +1,17 @@
 package frc.robot.subsystems.drive;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+import org.littletonrobotics.junction.AutoLogOutput;
+import org.littletonrobotics.junction.Logger;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.util.ReplanningConfig;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -17,10 +24,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.vision.VisionSubsystem;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-import org.littletonrobotics.junction.AutoLogOutput;
-import org.littletonrobotics.junction.Logger;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -62,11 +65,16 @@ public class DriveSubsystem extends SubsystemBase {
 
     // Configure AutoBuilder for PathPlanner
     AutoBuilder.configureHolonomic(
+        // The pose supplier for the robot (this is what supplies pp's PID's their feedback)
         this::getPose,
+        // The pose consumer for the robot (this is how pp sets the robots pose at the start of auto)
         this::setPose,
+        // A supplier for the robot's current robot relative chassis speeds
         () -> kinematics.toChassisSpeeds(getModuleStates()),
+        // A chassis speeds consumer for setting the robots speed
         this::runVelocity,
         new HolonomicPathFollowerConfig(
+            // The PID constants for pathfollowing (adjust these to improve path following accuracy)
             new PIDConstants(5.0,0,0),
             new PIDConstants(5.0,0,0),
             MAX_LINEAR_SPEED, DRIVE_BASE_RADIUS, 
@@ -76,7 +84,6 @@ public class DriveSubsystem extends SubsystemBase {
           // alliance
           // This will flip the path being followed to the red side of the field.
           // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
           var alliance = DriverStation.getAlliance();
           if (alliance.isPresent()) {
             return alliance.get() == DriverStation.Alliance.Red;
