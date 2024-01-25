@@ -2,6 +2,7 @@ package frc.robot.subsystems.drive;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -66,7 +67,10 @@ public class DriveSubsystem extends SubsystemBase {
         () -> kinematics.toChassisSpeeds(getModuleStates()),
         this::runVelocity,
         new HolonomicPathFollowerConfig(
-            MAX_LINEAR_SPEED, DRIVE_BASE_RADIUS, new ReplanningConfig()),
+            new PIDConstants(5.0,0,0),
+            new PIDConstants(5.0,0,0),
+            MAX_LINEAR_SPEED, DRIVE_BASE_RADIUS, 
+            new ReplanningConfig()),
         () -> {
           // Boolean supplier that controls when the path will be mirrored for the red
           // alliance
