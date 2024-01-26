@@ -22,13 +22,14 @@ public interface IndexIO {
     double pivotAppliedVolts = 0.0;
     double[] pivotCurrentAmps = new double[] {};
     double pivotMotorTemp = 0.0;
-
   }
 
-  public default void updateInputs(IndexIOInputs inputs) {};
+  public default void updateInputs(IndexIOInputs inputs) {}
+  ;
 
-  public default void setIndexVoltage(double volts) {};
+  public default void setIndexVoltage(double volts) {}
+  ;
 
-  public default void setPivotAngle(Rotation2d angle) {};
-
+  public default void setPivotAngle(Rotation2d angle) {}
+  ;
 }

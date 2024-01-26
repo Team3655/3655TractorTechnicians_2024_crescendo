@@ -19,8 +19,8 @@ import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSparkMax;
 import frc.robot.subsystems.intake.IntakeIO;
-import frc.robot.subsystems.intake.IntakeIOSim;
 import frc.robot.subsystems.intake.IntakeIOHardware;
+import frc.robot.subsystems.intake.IntakeIOSim;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.FlywheelIO;
 import frc.robot.subsystems.shooter.FlywheelIOSim;
@@ -88,7 +88,7 @@ public class RobotContainer {
         // new ModuleIOTalonFX(2),
         // new ModuleIOTalonFX(3));
 
-        shooter = new ShooterSubsystem(new FlywheelIOSpark(1), new FlywheelIOSpark(2));
+        shooter = new ShooterSubsystem(new FlywheelIOSpark());
 
         intake = new IntakeSubsystem(new IntakeIOHardware());
         break;
@@ -106,7 +106,7 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 vision);
 
-        shooter = new ShooterSubsystem(new FlywheelIOSim(), new FlywheelIOSim());
+        shooter = new ShooterSubsystem(new FlywheelIOSim());
 
         intake = new IntakeSubsystem(new IntakeIOSim());
         break;
@@ -126,7 +126,7 @@ public class RobotContainer {
 
         intake = new IntakeSubsystem(new IntakeIO() {});
 
-        shooter = new ShooterSubsystem(new FlywheelIO() {}, new FlywheelIO() {});
+        shooter = new ShooterSubsystem(new FlywheelIO() {});
         break;
     }
 

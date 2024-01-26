@@ -18,9 +18,6 @@ public class ShooterCommands {
   }
 
   public Command Shoot(ShooterSubsystem shooter) {
-    return Commands.run(() -> {
-      
-    }, shooter);
+    return Commands.run(() -> {}, shooter);
   }
-
 }

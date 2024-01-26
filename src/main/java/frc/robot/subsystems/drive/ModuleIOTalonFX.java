@@ -13,7 +13,6 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants;
-
 import java.util.Queue;
 
 /**
@@ -57,27 +56,27 @@ public class ModuleIOTalonFX implements ModuleIO {
     // TODO: calibrate offsets
     switch (index) {
       case 0:
-        driveTalon = new TalonFX(0, Constants.CTREBusName);
-        turnTalon = new TalonFX(1, Constants.CTREBusName);
-        cancoder = new CANcoder(2, Constants.CTREBusName);
+        driveTalon = new TalonFX(0, Constants.CTRE_BUS_NAME);
+        turnTalon = new TalonFX(1, Constants.CTRE_BUS_NAME);
+        cancoder = new CANcoder(2, Constants.CTRE_BUS_NAME);
         absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
         break;
       case 1:
-        driveTalon = new TalonFX(3, Constants.CTREBusName);
-        turnTalon = new TalonFX(4, Constants.CTREBusName);
-        cancoder = new CANcoder(5, Constants.CTREBusName);
+        driveTalon = new TalonFX(3, Constants.CTRE_BUS_NAME);
+        turnTalon = new TalonFX(4, Constants.CTRE_BUS_NAME);
+        cancoder = new CANcoder(5, Constants.CTRE_BUS_NAME);
         absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
         break;
       case 2:
-        driveTalon = new TalonFX(6, Constants.CTREBusName);
-        turnTalon = new TalonFX(7, Constants.CTREBusName);
-        cancoder = new CANcoder(8, Constants.CTREBusName);
+        driveTalon = new TalonFX(6, Constants.CTRE_BUS_NAME);
+        turnTalon = new TalonFX(7, Constants.CTRE_BUS_NAME);
+        cancoder = new CANcoder(8, Constants.CTRE_BUS_NAME);
         absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
         break;
       case 3:
-        driveTalon = new TalonFX(9, Constants.CTREBusName);
-        turnTalon = new TalonFX(10, Constants.CTREBusName);
-        cancoder = new CANcoder(11, Constants.CTREBusName);
+        driveTalon = new TalonFX(9, Constants.CTRE_BUS_NAME);
+        turnTalon = new TalonFX(10, Constants.CTRE_BUS_NAME);
+        cancoder = new CANcoder(11, Constants.CTRE_BUS_NAME);
         absoluteEncoderOffset = new Rotation2d(0.0); // MUST BE CALIBRATED
         break;
       default:

@@ -5,8 +5,8 @@
 package frc.robot.subsystems.intake;
 
 import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import edu.wpi.first.math.util.Units;
@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 /** Add your docs here. */
 public class IntakeIOHardware implements IntakeIO {
 
-  private final CANSparkMax suckerMotor = new CANSparkMax(31, MotorType.kBrushless);
+  private final CANSparkMax suckerMotor = new CANSparkMax(40, MotorType.kBrushless);
   private final RelativeEncoder suckerEncoder = suckerMotor.getEncoder();
   private final AbsoluteEncoder deployEncoder =
       suckerMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);

@@ -10,7 +10,7 @@ package frc.robot;
  */
 public final class Constants {
 
-  public static final Mode currentMode = Mode.SIM;
+  public static final Mode currentMode = Mode.REAL;
 
   public static enum Mode {
     /** Running on a real robot. */
@@ -21,5 +21,6 @@ public final class Constants {
     REPLAY
   }
 
-  public static final String CTREBusName = "ctre";
+  public static final String CTRE_BUS_NAME = "ctre";
+  public static final String RIO_BUS_NAME = "rio";
 }

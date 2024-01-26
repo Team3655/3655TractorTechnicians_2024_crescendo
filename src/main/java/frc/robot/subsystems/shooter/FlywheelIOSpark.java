@@ -4,13 +4,11 @@
 
 package frc.robot.subsystems.shooter;
 
-import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkFlex;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.SparkPIDController.ArbFFUnits;
 import edu.wpi.first.math.util.Units;
 
 /** Add your docs here. */
@@ -18,9 +16,9 @@ public class FlywheelIOSpark implements FlywheelIO {
 
   private static final double GEAR_RATIO = 1;
 
-  private final CANSparkFlex top;
-  private final RelativeEncoder topEncoder;
-  private final SparkPIDController topPID;
+  // private final CANSparkFlex top;
+  // private final RelativeEncoder topEncoder;
+  // private final SparkPIDController topPID;
 
   private final CANSparkFlex bottom;
   private final RelativeEncoder bottomEncoder;
@@ -29,19 +27,19 @@ public class FlywheelIOSpark implements FlywheelIO {
   private final CANSparkMax kicker;
   private final RelativeEncoder kickerEncoder;
 
-  public FlywheelIOSpark(int index) {
+  public FlywheelIOSpark() {
 
     // top flywheel
-    top = new CANSparkFlex(30, MotorType.kBrushless);
+    // top = new CANSparkFlex(60, MotorType.kBrushless);
 
-    top.restoreFactoryDefaults();
-    top.setCANTimeout(250);
-    top.enableVoltageCompensation(12.0);
-    top.setSmartCurrentLimit(30);
-    top.burnFlash();
+    // top.restoreFactoryDefaults();
+    // top.setCANTimeout(250);
+    // top.enableVoltageCompensation(12.0);
+    // top.setSmartCurrentLimit(30);
+    // top.burnFlash();
 
-    topEncoder = top.getEncoder();
-    topPID = top.getPIDController();
+    // topEncoder = top.getEncoder();
+    // topPID = top.getPIDController();
 
     // bottom flywheel
     bottom = new CANSparkFlex(31, MotorType.kBrushless);
@@ -65,58 +63,60 @@ public class FlywheelIOSpark implements FlywheelIO {
     kicker.burnFlash();
 
     kickerEncoder = kicker.getEncoder();
-
   }
 
   @Override
   public void updateInputs(FlywheelIOInputs inputs) {
-    inputs.topPositionRad = Units.rotationsToRadians(topEncoder.getPosition() / GEAR_RATIO);
-    inputs.topVelocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(topEncoder.getVelocity() / GEAR_RATIO);
-    inputs.topAppliedVolts = top.getAppliedOutput() * top.getBusVoltage();
-    inputs.topCurrentAmps = new double[] { top.getOutputCurrent() };
-    inputs.topMotorTemp = top.getMotorTemperature();
+    // inputs.topPositionRad = Units.rotationsToRadians(topEncoder.getPosition() / GEAR_RATIO);
+    // inputs.topVelocityRadPerSec =
+    //     Units.rotationsPerMinuteToRadiansPerSecond(topEncoder.getVelocity() / GEAR_RATIO);
+    // inputs.topAppliedVolts = top.getAppliedOutput() * top.getBusVoltage();
+    // inputs.topCurrentAmps = new double[] {top.getOutputCurrent()};
+    // inputs.topMotorTemp = top.getMotorTemperature();
 
     inputs.bottomPositionRad = Units.rotationsToRadians(bottomEncoder.getPosition() / GEAR_RATIO);
-    inputs.bottomVelocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(bottomEncoder.getVelocity() / GEAR_RATIO);
+    inputs.bottomVelocityRadPerSec =
+        Units.rotationsPerMinuteToRadiansPerSecond(bottomEncoder.getVelocity() / GEAR_RATIO);
     inputs.bottomAppliedVolts = bottom.getAppliedOutput() * bottom.getBusVoltage();
-    inputs.bottomCurrentAmps = new double[] { bottom.getOutputCurrent() };
+    inputs.bottomCurrentAmps = new double[] {bottom.getOutputCurrent()};
     inputs.bottomMotorTemp = bottom.getMotorTemperature();
 
     inputs.kickerPositionRad = Units.rotationsToRadians(kickerEncoder.getPosition() / GEAR_RATIO);
-    inputs.kickerVelocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(kickerEncoder.getVelocity() / GEAR_RATIO);
+    inputs.kickerVelocityRadPerSec =
+        Units.rotationsPerMinuteToRadiansPerSecond(kickerEncoder.getVelocity() / GEAR_RATIO);
     inputs.kickerAppliedVolts = kicker.getAppliedOutput() * kicker.getBusVoltage();
-    inputs.kickerCurrentAmps = new double[] { kicker.getOutputCurrent() };
+    inputs.kickerCurrentAmps = new double[] {kicker.getOutputCurrent()};
     inputs.kickerMotorTemp = kicker.getMotorTemperature();
   }
 
   @Override
   public void setVoltage(double volts) {
-    top.setVoltage(volts);
+    // top.setVoltage(volts);
     bottom.setVoltage(volts);
   }
 
   @Override
   public void setVelocity(double velocityRadPerSec, double ffVolts) {
-    topPID.setReference(
-        Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO,
-        ControlType.kVelocity,
-        0,
-        ffVolts,
-        ArbFFUnits.kVoltage);
+    // topPID.setReference(
+    //     Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO,
+    //     ControlType.kVelocity,
+    //     0,
+    //     ffVolts,
+    //     ArbFFUnits.kVoltage);
   }
 
   @Override
   public void stop() {
-    top.stopMotor();
+    // top.stopMotor();
   }
 
   @Override
   public void configurePID(double kP, double kI, double kD) {
     // top PID
-    topPID.setP(kP, 0);
-    topPID.setI(kI, 0);
-    topPID.setD(kD, 0);
-    topPID.setFF(0, 0);
+    // topPID.setP(kP, 0);
+    // topPID.setI(kI, 0);
+    // topPID.setD(kD, 0);
+    // topPID.setFF(0, 0);
     // bottom PID
     bottomPID.setP(kP, 0);
     bottomPID.setI(kI, 0);

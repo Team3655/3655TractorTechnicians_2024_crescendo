@@ -22,22 +22,22 @@ public class ShooterSubsystem extends SubsystemBase {
       };
 
   /** Creates a new shooter. */
-  public ShooterSubsystem(FlywheelIO leftIo, FlywheelIO rightIo) {
-    //flywheels = new Flywheels(leftIo, rightIo);
+  public ShooterSubsystem(FlywheelIO io) {
+    // flywheels = new Flywheels(leftIo, rightIo);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    //flywheels.periodic();
+    // flywheels.periodic();
   }
 
   public void runVelocity(double leftVel, double rightVel) {
-    //flywheels.setVelocity(leftVel, rightVel);
+    // flywheels.setVelocity(leftVel, rightVel);
   }
 
   public void stop() {
-    //flywheels.stop();
+    // flywheels.stop();
   }
 
   public void setShooterAngleFromDist() {}

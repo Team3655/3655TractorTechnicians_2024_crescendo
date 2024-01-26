@@ -4,10 +4,9 @@
 
 package frc.robot.subsystems.index;
 
+import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 
@@ -17,10 +16,10 @@ public class IndexIOSparkMax implements IndexIO {
   private static final int INDEX_CURRENT_LIMIT = 12;
   private static final int PIVOT_CURRENT_LIMIT = 20;
 
-  private final CANSparkMax indexMotor = new CANSparkMax(32, MotorType.kBrushless);
+  private final CANSparkMax indexMotor = new CANSparkMax(50, MotorType.kBrushless);
   private final RelativeEncoder indexEncoder = indexMotor.getEncoder();
 
-  private final CANSparkMax pivotMotor = new CANSparkMax(33, MotorType.kBrushless);
+  private final CANSparkMax pivotMotor = new CANSparkMax(51, MotorType.kBrushless);
   private final RelativeEncoder pivotEncoder = pivotMotor.getEncoder();
 
   public IndexIOSparkMax() {
@@ -51,5 +50,4 @@ public class IndexIOSparkMax implements IndexIO {
     inputs.indexCurrentAmps = new double[] {pivotMotor.getOutputCurrent()};
     inputs.pivotMotorTemp = pivotMotor.getMotorTemperature();
   }
-
 }
