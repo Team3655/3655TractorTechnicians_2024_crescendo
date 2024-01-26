@@ -31,7 +31,7 @@ public class DriveCommands {
       DoubleSupplier omegaSupplier) {
     return Commands.run(
         () -> {
-          Translation2d linearVelocity = getDriveTranslation2d(xSupplier, ySupplier);
+          Translation2d linearVelocity = getDriveTranslation(xSupplier, ySupplier);
 
           // the rotational rate of the robot
           double omega = JoystickUtils.curveInput(omegaSupplier.getAsDouble(), DEADBAND);
@@ -54,7 +54,7 @@ public class DriveCommands {
       Translation2d target) {
     return Commands.run(
             () -> {
-              Translation2d linearVelocity = getDriveTranslation2d(xSupplier, ySupplier);
+              Translation2d linearVelocity = getDriveTranslation(xSupplier, ySupplier);
 
               Rotation2d driveAngle = drive.getRotation();
 
@@ -102,7 +102,7 @@ public class DriveCommands {
         .ignoringDisable(true);
   }
 
-  public static Translation2d getDriveTranslation2d(
+  public static Translation2d getDriveTranslation(
       DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
     // Apply deadband, and curve joystick inputs
     double linearMagnitude =

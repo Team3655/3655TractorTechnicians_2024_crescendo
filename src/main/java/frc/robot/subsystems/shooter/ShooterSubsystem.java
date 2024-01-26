@@ -8,9 +8,12 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.HashMap;
 
+import org.littletonrobotics.junction.Logger;
+
 public class ShooterSubsystem extends SubsystemBase {
 
-  HashMap<Double, Rotation2d> distanceToAngleMap =
+  // a map that associates a distance to the target with an angle of the shooter
+  private static final HashMap<Double, Rotation2d> DISTANCE_ANGLE_MAP =
       new HashMap<>() {
         {
           put(1.0, Rotation2d.fromDegrees(90));
@@ -21,52 +24,66 @@ public class ShooterSubsystem extends SubsystemBase {
         }
       };
 
+  private final FlywheelIO io;
+  private final FlywheelIOInputsAutoLogged inputs = new FlywheelIOInputsAutoLogged();
+
   /** Creates a new shooter. */
   public ShooterSubsystem(FlywheelIO io) {
-    // flywheels = new Flywheels(leftIo, rightIo);
+    this.io = io;
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    // flywheels.periodic();
+    io.updateInputs(inputs);
+    Logger.processInputs("Shooter/Flywheels", inputs);
   }
 
   public void runVelocity(double leftVel, double rightVel) {
-    // flywheels.setVelocity(leftVel, rightVel);
+    io.setVelocity(leftVel, rightVel);
   }
 
   public void stop() {
-    // flywheels.stop();
+    io.stop();
   }
 
   public void setShooterAngleFromDist() {}
 
   public Rotation2d getRotationFromDistance(double distance) {
 
+    // use Doueble.(MAX/MIN)_VALUE as a way to ensure variables 
+    // recieve a value from the map on the first loop
     double minimum = Double.MAX_VALUE;
     double minAbove = Double.MAX_VALUE;
     double maxBelow = Double.MIN_VALUE;
     double maximum = Double.MIN_VALUE;
 
-    for (double distKey : distanceToAngleMap.keySet()) {
-      // Sets the minimum
+    for (double distKey : DISTANCE_ANGLE_MAP.keySet()) {
+      // sets the maxBelow if the key is greater than the current and less than the input
       if (distance > distKey && distKey > maxBelow) maxBelow = distKey;
 
-      // Sets the maximum
+      // sets the minAbove if the key is less than the current and greater than the input
       if (distance < distKey && distKey < minAbove) minAbove = distKey;
 
+      // sets the minimum
       if (distKey < minimum) minimum = distKey;
 
+      // sets the maximum
       if (distKey > maximum) maximum = distKey;
     }
+
+    // return maximum value if distance is greater than the largest key in the map
+    if (distance > maximum) 
+      return DISTANCE_ANGLE_MAP.get(maximum);
+    // return minimum value if distance is less than the smallest key in the map
+    else if (distance < minimum)
+      return DISTANCE_ANGLE_MAP.get(minimum);
 
     double lerpPercent = ((distance - maxBelow) / (minAbove - maxBelow));
 
     Rotation2d angleDelta =
-        distanceToAngleMap.get(minAbove).minus(distanceToAngleMap.get(maxBelow));
+        DISTANCE_ANGLE_MAP.get(minAbove).minus(DISTANCE_ANGLE_MAP.get(maxBelow));
 
-    Rotation2d angle = distanceToAngleMap.get(maxBelow).plus(angleDelta.times(lerpPercent));
+    Rotation2d angle = DISTANCE_ANGLE_MAP.get(maxBelow).plus(angleDelta.times(lerpPercent));
 
     return angle;
   }

@@ -9,15 +9,19 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 
 /** Add your docs here. */
-public class ShooterCommands {
+public class ShootingCommands {
 
-  private ShooterCommands() {}
+  private ShootingCommands() {}
 
   public Command ShootWhenReady(ShooterSubsystem shooter) {
-    return Commands.run(() -> {}, shooter).andThen();
+    return Commands.run(() -> {
+
+    }, shooter);
   }
 
   public Command Shoot(ShooterSubsystem shooter) {
-    return Commands.run(() -> {}, shooter);
+    return Commands.run(() -> {
+
+    }, shooter);
   }
 }
