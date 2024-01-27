@@ -66,9 +66,7 @@ public class DriveCommands {
                       .getAngle()
                       .rotateBy(Rotation2d.fromDegrees(180));
 
-              double omega = -orbitPID.calculate(rotationTarget.minus(driveAngle).getRotations());
-
-              // omega = JoystickUtils.curveInput(omega, 0);
+              double omega = -orbitPID.calculate(getAngleDelta(drive.getPose(), target).getRotations());
 
               drive.runVelocity(
                   ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -100,6 +98,16 @@ public class DriveCommands {
             () -> drive.setPose(new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
             drive)
         .ignoringDisable(true);
+  }
+
+  public static Rotation2d getAngleDelta(Pose2d robotPose, Translation2d target) {
+    Rotation2d rotationTarget =
+                  robotPose
+                      .relativeTo(new Pose2d(target, new Rotation2d()))
+                      .getTranslation()
+                      .getAngle()
+                      .rotateBy(Rotation2d.fromDegrees(180));
+    return rotationTarget.minus(robotPose.getRotation());
   }
 
   public static Translation2d getDriveTranslation(
