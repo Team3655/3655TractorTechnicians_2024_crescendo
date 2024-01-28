@@ -39,8 +39,12 @@ public class IntakeIOHardware implements IntakeIO {
     inputs.intakeCurrentAmps = new double[] {suckerMotor.getOutputCurrent()};
     inputs.intakeMotorTemp = suckerMotor.getMotorTemperature();
 
-    inputs.deploySolenoidState = deploySolenoid.get();
-    inputs.deployPositionRads = Units.rotationsToRadians(deployEncoder.getPosition());
+    // inputs.deploySolenoidState = deploySolenoid.get();
+    // inputs.deployPositionRads = Units.rotationsToRadians(deployEncoder.getPosition());
+  }
+
+  public void setVoltage(double volts) {
+    suckerMotor.setVoltage(volts);
   }
 
   @Override

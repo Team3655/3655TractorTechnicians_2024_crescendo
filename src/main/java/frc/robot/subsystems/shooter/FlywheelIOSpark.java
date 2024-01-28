@@ -4,14 +4,13 @@
 
 package frc.robot.subsystems.shooter;
 
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.SparkPIDController.ArbFFUnits;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.CANSparkBase.ControlType;
-
+import com.revrobotics.SparkPIDController.ArbFFUnits;
 import edu.wpi.first.math.util.Units;
 
 /** Add your docs here. */
@@ -99,9 +98,14 @@ public class FlywheelIOSpark implements FlywheelIO {
   }
 
   @Override
-  public void setVelocity(double velocityRadPerSec, double ffVolts) {
+  public void setKickerVoltage(double volts) {
+    kicker.setVoltage(volts);
+  }
+
+  @Override
+  public void setVelocity(double velocityRPM, double ffVolts) {
     topPID.setReference(
-        Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO,
+        velocityRPM * GEAR_RATIO,
         ControlType.kVelocity,
         0,
         ffVolts,

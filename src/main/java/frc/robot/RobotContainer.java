@@ -181,17 +181,22 @@ public class RobotContainer {
         .y()
         .whileTrue(
             Commands.startEnd(
-                () -> intake.setIntakeState(IntakeSubsystem.SUCK_INTAKE_STATE),
-                () -> intake.setIntakeState(IntakeSubsystem.TUCKED_INTAKE_STATE),
+                () -> {
+                  intake.setIntakeState(IntakeSubsystem.SUCK_INTAKE_STATE);
+                  shooter.setKicker(12.0);
+                },
+                () -> {
+                  intake.setIntakeState(IntakeSubsystem.TUCKED_INTAKE_STATE);
+                  shooter.setKicker(0);
+                },
+                shooter,
                 intake));
 
     controller
         .a()
         .whileTrue(
             Commands.startEnd(
-                () -> shooter.runVelocity(flywheelSpeedInput.get(), flywheelSpeedInput.get()),
-                shooter::stop,
-                shooter));
+                () -> shooter.runVelocity(flywheelSpeedInput.get()), shooter::stop, shooter));
   }
 
   /**
