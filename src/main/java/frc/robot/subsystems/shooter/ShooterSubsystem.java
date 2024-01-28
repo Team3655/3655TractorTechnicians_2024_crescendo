@@ -32,7 +32,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     switch (Constants.currentMode) {
       case REAL:
-        io.configurePID(1.0, 0, 0);
+        io.configurePID(0.001, 0, 0);
         break;
 
       case SIM:
@@ -63,7 +63,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void stop() {
-    // flywheels.stop();
+    io.stop();
   }
 
   public void setShooterAngleFromDist() {}
