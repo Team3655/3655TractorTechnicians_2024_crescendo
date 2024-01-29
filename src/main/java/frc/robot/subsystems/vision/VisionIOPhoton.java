@@ -41,6 +41,11 @@ public class VisionIOPhoton implements VisionIO {
 
   private Pose2d robotPose;
 
+  /**
+   * @param cameraName
+   * @param trans
+   * @throws IOException
+   */
   public VisionIOPhoton(String cameraName, Transform3d trans) throws IOException {
 
     tagLayout.setOrigin(AprilTagFieldLayout.OriginPosition.kBlueAllianceWallRightSide);

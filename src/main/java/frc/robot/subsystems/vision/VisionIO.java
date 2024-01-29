@@ -16,6 +16,8 @@ public interface VisionIO {
 
     public boolean hasValidTarget = false;
 
+    public double deltaX = 0.0;
+
     public double[] ambiguity = new double[] {};
     public Pose3d[] targetPoses = new Pose3d[] {};
 
