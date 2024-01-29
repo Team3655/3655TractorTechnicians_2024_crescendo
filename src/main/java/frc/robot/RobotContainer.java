@@ -3,7 +3,6 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -52,7 +51,7 @@ public class RobotContainer {
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
   private final LoggedDashboardNumber flywheelSpeedInput =
-      new LoggedDashboardNumber("Flywheel Speed", 1000);
+      new LoggedDashboardNumber("Flywheel Speed", 6000);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -163,14 +162,14 @@ public class RobotContainer {
             () -> -controller.getRightX()));
     // () -> -controller.getRawAxis(2))); // MacOS
 
-    controller
-        .rightBumper()
-        .whileTrue(
-            DriveCommands.orbitDrive(
-                drive,
-                () -> -controller.getLeftY(),
-                () -> -controller.getLeftX(),
-                new Translation2d(0.0, 0.0))); // 0.0, 5.5
+    // controller
+    //     .rightBumper()
+    //     .whileTrue(
+    //         DriveCommands.orbitDrive(
+    //             drive,
+    //             () -> -controller.getLeftY(),
+    //             () -> -controller.getLeftX(),
+    //             new Translation2d(0.0, 0.0))); // 0.0, 5.5
 
     controller.x().whileTrue(Commands.run(drive::stopWithX, drive));
 
@@ -178,20 +177,25 @@ public class RobotContainer {
     // controller.button(1).onTrue(DriveCommands.zeroDrive(drive)); // MacOS
 
     controller
-        .y()
+        .leftBumper()
         .whileTrue(
             Commands.startEnd(
-                () -> intake.setIntakeState(IntakeSubsystem.SUCK_INTAKE_STATE),
-                () -> intake.setIntakeState(IntakeSubsystem.TUCKED_INTAKE_STATE),
+                () -> {
+                  intake.setIntakeState(IntakeSubsystem.SUCK_INTAKE_STATE);
+                  shooter.setKicker(12.0);
+                },
+                () -> {
+                  intake.setIntakeState(IntakeSubsystem.TUCKED_INTAKE_STATE);
+                  shooter.setKicker(0);
+                },
+                // shooter,
                 intake));
 
     controller
-        .a()
+        .rightBumper()
         .whileTrue(
             Commands.startEnd(
-                () -> shooter.runVelocity(flywheelSpeedInput.get(), flywheelSpeedInput.get()),
-                shooter::stop,
-                shooter));
+                () -> shooter.runVelocity(flywheelSpeedInput.get()), shooter::stop, shooter));
   }
 
   /**

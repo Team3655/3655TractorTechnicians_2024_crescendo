@@ -14,14 +14,10 @@ public class ShootingCommands {
   private ShootingCommands() {}
 
   public Command ShootWhenReady(ShooterSubsystem shooter) {
-    return Commands.run(() -> {
-
-    }, shooter);
+    return Commands.run(() -> {}, shooter);
   }
 
   public Command Shoot(ShooterSubsystem shooter) {
-    return Commands.run(() -> {
-
-    }, shooter);
+    return Commands.run(() -> {}, shooter);
   }
 }

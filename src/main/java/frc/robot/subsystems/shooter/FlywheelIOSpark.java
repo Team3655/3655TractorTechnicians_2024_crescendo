@@ -4,14 +4,13 @@
 
 package frc.robot.subsystems.shooter;
 
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.SparkPIDController.ArbFFUnits;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.CANSparkBase.ControlType;
-
+import com.revrobotics.SparkPIDController.ArbFFUnits;
 import edu.wpi.first.math.util.Units;
 
 /** Add your docs here. */
@@ -33,16 +32,17 @@ public class FlywheelIOSpark implements FlywheelIO {
   public FlywheelIOSpark() {
 
     // top flywheel
-    top = new CANSparkFlex(60, MotorType.kBrushless);
+    top = new CANSparkFlex(30, MotorType.kBrushless);
 
     top.restoreFactoryDefaults();
     top.setCANTimeout(250);
     top.enableVoltageCompensation(12.0);
-    top.setSmartCurrentLimit(30);
+    top.setSmartCurrentLimit(40);
     top.burnFlash();
 
     topEncoder = top.getEncoder();
     topPID = top.getPIDController();
+    topPID.setOutputRange(0.0, 1.0);
 
     // bottom flywheel
     bottom = new CANSparkFlex(31, MotorType.kBrushless);
@@ -50,11 +50,14 @@ public class FlywheelIOSpark implements FlywheelIO {
     bottom.restoreFactoryDefaults();
     bottom.setCANTimeout(250);
     bottom.enableVoltageCompensation(12.0);
-    bottom.setSmartCurrentLimit(30);
+    bottom.setSmartCurrentLimit(40);
+    // invert bottom
+    bottom.setInverted(true);
     bottom.burnFlash();
 
     bottomEncoder = bottom.getEncoder();
     bottomPID = bottom.getPIDController();
+    bottomPID.setOutputRange(0.0, 1.0);
 
     // kicker
     kicker = new CANSparkMax(32, MotorType.kBrushless);
@@ -99,13 +102,14 @@ public class FlywheelIOSpark implements FlywheelIO {
   }
 
   @Override
-  public void setVelocity(double velocityRadPerSec, double ffVolts) {
-    topPID.setReference(
-        Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec) * GEAR_RATIO,
-        ControlType.kVelocity,
-        0,
-        ffVolts,
-        ArbFFUnits.kVoltage);
+  public void setKickerVoltage(double volts) {
+    kicker.setVoltage(volts);
+  }
+
+  @Override
+  public void setVelocity(double velocityRPM, double ffVolts) {
+    topPID.setReference(velocityRPM, ControlType.kVelocity, 0, ffVolts, ArbFFUnits.kVoltage);
+    bottomPID.setReference(velocityRPM, ControlType.kVelocity, 0, ffVolts, ArbFFUnits.kVoltage);
   }
 
   @Override
