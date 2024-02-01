@@ -161,9 +161,9 @@ public class RobotContainer {
             drive,
             // multiply by (1 - RightTrigger) to act as a variable "brake" or "damper" on
             // the robots zoomieness
-            () -> -driveJoystick.getY(),
-            () -> -driveJoystick.getX(),
-            () -> -turnJoystick.getX()));
+            () -> -driveJoystick.getY() -controller.getLeftY(),
+            () -> -driveJoystick.getX() -controller.getLeftX(),
+            () -> -turnJoystick.getX() -controller.getRightX()));
     // () -> -controller.getRawAxis(2))); // MacOS
 
     // controller
