@@ -1,13 +1,12 @@
 package frc.robot.util;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-public class CommandNXT extends CommandGenericHID {
+public class CommandNXT extends CommandJoystick {
 
-  public static final int FIRE_BUTTON_STAGE1 = 1;
-  public static final int FIRE_BUTTON_STAGE2 = 2;
+  public static final int FIRE_STAGE1 = 1;
+  public static final int FIRE_STAGE2 = 2;
   public static final int A2 = 3;
   public static final int B1 = 4;
   public static final int D1 = 5;
@@ -39,11 +38,8 @@ public class CommandNXT extends CommandGenericHID {
   public static final int A1_Y = 4;
   public static final int Stick_Z = 5;
 
-  private final GenericHID hid;
-
   public CommandNXT(int port) {
     super(port);
-    hid = new GenericHID(port);
   }
 
   /**
@@ -52,8 +48,7 @@ public class CommandNXT extends CommandGenericHID {
    * @return a new Trigger that is true when the first stage is depressed but not when the second is
    */
   public Trigger fireStage1() {
-    return new Trigger(
-        () -> hid.getRawButton(FIRE_BUTTON_STAGE1) && !hid.getRawButton(FIRE_BUTTON_STAGE2));
+    return this.button(FIRE_STAGE1);
   }
 
   /**
@@ -62,156 +57,156 @@ public class CommandNXT extends CommandGenericHID {
    * @return a new Trigger that is true when the second stage is depressed
    */
   public Trigger fireStage2() {
-    return new Trigger(() -> hid.getRawButton(FIRE_BUTTON_STAGE2));
+    return this.button(FIRE_STAGE2);
   }
 
-  // second paddle pushed up
+  /** second paddle pushed up */
   public Trigger firePaddleUp() {
-    return new Trigger(() -> hid.getRawButton(FIRE_PADDLE_UP));
+    return this.button(FIRE_PADDLE_UP);
   }
 
   // second paddle pushed down
   public Trigger firePaddleDown() {
-    return new Trigger(() -> hid.getRawButton(FIRE_PADDLE_DOWN));
+    return this.button(FIRE_PADDLE_DOWN);
   }
 
   // red button
   public Trigger A2() {
-    return new Trigger(() -> hid.getRawButton(A2));
+    return this.button(A2);
   }
 
   // button on top and back of controller
   public Trigger B1() {
-    return new Trigger(() -> hid.getRawButton(B1));
+    return this.button(B1);
   }
 
   // button on the bottom and back of controller
   public Trigger D1() {
-    return new Trigger(() -> hid.getRawButton(D1));
+    return this.button(D1);
   }
 
   // middle joystick up
   public Trigger A3_UP() {
-    return new Trigger(() -> hid.getRawButton(A3_UP));
+    return this.button(A3_UP);
   }
 
   // middle joystick right
   public Trigger A3_RIGHT() {
-    return new Trigger(() -> hid.getRawButton(A3_RIGHT));
+    return this.button(A3_RIGHT);
   }
 
   // middle joystick down
   public Trigger A3_DOWN() {
-    return new Trigger(() -> hid.getRawButton(A3_DOWN));
+    return this.button(A3_DOWN);
   }
 
   // middle joystick left
   public Trigger A3_LEFT() {
-    return new Trigger(() -> hid.getRawButton(A3_LEFT));
+    return this.button(A3_LEFT);
   }
 
   // middle joystick in
   public Trigger A3_IN() {
-    return new Trigger(() -> hid.getRawButton(A3_IN));
+    return this.button(A3_IN);
   }
 
   // top right joystick up
   public Trigger A4_UP() {
-    return new Trigger(() -> hid.getRawButton(A4_UP));
+    return this.button(A4_UP);
   }
 
   // top right joystick in
   public Trigger A4_RIGHT() {
-    return new Trigger(() -> hid.getRawButton(A4_RIGHT));
+    return this.button(A4_RIGHT);
   }
 
   // top right joystick down
   public Trigger A4_DOWN() {
-    return new Trigger(() -> hid.getRawButton(A4_DOWN));
+    return this.button(A4_DOWN);
   }
 
   // top rigjt joystick left
   public Trigger A4_LEFT() {
-    return new Trigger(() -> hid.getRawButton(A4_LEFT));
+    return this.button(A4_LEFT);
   }
 
   // top right joystick in
   public Trigger A4_IN() {
-    return new Trigger(() -> hid.getRawButton(A4_IN));
+    return this.button(A4_IN);
   }
 
   // left gray stick up
   public Trigger C1_UP() {
-    return new Trigger(() -> hid.getRawButton(C1_UP));
+    return this.button(C1_UP);
   }
 
   // left gray stick right
   public Trigger C1_RIGHT() {
-    return new Trigger(() -> hid.getRawButton(C1_RIGHT));
+    return this.button(C1_RIGHT);
   }
 
   // left gray stick down
   public Trigger C1_DOWN() {
-    return new Trigger(() -> hid.getRawButton(C1_DOWN));
+    return this.button(C1_DOWN);
   }
 
   // left gray stick left
   public Trigger C1_LEFT() {
-    return new Trigger(() -> hid.getRawButton(C1_LEFT));
+    return this.button(C1_LEFT);
   }
 
   // left gray stick in
   public Trigger C1_IN() {
-    return new Trigger(() -> hid.getRawButton(C1_IN));
+    return this.button(C1_IN);
   }
 
   // bottom right wheel up
   public Trigger EN1_UP() {
-    return new Trigger(() -> hid.getRawButton(EN1_UP));
+    return this.button(EN1_UP);
   }
 
   // bottom right wheel down
   public Trigger EN1_DOWN() {
-    return new Trigger(() -> hid.getRawButton(EN1_DOWN));
+    return this.button(EN1_DOWN);
   }
 
   // bottom left wheel up
   public Trigger SW1_UP() {
-    return new Trigger(() -> hid.getRawButton(SW1_UP));
+    return this.button(SW1_UP);
   }
 
   // bottom left wheel down
   public Trigger SW1_DOWN() {
-    return new Trigger(() -> hid.getRawButton(SW1_DOWN));
+    return this.button(SW1_DOWN);
   }
 
   // bottom middle wheel
   public double SW2() {
-    return hid.getRawAxis(SW2_ID);
+    return this.getRawAxis(SW2_ID);
   }
 
   // main stick forward and backward
   public double StickYAxis() {
-    return hid.getRawAxis(Stick_Y);
+    return this.getRawAxis(Stick_Y);
   }
 
   // main stick left and right
   public double StickXAxis() {
-    return hid.getRawAxis(Stick_X);
+    return this.getRawAxis(Stick_X);
   }
 
   // main stick rotation
   public double StickZAxis() {
-    return hid.getRawAxis(Stick_Z);
+    return this.getRawAxis(Stick_Z);
   }
 
   // top left stick left and right
   public double A1XAxis() {
-    return hid.getRawAxis(A1_X);
+    return this.getRawAxis(A1_X);
   }
 
   // top left stick up and down
   public double A1YAxis() {
-    return hid.getRawAxis(A1_Y);
+    return this.getRawAxis(A1_Y);
   }
 }

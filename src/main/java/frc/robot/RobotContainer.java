@@ -48,7 +48,7 @@ public class RobotContainer {
   private final IntakeSubsystem intake;
 
   // Controller
-  private final CommandJoystick driveJoystick = new CommandJoystick(0);
+  private final CommandJoystick driveJoystick = new CommandNXT(0);
   private final CommandJoystick turnJoystick = new CommandJoystick(1);
   private final CommandXboxController controller = new CommandXboxController(2);
 
@@ -181,7 +181,7 @@ public class RobotContainer {
     // controller.button(1).onTrue(DriveCommands.zeroDrive(drive)); // MacOS
 
     driveJoystick
-        .button(CommandNXT.FIRE_BUTTON_STAGE1)
+        .button(CommandNXT.FIRE_STAGE1)
         .whileTrue(
             Commands.startEnd(
                 () -> {
