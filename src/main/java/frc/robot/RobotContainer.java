@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.FeedForwardCharacterization;
@@ -28,6 +29,7 @@ import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOPhoton;
 import frc.robot.subsystems.vision.VisionSubsystem;
+import frc.robot.util.CommandNXT;
 import java.io.IOException;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
@@ -46,7 +48,9 @@ public class RobotContainer {
   private final IntakeSubsystem intake;
 
   // Controller
-  private final CommandXboxController controller = new CommandXboxController(1);
+  private final CommandJoystick driveJoystick = new CommandJoystick(0);
+  private final CommandJoystick turnJoystick = new CommandJoystick(1);
+  private final CommandXboxController controller = new CommandXboxController(2);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -157,9 +161,9 @@ public class RobotContainer {
             drive,
             // multiply by (1 - RightTrigger) to act as a variable "brake" or "damper" on
             // the robots zoomieness
-            () -> -controller.getLeftY(),
-            () -> -controller.getLeftX(),
-            () -> -controller.getRightX()));
+            () -> -driveJoystick.getY(),
+            () -> -driveJoystick.getX(),
+            () -> -turnJoystick.getX()));
     // () -> -controller.getRawAxis(2))); // MacOS
 
     // controller
@@ -171,13 +175,13 @@ public class RobotContainer {
     //             () -> -controller.getLeftX(),
     //             new Translation2d(0.0, 0.0))); // 0.0, 5.5
 
-    controller.x().whileTrue(Commands.run(drive::stopWithX, drive));
+    driveJoystick.button(CommandNXT.D1).whileTrue(Commands.run(drive::stopWithX, drive));
 
-    controller.b().onTrue(DriveCommands.zeroDrive(drive));
+    driveJoystick.button(CommandNXT.B1).onTrue(DriveCommands.zeroDrive(drive));
     // controller.button(1).onTrue(DriveCommands.zeroDrive(drive)); // MacOS
 
-    controller
-        .leftBumper()
+    driveJoystick
+        .button(CommandNXT.FIRE_BUTTON_STAGE1)
         .whileTrue(
             Commands.startEnd(
                 () -> {
@@ -191,8 +195,8 @@ public class RobotContainer {
                 // shooter,
                 intake));
 
-    controller
-        .rightBumper()
+    driveJoystick
+        .button(CommandNXT.A2)
         .whileTrue(
             Commands.startEnd(
                 () -> shooter.runVelocity(flywheelSpeedInput.get()), shooter::stop, shooter));

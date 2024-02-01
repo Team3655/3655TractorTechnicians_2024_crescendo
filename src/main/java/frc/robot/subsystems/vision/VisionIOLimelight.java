@@ -20,5 +20,4 @@ public class VisionIOLimelight implements VisionIO {
     inputs.deltaX = LimelightHelpers.getTX(name);
     inputs.robotPose = LimelightHelpers.getBotPose2d_wpiBlue(name);
   }
-
 }
