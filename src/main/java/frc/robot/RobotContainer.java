@@ -22,9 +22,9 @@ import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOHardware;
 import frc.robot.subsystems.intake.IntakeIOSim;
 import frc.robot.subsystems.intake.IntakeSubsystem;
-import frc.robot.subsystems.shooter.FlywheelIO;
-import frc.robot.subsystems.shooter.FlywheelIOSim;
-import frc.robot.subsystems.shooter.FlywheelIOSpark;
+import frc.robot.subsystems.shooter.ShooterOSim;
+import frc.robot.subsystems.shooter.ShooterOSpark;
+import frc.robot.subsystems.shooter.ShooterIO;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOPhoton;
@@ -48,7 +48,7 @@ public class RobotContainer {
   private final IntakeSubsystem intake;
 
   // Controller
-  private final CommandJoystick driveJoystick = new CommandNXT(0);
+  private final CommandNXT driveJoystick = new CommandNXT(0);
   private final CommandJoystick turnJoystick = new CommandJoystick(1);
   private final CommandXboxController controller = new CommandXboxController(2);
 
@@ -91,7 +91,7 @@ public class RobotContainer {
         // new ModuleIOTalonFX(2),
         // new ModuleIOTalonFX(3));
 
-        shooter = new ShooterSubsystem(new FlywheelIOSpark());
+        shooter = new ShooterSubsystem(new ShooterOSpark());
 
         intake = new IntakeSubsystem(new IntakeIOHardware());
         break;
@@ -109,7 +109,7 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 vision);
 
-        shooter = new ShooterSubsystem(new FlywheelIOSim());
+        shooter = new ShooterSubsystem(new ShooterOSim());
 
         intake = new IntakeSubsystem(new IntakeIOSim());
         break;
@@ -129,7 +129,7 @@ public class RobotContainer {
 
         intake = new IntakeSubsystem(new IntakeIO() {});
 
-        shooter = new ShooterSubsystem(new FlywheelIO() {});
+        shooter = new ShooterSubsystem(new ShooterIO() {});
         break;
     }
 
@@ -161,9 +161,9 @@ public class RobotContainer {
             drive,
             // multiply by (1 - RightTrigger) to act as a variable "brake" or "damper" on
             // the robots zoomieness
-            () -> -driveJoystick.getY() -controller.getLeftY(),
-            () -> -driveJoystick.getX() -controller.getLeftX(),
-            () -> -turnJoystick.getX() -controller.getRightX()));
+            () -> -driveJoystick.getY() - controller.getLeftY(),
+            () -> -driveJoystick.getX() - controller.getLeftX(),
+            () -> -turnJoystick.getX() - controller.getRightX()));
     // () -> -controller.getRawAxis(2))); // MacOS
 
     // controller

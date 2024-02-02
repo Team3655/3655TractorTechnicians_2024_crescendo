@@ -11,12 +11,11 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
-import edu.wpi.first.math.util.Units;
 
 /** Add your docs here. */
-public class FlywheelIOSpark implements FlywheelIO {
+public class ShooterOSpark implements ShooterIO {
 
-  private static final double GEAR_RATIO = 1;
+  private static final double KICKER_GEAR_RATIO = 1;
 
   private final CANSparkFlex top;
   private final RelativeEncoder topEncoder;
@@ -29,7 +28,7 @@ public class FlywheelIOSpark implements FlywheelIO {
   private final CANSparkMax kicker;
   private final RelativeEncoder kickerEncoder;
 
-  public FlywheelIOSpark() {
+  public ShooterOSpark() {
 
     // top flywheel
     top = new CANSparkFlex(30, MotorType.kBrushless);
@@ -72,27 +71,28 @@ public class FlywheelIOSpark implements FlywheelIO {
   }
 
   @Override
-  public void updateInputs(FlywheelIOInputs inputs) {
-    inputs.topPositionRad = Units.rotationsToRadians(topEncoder.getPosition() / GEAR_RATIO);
-    inputs.topVelocityRadPerSec =
-        Units.rotationsPerMinuteToRadiansPerSecond(topEncoder.getVelocity() / GEAR_RATIO);
+  public void updateInputs(ShooterIOInputs inputs) {
+    // region: update top inputs
+    inputs.topPositionRad = topEncoder.getPosition();
+    inputs.topVelocityRPM = topEncoder.getVelocity();
     inputs.topAppliedVolts = top.getAppliedOutput() * top.getBusVoltage();
     inputs.topCurrentAmps = new double[] {top.getOutputCurrent()};
     inputs.topMotorTemp = top.getMotorTemperature();
-
-    inputs.bottomPositionRad = Units.rotationsToRadians(bottomEncoder.getPosition() / GEAR_RATIO);
-    inputs.bottomVelocityRadPerSec =
-        Units.rotationsPerMinuteToRadiansPerSecond(bottomEncoder.getVelocity() / GEAR_RATIO);
+    // endregion
+    // region: update bottom inputs
+    inputs.bottomPositionRad = bottomEncoder.getPosition();
+    inputs.bottomVelocityRPM = bottomEncoder.getVelocity();
     inputs.bottomAppliedVolts = bottom.getAppliedOutput() * bottom.getBusVoltage();
     inputs.bottomCurrentAmps = new double[] {bottom.getOutputCurrent()};
     inputs.bottomMotorTemp = bottom.getMotorTemperature();
-
-    inputs.kickerPositionRad = Units.rotationsToRadians(kickerEncoder.getPosition() / GEAR_RATIO);
-    inputs.kickerVelocityRadPerSec =
-        Units.rotationsPerMinuteToRadiansPerSecond(kickerEncoder.getVelocity() / GEAR_RATIO);
+    // endregion
+    // region: update kicker inputs
+    inputs.kickerPositionRad = kickerEncoder.getPosition() / KICKER_GEAR_RATIO;
+    inputs.kickerVelocityRPM = kickerEncoder.getVelocity() / KICKER_GEAR_RATIO;
     inputs.kickerAppliedVolts = kicker.getAppliedOutput() * kicker.getBusVoltage();
     inputs.kickerCurrentAmps = new double[] {kicker.getOutputCurrent()};
     inputs.kickerMotorTemp = kicker.getMotorTemperature();
+    // endregion
   }
 
   @Override

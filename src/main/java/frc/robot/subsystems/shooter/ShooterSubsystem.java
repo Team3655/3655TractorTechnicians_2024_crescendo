@@ -23,11 +23,11 @@ public class ShooterSubsystem extends SubsystemBase {
         }
       };
 
-  private final FlywheelIO io;
-  private final FlywheelIOInputsAutoLogged inputs = new FlywheelIOInputsAutoLogged();
+  private final ShooterIO io;
+  private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
 
   /** Creates a new shooter. */
-  public ShooterSubsystem(FlywheelIO io) {
+  public ShooterSubsystem(ShooterIO io) {
     this.io = io;
 
     switch (Constants.currentMode) {
@@ -49,7 +49,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    io.updateInputs(inputs);
+    // io.updateInputs(inputs);
     Logger.processInputs("Shooter", inputs);
   }
 
@@ -66,31 +66,53 @@ public class ShooterSubsystem extends SubsystemBase {
     io.stop();
   }
 
-  public void setShooterAngleFromDist() {}
+  public void setShooterAngleFromDist(double distance) {
+    Rotation2d angle = getRotationFromDistance(distance);
+    // TODO: add pivot to io
+  }
 
+  /**
+   * Uses a distance to the target to calculate a shooter angle
+   *
+   * @param distance the delta from target to robot
+   * @return a Rotation2d represent the optimal shooter angle
+   */
   public Rotation2d getRotationFromDistance(double distance) {
 
+    // Use max/min value to ensure variable gets a value on first loop cycle
     double minimum = Double.MAX_VALUE;
     double minAbove = Double.MAX_VALUE;
     double maxBelow = Double.MIN_VALUE;
     double maximum = Double.MIN_VALUE;
 
     for (double distKey : DISTANCE_TO_ANGLE.keySet()) {
-      // Sets the minimum
+      // finds the key key below the input
       if (distance > distKey && distKey > maxBelow) maxBelow = distKey;
 
-      // Sets the maximum
+      // finds the closest key above the input
       if (distance < distKey && distKey < minAbove) minAbove = distKey;
 
+      // finds the maximum
       if (distKey < minimum) minimum = distKey;
 
+      // finds the minimum
       if (distKey > maximum) maximum = distKey;
     }
 
+    // if the input is outside the range of the map return
+    // the minimum or maximum angle
+    if (distance > maximum) return DISTANCE_TO_ANGLE.get(maximum);
+    else if (distance < minimum) return DISTANCE_TO_ANGLE.get(minimum);
+
+    // how close the input is to minAbove expressed as a percentage of the delta
+    // between maxBelow and minAbove
     double lerpPercent = ((distance - maxBelow) / (minAbove - maxBelow));
 
+    // the delta between the rotations associated with minAbove and minBelow
     Rotation2d angleDelta = DISTANCE_TO_ANGLE.get(minAbove).minus(DISTANCE_TO_ANGLE.get(maxBelow));
 
+    // The final target angle of the shooter uses the maxBelow angle as a starting point,
+    // then adds the angleDelta times the lerp percent
     Rotation2d angle = DISTANCE_TO_ANGLE.get(maxBelow).plus(angleDelta.times(lerpPercent));
 
     return angle;

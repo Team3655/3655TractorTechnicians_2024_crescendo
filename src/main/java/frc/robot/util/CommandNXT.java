@@ -3,6 +3,10 @@ package frc.robot.util;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
+/**
+ * A wrappper for the WPILIB joystick class so that butoons can be accessed by name rather than
+ * their ID;
+ */
 public class CommandNXT extends CommandJoystick {
 
   public static final int FIRE_STAGE1 = 1;
@@ -38,6 +42,11 @@ public class CommandNXT extends CommandJoystick {
   public static final int A1_Y = 4;
   public static final int Stick_Z = 5;
 
+  /**
+   * Construct an instance of a controller.
+   *
+   * @param port The port index on the Driver Station that the controller is plugged into.
+   */
   public CommandNXT(int port) {
     super(port);
   }
@@ -71,112 +80,112 @@ public class CommandNXT extends CommandJoystick {
   }
 
   // red button
-  public Trigger A2() {
+  public Trigger a2() {
     return this.button(A2);
   }
 
   // button on top and back of controller
-  public Trigger B1() {
+  public Trigger b1() {
     return this.button(B1);
   }
 
   // button on the bottom and back of controller
-  public Trigger D1() {
+  public Trigger d1() {
     return this.button(D1);
   }
 
   // middle joystick up
-  public Trigger A3_UP() {
+  public Trigger a3Up() {
     return this.button(A3_UP);
   }
 
   // middle joystick right
-  public Trigger A3_RIGHT() {
+  public Trigger a3Right() {
     return this.button(A3_RIGHT);
   }
 
   // middle joystick down
-  public Trigger A3_DOWN() {
+  public Trigger a3Down() {
     return this.button(A3_DOWN);
   }
 
   // middle joystick left
-  public Trigger A3_LEFT() {
+  public Trigger a3Left() {
     return this.button(A3_LEFT);
   }
 
   // middle joystick in
-  public Trigger A3_IN() {
+  public Trigger a3In() {
     return this.button(A3_IN);
   }
 
   // top right joystick up
-  public Trigger A4_UP() {
+  public Trigger a4Up() {
     return this.button(A4_UP);
   }
 
   // top right joystick in
-  public Trigger A4_RIGHT() {
+  public Trigger a4Right() {
     return this.button(A4_RIGHT);
   }
 
   // top right joystick down
-  public Trigger A4_DOWN() {
+  public Trigger a4Down() {
     return this.button(A4_DOWN);
   }
 
   // top rigjt joystick left
-  public Trigger A4_LEFT() {
+  public Trigger a4Left() {
     return this.button(A4_LEFT);
   }
 
   // top right joystick in
-  public Trigger A4_IN() {
+  public Trigger a4In() {
     return this.button(A4_IN);
   }
 
   // left gray stick up
-  public Trigger C1_UP() {
+  public Trigger c1Up() {
     return this.button(C1_UP);
   }
 
   // left gray stick right
-  public Trigger C1_RIGHT() {
+  public Trigger c1Right() {
     return this.button(C1_RIGHT);
   }
 
   // left gray stick down
-  public Trigger C1_DOWN() {
+  public Trigger c1Down() {
     return this.button(C1_DOWN);
   }
 
   // left gray stick left
-  public Trigger C1_LEFT() {
+  public Trigger c1Left() {
     return this.button(C1_LEFT);
   }
 
   // left gray stick in
-  public Trigger C1_IN() {
+  public Trigger c1In() {
     return this.button(C1_IN);
   }
 
   // bottom right wheel up
-  public Trigger EN1_UP() {
+  public Trigger en1Up() {
     return this.button(EN1_UP);
   }
 
   // bottom right wheel down
-  public Trigger EN1_DOWN() {
+  public Trigger en1Down() {
     return this.button(EN1_DOWN);
   }
 
   // bottom left wheel up
-  public Trigger SW1_UP() {
+  public Trigger sw1Up() {
     return this.button(SW1_UP);
   }
 
   // bottom left wheel down
-  public Trigger SW1_DOWN() {
+  public Trigger sw1Down() {
     return this.button(SW1_DOWN);
   }
 
@@ -186,27 +195,27 @@ public class CommandNXT extends CommandJoystick {
   }
 
   // main stick forward and backward
-  public double StickYAxis() {
+  public double StickY() {
     return this.getRawAxis(Stick_Y);
   }
 
   // main stick left and right
-  public double StickXAxis() {
+  public double StickX() {
     return this.getRawAxis(Stick_X);
   }
 
   // main stick rotation
-  public double StickZAxis() {
+  public double StickZ() {
     return this.getRawAxis(Stick_Z);
   }
 
   // top left stick left and right
-  public double A1XAxis() {
+  public double A1X() {
     return this.getRawAxis(A1_X);
   }
 
   // top left stick up and down
-  public double A1YAxis() {
+  public double A1Y() {
     return this.getRawAxis(A1_Y);
   }
 }

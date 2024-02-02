@@ -6,7 +6,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 // import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 
-public class FlywheelIOSim implements FlywheelIO {
+public class ShooterOSim implements ShooterIO {
   private FlywheelSim flywheelSim1 = new FlywheelSim(DCMotor.getNeoVortex(1), 1, 0.004);
   private FlywheelSim flywheelSim2 = new FlywheelSim(DCMotor.getNeoVortex(1), 1, 0.004);
 
@@ -20,7 +20,7 @@ public class FlywheelIOSim implements FlywheelIO {
   private double appliedVolts = 0.0;
 
   @Override
-  public void updateInputs(FlywheelIOInputs inputs) {
+  public void updateInputs(ShooterIOInputs inputs) {
     if (closedLoop) {
       appliedVolts =
           MathUtil.clamp(
@@ -36,13 +36,13 @@ public class FlywheelIOSim implements FlywheelIO {
 
     // top flywheel inputs
     inputs.topPositionRad = 0.0;
-    inputs.topVelocityRadPerSec = flywheelSim1.getAngularVelocityRadPerSec();
+    inputs.topVelocityRPM = flywheelSim1.getAngularVelocityRadPerSec();
     inputs.topAppliedVolts = appliedVolts;
     inputs.topCurrentAmps = new double[] {flywheelSim1.getCurrentDrawAmps()};
 
     // bottom flywheel inputs
     inputs.bottomPositionRad = 0.0;
-    inputs.bottomVelocityRadPerSec = flywheelSim2.getAngularVelocityRadPerSec();
+    inputs.bottomVelocityRPM = flywheelSim2.getAngularVelocityRadPerSec();
     inputs.bottomAppliedVolts = appliedVolts;
     inputs.bottomCurrentAmps = new double[] {flywheelSim2.getCurrentDrawAmps()};
   }

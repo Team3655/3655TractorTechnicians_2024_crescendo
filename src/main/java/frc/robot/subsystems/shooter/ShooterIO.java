@@ -7,31 +7,31 @@ package frc.robot.subsystems.shooter;
 import org.littletonrobotics.junction.AutoLog;
 
 /** Add your docs here. */
-public interface FlywheelIO {
+public interface ShooterIO {
 
   @AutoLog
-  public static class FlywheelIOInputs {
+  public static class ShooterIOInputs {
     public double topPositionRad = 0.0;
-    public double topVelocityRadPerSec = 0.0;
+    public double topVelocityRPM = 0.0;
     public double topAppliedVolts = 0.0;
     public double[] topCurrentAmps = new double[] {};
     public double topMotorTemp = 0.0;
 
     public double bottomPositionRad = 0.0;
-    public double bottomVelocityRadPerSec = 0.0;
+    public double bottomVelocityRPM = 0.0;
     public double bottomAppliedVolts = 0.0;
     public double[] bottomCurrentAmps = new double[] {};
     public double bottomMotorTemp = 0.0;
 
     public double kickerPositionRad = 0.0;
-    public double kickerVelocityRadPerSec = 0.0;
+    public double kickerVelocityRPM = 0.0;
     public double kickerAppliedVolts = 0.0;
     public double[] kickerCurrentAmps = new double[] {};
     public double kickerMotorTemp = 0.0;
   }
 
   /** Updates the set of loggable inputs. */
-  public default void updateInputs(FlywheelIOInputs inputs) {}
+  public default void updateInputs(ShooterIOInputs inputs) {}
 
   /** Run open loop at the specified voltage. */
   public default void setVoltage(double volts) {}
