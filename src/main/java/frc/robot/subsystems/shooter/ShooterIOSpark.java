@@ -4,16 +4,15 @@
 
 package frc.robot.subsystems.shooter;
 
-import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 
 /** Add your docs here. */
@@ -79,7 +78,7 @@ public class ShooterIOSpark implements ShooterIO {
 
     kickerEncoder = kicker.getEncoder();
 
-    pivot = new CANSparkMax(32, MotorType.kBrushless);
+    pivot = new CANSparkMax(33, MotorType.kBrushless);
 
     pivot.restoreFactoryDefaults();
     pivot.setCANTimeout(250);
@@ -143,7 +142,8 @@ public class ShooterIOSpark implements ShooterIO {
 
   @Override
   public void setAngle(Rotation2d angle, double ffVolts) {
-    pivotPID.setReference(angle.getRotations(), ControlType.kVelocity, 0, ffVolts, ArbFFUnits.kVoltage);
+    pivotPID.setReference(
+        angle.getRotations(), ControlType.kVelocity, 0, ffVolts, ArbFFUnits.kVoltage);
   }
 
   @Override

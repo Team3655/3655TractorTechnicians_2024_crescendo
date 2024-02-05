@@ -4,9 +4,8 @@
 
 package frc.robot.subsystems.shooter;
 
-import org.littletonrobotics.junction.AutoLog;
-
 import edu.wpi.first.math.geometry.Rotation2d;
+import org.littletonrobotics.junction.AutoLog;
 
 /** Add your docs here. */
 public interface ShooterIO {
@@ -62,5 +61,4 @@ public interface ShooterIO {
 
   /** Set position PID constants. */
   public default void configurePivotPID(double kP, double kI, double kD) {}
-  
 }
