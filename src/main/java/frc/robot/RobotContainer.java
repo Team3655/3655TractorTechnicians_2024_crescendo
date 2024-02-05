@@ -18,12 +18,13 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSparkMax;
+import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOHardware;
 import frc.robot.subsystems.intake.IntakeIOSim;
 import frc.robot.subsystems.intake.IntakeSubsystem;
-import frc.robot.subsystems.shooter.ShooterOSim;
-import frc.robot.subsystems.shooter.ShooterOSpark;
+import frc.robot.subsystems.shooter.ShooterIOSim;
+import frc.robot.subsystems.shooter.ShooterIOSpark;
 import frc.robot.subsystems.shooter.ShooterIO;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.vision.VisionIO;
@@ -74,24 +75,25 @@ public class RobotContainer {
         // Real robot, instantiate hardware IO implementations
         vision = new VisionSubsystem(new VisionIOPhoton("camera1", robotToCamera));
 
+        // drive =
+        //     new DriveSubsystem(
+        //         new GyroIOPigeon2(false),
+        //         new ModuleIOSparkMax(0),
+        //         new ModuleIOSparkMax(1),
+        //         new ModuleIOSparkMax(2),
+        //         new ModuleIOSparkMax(3),
+        //         vision);
+
         drive =
             new DriveSubsystem(
-                new GyroIOPigeon2(false),
-                new ModuleIOSparkMax(0),
-                new ModuleIOSparkMax(1),
-                new ModuleIOSparkMax(2),
-                new ModuleIOSparkMax(3),
+                new GyroIOPigeon2(true),
+                new ModuleIOTalonFX(0),
+                new ModuleIOTalonFX(1),
+                new ModuleIOTalonFX(2),
+                new ModuleIOTalonFX(3),
                 vision);
 
-        // drive =
-        // new DriveSubsystem(
-        // new GyroIOPigeon2(true),
-        // new ModuleIOTalonFX(0),
-        // new ModuleIOTalonFX(1),
-        // new ModuleIOTalonFX(2),
-        // new ModuleIOTalonFX(3));
-
-        shooter = new ShooterSubsystem(new ShooterOSpark());
+        shooter = new ShooterSubsystem(new ShooterIOSpark());
 
         intake = new IntakeSubsystem(new IntakeIOHardware());
         break;
@@ -109,7 +111,7 @@ public class RobotContainer {
                 new ModuleIOSim(),
                 vision);
 
-        shooter = new ShooterSubsystem(new ShooterOSim());
+        shooter = new ShooterSubsystem(new ShooterIOSim());
 
         intake = new IntakeSubsystem(new IntakeIOSim());
         break;

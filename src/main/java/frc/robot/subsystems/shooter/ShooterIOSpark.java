@@ -5,17 +5,22 @@
 package frc.robot.subsystems.shooter;
 
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+
 /** Add your docs here. */
-public class ShooterOSpark implements ShooterIO {
+public class ShooterIOSpark implements ShooterIO {
 
   private static final double KICKER_GEAR_RATIO = 1;
+  private static final double PIVOT_GEAR_RATIO = 100;
 
   private final CANSparkFlex top;
   private final RelativeEncoder topEncoder;
@@ -28,7 +33,12 @@ public class ShooterOSpark implements ShooterIO {
   private final CANSparkMax kicker;
   private final RelativeEncoder kickerEncoder;
 
-  public ShooterOSpark() {
+  private final CANSparkMax pivot;
+  private final RelativeEncoder pivotEncoder;
+  private final AbsoluteEncoder pivotAbsolute;
+  private final SparkPIDController pivotPID;
+
+  public ShooterIOSpark() {
 
     // top flywheel
     top = new CANSparkFlex(30, MotorType.kBrushless);
@@ -68,6 +78,18 @@ public class ShooterOSpark implements ShooterIO {
     kicker.burnFlash();
 
     kickerEncoder = kicker.getEncoder();
+
+    pivot = new CANSparkMax(32, MotorType.kBrushless);
+
+    pivot.restoreFactoryDefaults();
+    pivot.setCANTimeout(250);
+    pivot.enableVoltageCompensation(12.0);
+    pivot.setSmartCurrentLimit(20);
+    pivot.burnFlash();
+
+    pivotEncoder = pivot.getEncoder();
+    pivotAbsolute = pivot.getAbsoluteEncoder(Type.kDutyCycle);
+    pivotPID = pivot.getPIDController();
   }
 
   @Override
@@ -93,6 +115,13 @@ public class ShooterOSpark implements ShooterIO {
     inputs.kickerCurrentAmps = new double[] {kicker.getOutputCurrent()};
     inputs.kickerMotorTemp = kicker.getMotorTemperature();
     // endregion
+    // region: update pivot inputs
+    inputs.pivotAbsolutePosition = Rotation2d.fromRotations(pivotAbsolute.getPosition());
+    inputs.pivotPositionRotations = pivotEncoder.getPosition() / PIVOT_GEAR_RATIO;
+    inputs.pivotAppliedVolts = pivot.getAppliedOutput() * pivot.getBusVoltage();
+    inputs.pivotCurrentAmps = new double[] {pivot.getOutputCurrent()};
+    inputs.pivotMotorTemp = pivot.getMotorTemperature();
+    // endregion
   }
 
   @Override
@@ -113,22 +142,32 @@ public class ShooterOSpark implements ShooterIO {
   }
 
   @Override
+  public void setAngle(Rotation2d angle, double ffVolts) {
+    pivotPID.setReference(angle.getRotations(), ControlType.kVelocity, 0, ffVolts, ArbFFUnits.kVoltage);
+  }
+
+  @Override
   public void stop() {
     top.stopMotor();
     bottom.stopMotor();
   }
 
   @Override
-  public void configurePID(double kP, double kI, double kD) {
+  public void configureFlywheelPID(double kP, double kI, double kD) {
     // top PID
     topPID.setP(kP, 0);
     topPID.setI(kI, 0);
     topPID.setD(kD, 0);
-    topPID.setFF(0, 0);
     // bottom PID
     bottomPID.setP(kP, 0);
     bottomPID.setI(kI, 0);
     bottomPID.setD(kD, 0);
-    bottomPID.setFF(0, 0);
+  }
+
+  @Override
+  public void configurePivotPID(double kP, double kI, double kD) {
+    pivotPID.setP(kP, 0);
+    pivotPID.setI(kI, 0);
+    pivotPID.setD(kD, 0);
   }
 }

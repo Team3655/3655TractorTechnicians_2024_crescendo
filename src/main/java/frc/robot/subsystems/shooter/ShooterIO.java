@@ -32,7 +32,7 @@ public interface ShooterIO {
     public double kickerMotorTemp = 0.0;
 
     public Rotation2d pivotAbsolutePosition = new Rotation2d();
-    public double pivotPositionRad = 0.0;
+    public double pivotPositionRotations = 0.0;
     public double pivotVelocityRPM = 0.0;
     public double pivotAppliedVolts = 0.0;
     public double[] pivotCurrentAmps = new double[] {};
@@ -48,6 +48,9 @@ public interface ShooterIO {
   /** Run closed loop at the specified velocity. */
   public default void setVelocity(double velocityRPM, double ffVolts) {}
 
+  /** Run closed loop at the specified angle. */
+  public default void setAngle(Rotation2d angle, double ffVolts) {}
+
   /** Run open loop at the specified voltage. */
   public default void setKickerVoltage(double volts) {}
 
@@ -55,7 +58,9 @@ public interface ShooterIO {
   public default void stop() {}
 
   /** Set velocity PID constants. */
-  public default void configurePID(double kP, double kI, double kD) {}
+  public default void configureFlywheelPID(double kP, double kI, double kD) {}
 
+  /** Set position PID constants. */
+  public default void configurePivotPID(double kP, double kI, double kD) {}
   
 }

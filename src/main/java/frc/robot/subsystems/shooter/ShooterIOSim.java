@@ -5,16 +5,16 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
-// import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 
-public class ShooterOSim implements ShooterIO {
+public class ShooterIOSim implements ShooterIO {
+
   private FlywheelSim flywheelSim1 = new FlywheelSim(DCMotor.getNeoVortex(1), 1, 0.004);
   private FlywheelSim flywheelSim2 = new FlywheelSim(DCMotor.getNeoVortex(1), 1, 0.004);
 
   private DCMotorSim pivotSim = new DCMotorSim(DCMotor.getNEO(1), 1, 0);
 
   private PIDController flywheelPID = new PIDController(0.0, 0.0, 0.0);
-  // private PIDController PivotPID = new PIDController(0.0, 0.0, 0.0);
+  private PIDController pivotPID = new PIDController(0.0, 0.0, 0.0);
 
   private boolean closedLoop = false;
   private double ffVolts = 0.0;
@@ -22,15 +22,15 @@ public class ShooterOSim implements ShooterIO {
 
   @Override
   public void updateInputs(ShooterIOInputs inputs) {
-    if (closedLoop) {
-      appliedVolts =
-          MathUtil.clamp(
-              flywheelPID.calculate(flywheelSim1.getAngularVelocityRadPerSec()) + ffVolts,
-              -12.0,
-              12.0);
-      flywheelSim1.setInputVoltage(appliedVolts);
-      flywheelSim2.setInputVoltage(appliedVolts);
-    }
+
+    appliedVolts =
+        MathUtil.clamp(
+            flywheelPID.calculate(flywheelSim1.getAngularVelocityRadPerSec()) + ffVolts,
+            -12.0,
+            12.0);
+
+    flywheelSim1.setInputVoltage(appliedVolts);
+    flywheelSim2.setInputVoltage(appliedVolts);
 
     flywheelSim1.update(0.02);
     flywheelSim2.update(0.02);
@@ -69,7 +69,12 @@ public class ShooterOSim implements ShooterIO {
   }
 
   @Override
-  public void configurePID(double kP, double kI, double kD) {
+  public void configureFlywheelPID(double kP, double kI, double kD) {
     flywheelPID.setPID(kP, kI, kD);
+  }
+
+  @Override
+  public void configurePivotPID(double kP, double kI, double kD) {
+    pivotPID.setPID(kP, kI, kD);
   }
 }

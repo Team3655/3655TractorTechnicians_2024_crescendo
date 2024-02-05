@@ -32,11 +32,11 @@ public class ShooterSubsystem extends SubsystemBase {
 
     switch (Constants.currentMode) {
       case REAL:
-        io.configurePID(0.001, 0, 0);
+        io.configureFlywheelPID(0.001, 0, 0);
         break;
 
       case SIM:
-        io.configurePID(0, 0, 0);
+        io.configureFlywheelPID(0, 0, 0);
         break;
 
       case REPLAY:
@@ -72,7 +72,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   /**
-   * Uses a distance to the target to calculate a shooter angle
+   * Uses a distance input to the target to calculate a shooter angle
    *
    * @param distance the delta from target to robot
    * @return a Rotation2d represent the optimal shooter angle
