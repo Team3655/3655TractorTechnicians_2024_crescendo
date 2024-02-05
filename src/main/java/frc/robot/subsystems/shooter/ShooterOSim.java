@@ -3,6 +3,7 @@ package frc.robot.subsystems.shooter;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 // import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 
@@ -10,7 +11,7 @@ public class ShooterOSim implements ShooterIO {
   private FlywheelSim flywheelSim1 = new FlywheelSim(DCMotor.getNeoVortex(1), 1, 0.004);
   private FlywheelSim flywheelSim2 = new FlywheelSim(DCMotor.getNeoVortex(1), 1, 0.004);
 
-  // private DCMotorSim PivotSim = new DCMotorSim(DCMotor.getNEO(1), 1, 0);
+  private DCMotorSim pivotSim = new DCMotorSim(DCMotor.getNEO(1), 1, 0);
 
   private PIDController flywheelPID = new PIDController(0.0, 0.0, 0.0);
   // private PIDController PivotPID = new PIDController(0.0, 0.0, 0.0);

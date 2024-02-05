@@ -6,6 +6,8 @@ package frc.robot.subsystems.shooter;
 
 import org.littletonrobotics.junction.AutoLog;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+
 /** Add your docs here. */
 public interface ShooterIO {
 
@@ -28,6 +30,13 @@ public interface ShooterIO {
     public double kickerAppliedVolts = 0.0;
     public double[] kickerCurrentAmps = new double[] {};
     public double kickerMotorTemp = 0.0;
+
+    public Rotation2d pivotAbsolutePosition = new Rotation2d();
+    public double pivotPositionRad = 0.0;
+    public double pivotVelocityRPM = 0.0;
+    public double pivotAppliedVolts = 0.0;
+    public double[] pivotCurrentAmps = new double[] {};
+    public double pivotMotorTemp = 0.0;
   }
 
   /** Updates the set of loggable inputs. */
@@ -39,11 +48,14 @@ public interface ShooterIO {
   /** Run closed loop at the specified velocity. */
   public default void setVelocity(double velocityRPM, double ffVolts) {}
 
+  /** Run open loop at the specified voltage. */
+  public default void setKickerVoltage(double volts) {}
+
   /** Stop in open loop. */
   public default void stop() {}
 
   /** Set velocity PID constants. */
   public default void configurePID(double kP, double kI, double kD) {}
 
-  public default void setKickerVoltage(double volts) {}
+  
 }
