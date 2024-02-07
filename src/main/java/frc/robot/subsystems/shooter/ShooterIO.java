@@ -54,7 +54,7 @@ public interface ShooterIO {
   public default void setKickerVoltage(double volts) {}
 
   /** Stop in open loop. */
-  public default void stop() {}
+  public default void stopFlywheel() {}
 
   /** Set velocity PID constants. */
   public default void configureFlywheelPID(double kP, double kI, double kD) {}

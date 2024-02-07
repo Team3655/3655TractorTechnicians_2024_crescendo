@@ -200,7 +200,7 @@ public class RobotContainer {
         .button(CommandNXT.A2)
         .whileTrue(
             Commands.startEnd(
-                () -> shooter.runVelocity(flywheelSpeedInput.get()), shooter::stop, shooter));
+                () -> shooter.runVelocity(flywheelSpeedInput.get()), shooter::stopFlywheel, shooter));
   }
 
   /**

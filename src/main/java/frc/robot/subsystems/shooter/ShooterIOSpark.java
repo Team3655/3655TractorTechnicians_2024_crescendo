@@ -18,9 +18,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 /** Add your docs here. */
 public class ShooterIOSpark implements ShooterIO {
 
-  private static final double KICKER_GEAR_RATIO = 1;
-  private static final double PIVOT_GEAR_RATIO = 100;
-
   private final CANSparkFlex top;
   private final RelativeEncoder topEncoder;
   private final SparkPIDController topPID;
@@ -108,15 +105,15 @@ public class ShooterIOSpark implements ShooterIO {
     inputs.bottomMotorTemp = bottom.getMotorTemperature();
     // endregion
     // region: update kicker inputs
-    inputs.kickerPositionRad = kickerEncoder.getPosition() / KICKER_GEAR_RATIO;
-    inputs.kickerVelocityRPM = kickerEncoder.getVelocity() / KICKER_GEAR_RATIO;
+    inputs.kickerPositionRad = kickerEncoder.getPosition() / ShooterSubsystem.KICKER_GEAR_RATIO;
+    inputs.kickerVelocityRPM = kickerEncoder.getVelocity() / ShooterSubsystem.KICKER_GEAR_RATIO;
     inputs.kickerAppliedVolts = kicker.getAppliedOutput() * kicker.getBusVoltage();
     inputs.kickerCurrentAmps = new double[] {kicker.getOutputCurrent()};
     inputs.kickerMotorTemp = kicker.getMotorTemperature();
     // endregion
     // region: update pivot inputs
     inputs.pivotAbsolutePosition = Rotation2d.fromRotations(pivotAbsolute.getPosition());
-    inputs.pivotPositionRotations = pivotEncoder.getPosition() / PIVOT_GEAR_RATIO;
+    inputs.pivotPositionRotations = pivotEncoder.getPosition() / ShooterSubsystem.PIVOT_GEAR_RATIO;
     inputs.pivotAppliedVolts = pivot.getAppliedOutput() * pivot.getBusVoltage();
     inputs.pivotCurrentAmps = new double[] {pivot.getOutputCurrent()};
     inputs.pivotMotorTemp = pivot.getMotorTemperature();
@@ -147,7 +144,7 @@ public class ShooterIOSpark implements ShooterIO {
   }
 
   @Override
-  public void stop() {
+  public void stopFlywheel() {
     top.stopMotor();
     bottom.stopMotor();
   }

@@ -12,6 +12,13 @@ import org.littletonrobotics.junction.Logger;
 
 public class ShooterSubsystem extends SubsystemBase {
 
+  public static final double KICKER_GEAR_RATIO = 5.0 / 1.0;
+
+  // add one to account for the coin paradox
+  public static final double PIVOT_TRACK_RATIO = (130.0 / 17.0) + 1.0; 
+  public static final double PIVOT_GEARBOX_RATIO = 5.0 / 1.0;
+  public static final double PIVOT_GEAR_RATIO = PIVOT_TRACK_RATIO * PIVOT_GEARBOX_RATIO;
+
   private static final HashMap<Double, Rotation2d> DISTANCE_TO_ANGLE =
       new HashMap<>() {
         {
@@ -25,32 +32,57 @@ public class ShooterSubsystem extends SubsystemBase {
 
   private final ShooterIO io;
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
+  
+  private final double pivotFFKs;
+  private double pivotFFKg;
+
+  private Rotation2d pivotTarget = new Rotation2d();
 
   /** Creates a new shooter. */
   public ShooterSubsystem(ShooterIO io) {
     this.io = io;
-
+    // TODO: tune FF values for shooter
     switch (Constants.currentMode) {
       case REAL:
-        io.configureFlywheelPID(0.001, 0, 0);
+        io.configureFlywheelPID(0.001, 0.0, 0.0);
+        io.configurePivotPID(0.0, 0.0, 0.0);
+        pivotFFKs = 0.03;
+        pivotFFKg = 0.1;
         break;
 
       case SIM:
-        io.configureFlywheelPID(0, 0, 0);
-        break;
-
-      case REPLAY:
+        io.configureFlywheelPID(0.0, 0.0, 0.0);
+        io.configurePivotPID(0.0, 0.0, 0.0);
+        pivotFFKs = 0.0;
+        pivotFFKg = 0.0;
         break;
 
       default:
+        io.configureFlywheelPID(0.0, 0.0, 0.0);
+        io.configurePivotPID(0.0, 0.0, 0.0);
+        pivotFFKs = 0.0;
+        pivotFFKg = 0.0;
         break;
     }
+
+    // subtract ks from kg for quicker tuning
+    pivotFFKg -= pivotFFKs;
+
+    // log gear ratios so that they can be inspected retroactivly 
+    Logger.recordOutput("Shooter/PIVOT_TRACK_RATIO ", PIVOT_TRACK_RATIO);
+    Logger.recordOutput("Shooter/PIVOT_GEARBOX_RATIO", PIVOT_GEARBOX_RATIO);
+    Logger.recordOutput("Shooter/PIVOT_GEAR_RATIO", PIVOT_GEAR_RATIO);
   }
 
   @Override
   public void periodic() {
-    // io.updateInputs(inputs);
+    io.updateInputs(inputs);
     Logger.processInputs("Shooter", inputs);
+
+    // use feed forward to compensate for the force of gravity of the current shooter angle  
+    double ffVolts = (pivotFFKg * Math.cos(pivotTarget.getRadians())) + pivotFFKs;
+    Logger.recordOutput("Shooter/Pivot Target", pivotTarget);
+    io.setAngle(pivotTarget, ffVolts);
   }
 
   public void runVelocity(double rpm) {
@@ -62,13 +94,13 @@ public class ShooterSubsystem extends SubsystemBase {
     io.setKickerVoltage(volts);
   }
 
-  public void stop() {
-    io.stop();
+  public void stopFlywheel() {
+    io.stopFlywheel();
   }
 
   public void setShooterAngleFromDist(double distance) {
     Rotation2d angle = getRotationFromDistance(distance);
-    // TODO: add pivot to io
+    pivotTarget = angle;
   }
 
   /**

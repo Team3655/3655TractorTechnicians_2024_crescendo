@@ -64,7 +64,7 @@ public class ShooterIOSim implements ShooterIO {
   }
 
   @Override
-  public void stop() {
+  public void stopFlywheel() {
     setVoltage(0.0);
   }
 

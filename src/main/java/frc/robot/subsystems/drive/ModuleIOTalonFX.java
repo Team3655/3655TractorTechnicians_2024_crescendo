@@ -53,7 +53,6 @@ public class ModuleIOTalonFX implements ModuleIO {
   private final Rotation2d absoluteEncoderOffset;
 
   public ModuleIOTalonFX(int index) {
-    // TODO: calibrate offsets
     switch (index) {
       case 0:
         driveTalon = new TalonFX(2, Constants.CTRE_BUS_NAME);
