@@ -179,6 +179,7 @@ public class RobotContainer {
     driveJoystick.button(CommandNXT.D1).whileTrue(Commands.run(drive::stopWithX, drive));
 
     driveJoystick.button(CommandNXT.B1).onTrue(DriveCommands.zeroDrive(drive));
+    controller.back().onTrue(DriveCommands.zeroDrive(drive));
     // controller.button(1).onTrue(DriveCommands.zeroDrive(drive)); // MacOS
 
     driveJoystick
@@ -187,20 +188,24 @@ public class RobotContainer {
             Commands.startEnd(
                 () -> {
                   intake.setIntakeState(IntakeSubsystem.SUCK_INTAKE_STATE);
+                  shooter.runVelocity(flywheelSpeedInput.get());
                   shooter.setKicker(12.0);
                 },
                 () -> {
                   intake.setIntakeState(IntakeSubsystem.TUCKED_INTAKE_STATE);
+                  shooter.stopFlywheel();
                   shooter.setKicker(0);
                 },
-                // shooter,
+                shooter,
                 intake));
 
     driveJoystick
         .button(CommandNXT.A2)
         .whileTrue(
             Commands.startEnd(
-                () -> shooter.runVelocity(flywheelSpeedInput.get()), shooter::stopFlywheel, shooter));
+                () -> shooter.runVelocity(flywheelSpeedInput.get()),
+                shooter::stopFlywheel,
+                shooter));
   }
 
   /**

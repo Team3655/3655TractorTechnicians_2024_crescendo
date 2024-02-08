@@ -70,7 +70,7 @@ public class ModuleIOTalonFX implements ModuleIO {
         driveTalon = new TalonFX(8, Constants.CTRE_BUS_NAME);
         turnTalon = new TalonFX(7, Constants.CTRE_BUS_NAME);
         cancoder = new CANcoder(9, Constants.CTRE_BUS_NAME);
-        absoluteEncoderOffset = Rotation2d.fromRotations(0.418701); // MUST BE CALIBRATED
+        absoluteEncoderOffset = Rotation2d.fromRotations(0.424072); // MUST BE CALIBRATED
         break;
       case 3:
         driveTalon = new TalonFX(11, Constants.CTRE_BUS_NAME);

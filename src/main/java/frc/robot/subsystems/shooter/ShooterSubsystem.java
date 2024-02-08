@@ -15,7 +15,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public static final double KICKER_GEAR_RATIO = 5.0 / 1.0;
 
   // add one to account for the coin paradox
-  public static final double PIVOT_TRACK_RATIO = (130.0 / 17.0) + 1.0; 
+  public static final double PIVOT_TRACK_RATIO = (130.0 / 17.0) + 1.0;
   public static final double PIVOT_GEARBOX_RATIO = 5.0 / 1.0;
   public static final double PIVOT_GEAR_RATIO = PIVOT_TRACK_RATIO * PIVOT_GEARBOX_RATIO;
 
@@ -32,7 +32,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   private final ShooterIO io;
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
-  
+
   private final double pivotFFKs;
   private double pivotFFKg;
 
@@ -68,7 +68,7 @@ public class ShooterSubsystem extends SubsystemBase {
     // subtract ks from kg for quicker tuning
     pivotFFKg -= pivotFFKs;
 
-    // log gear ratios so that they can be inspected retroactivly 
+    // log gear ratios so that they can be inspected retroactivly
     Logger.recordOutput("Shooter/PIVOT_TRACK_RATIO ", PIVOT_TRACK_RATIO);
     Logger.recordOutput("Shooter/PIVOT_GEARBOX_RATIO", PIVOT_GEARBOX_RATIO);
     Logger.recordOutput("Shooter/PIVOT_GEAR_RATIO", PIVOT_GEAR_RATIO);
@@ -79,7 +79,7 @@ public class ShooterSubsystem extends SubsystemBase {
     io.updateInputs(inputs);
     Logger.processInputs("Shooter", inputs);
 
-    // use feed forward to compensate for the force of gravity of the current shooter angle  
+    // use feed forward to compensate for the force of gravity of the current shooter angle
     double ffVolts = (pivotFFKg * Math.cos(pivotTarget.getRadians())) + pivotFFKs;
     Logger.recordOutput("Shooter/Pivot Target", pivotTarget);
     io.setAngle(pivotTarget, ffVolts);
