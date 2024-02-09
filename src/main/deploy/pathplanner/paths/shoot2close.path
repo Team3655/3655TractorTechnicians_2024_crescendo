@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1040809794624074,
-        "y": 5.291867085976324
+        "x": 2.288161319582443,
+        "y": 5.384523618311943
       },
       "isLocked": false,
       "linkedName": "Pickup2End"
     },
     {
       "anchor": {
-        "x": 1.4690569291452489,
-        "y": 5.117005390961455
+        "x": 1.6758972388961932,
+        "y": 5.271612065895701
       },
       "prevControl": {
-        "x": 1.9936420141898585,
-        "y": 5.1262086380675
+        "x": 1.952118803134665,
+        "y": 5.278619550039346
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,18 +32,18 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 5.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0
+    "maxAngularAcceleration": 540.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -13.706961004079938,
+    "rotation": -7.021809068742256,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "4PeiceAmp",
   "previewStartingState": null,
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

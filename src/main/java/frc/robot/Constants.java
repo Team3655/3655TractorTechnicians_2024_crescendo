@@ -21,6 +21,6 @@ public final class Constants {
     REPLAY
   }
 
-  public static final String CTRE_BUS_NAME = "ctre";
+  public static final String DRIVE_BUS_NAME = "ctre";
   public static final String RIO_BUS_NAME = "rio";
 }

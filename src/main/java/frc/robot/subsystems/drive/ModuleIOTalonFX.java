@@ -55,27 +55,27 @@ public class ModuleIOTalonFX implements ModuleIO {
   public ModuleIOTalonFX(int index) {
     switch (index) {
       case 0:
-        driveTalon = new TalonFX(2, Constants.CTRE_BUS_NAME);
-        turnTalon = new TalonFX(1, Constants.CTRE_BUS_NAME);
-        cancoder = new CANcoder(3, Constants.CTRE_BUS_NAME);
+        driveTalon = new TalonFX(2, Constants.DRIVE_BUS_NAME);
+        turnTalon = new TalonFX(1, Constants.DRIVE_BUS_NAME);
+        cancoder = new CANcoder(3, Constants.DRIVE_BUS_NAME);
         absoluteEncoderOffset = Rotation2d.fromRotations(-0.378174); // MUST BE CALIBRATED
         break;
       case 1:
-        driveTalon = new TalonFX(5, Constants.CTRE_BUS_NAME);
-        turnTalon = new TalonFX(4, Constants.CTRE_BUS_NAME);
-        cancoder = new CANcoder(6, Constants.CTRE_BUS_NAME);
+        driveTalon = new TalonFX(5, Constants.DRIVE_BUS_NAME);
+        turnTalon = new TalonFX(4, Constants.DRIVE_BUS_NAME);
+        cancoder = new CANcoder(6, Constants.DRIVE_BUS_NAME);
         absoluteEncoderOffset = Rotation2d.fromRotations(0.356689); // MUST BE CALIBRATED
         break;
       case 2:
-        driveTalon = new TalonFX(8, Constants.CTRE_BUS_NAME);
-        turnTalon = new TalonFX(7, Constants.CTRE_BUS_NAME);
-        cancoder = new CANcoder(9, Constants.CTRE_BUS_NAME);
+        driveTalon = new TalonFX(8, Constants.DRIVE_BUS_NAME);
+        turnTalon = new TalonFX(7, Constants.DRIVE_BUS_NAME);
+        cancoder = new CANcoder(9, Constants.DRIVE_BUS_NAME);
         absoluteEncoderOffset = Rotation2d.fromRotations(0.424072); // MUST BE CALIBRATED
         break;
       case 3:
-        driveTalon = new TalonFX(11, Constants.CTRE_BUS_NAME);
-        turnTalon = new TalonFX(10, Constants.CTRE_BUS_NAME);
-        cancoder = new CANcoder(12, Constants.CTRE_BUS_NAME);
+        driveTalon = new TalonFX(11, Constants.DRIVE_BUS_NAME);
+        turnTalon = new TalonFX(10, Constants.DRIVE_BUS_NAME);
+        cancoder = new CANcoder(12, Constants.DRIVE_BUS_NAME);
         absoluteEncoderOffset = Rotation2d.fromRotations(-0.408691); // MUST BE CALIBRATED
         break;
       default:

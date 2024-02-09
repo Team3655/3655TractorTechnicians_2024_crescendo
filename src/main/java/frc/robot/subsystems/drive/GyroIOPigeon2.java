@@ -12,7 +12,7 @@ import java.util.Queue;
 
 /** IO implementation for Pigeon2 */
 public class GyroIOPigeon2 implements GyroIO {
-  private final Pigeon2 pigeon = new Pigeon2(20, Constants.CTRE_BUS_NAME);
+  private final Pigeon2 pigeon = new Pigeon2(20, Constants.DRIVE_BUS_NAME);
   private final StatusSignal<Double> yaw = pigeon.getYaw();
   private final Queue<Double> yawPositionQueue;
   private final StatusSignal<Double> yawVelocity = pigeon.getAngularVelocityZDevice();

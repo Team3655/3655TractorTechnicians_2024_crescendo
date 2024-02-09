@@ -28,12 +28,12 @@ public class DriveSubsystem extends SubsystemBase {
   public static final double DRIVE_GEAR_RATIO = (50.0 / 14.0) * (16.0 / 28.0) * (45.0 / 15.0);
   public static final double TURN_GEAR_RATIO = 150.0 / 7.0;
   // Specific drive constants
-  private static final double MAX_LINEAR_SPEED = Units.feetToMeters(17.2);
+  private static final double MAX_LINEAR_SPEED = Units.feetToMeters(17.1);
   private static final double TRACK_WIDTH_X = Units.inchesToMeters(20.75);
   private static final double TRACK_WIDTH_Y = Units.inchesToMeters(20.75);
   private static final double DRIVE_BASE_RADIUS =
       Math.hypot(TRACK_WIDTH_X / 2.0, TRACK_WIDTH_Y / 2.0);
-  private static final double MAX_ANGULAR_SPEED = MAX_LINEAR_SPEED / DRIVE_BASE_RADIUS * 0.5;
+  private static final double MAX_ANGULAR_SPEED = MAX_LINEAR_SPEED / DRIVE_BASE_RADIUS;
 
   public static final Lock odometryLock = new ReentrantLock();
   private final GyroIO gyroIO;

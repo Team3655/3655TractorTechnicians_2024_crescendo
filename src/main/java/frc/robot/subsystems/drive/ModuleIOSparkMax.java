@@ -47,25 +47,25 @@ public class ModuleIOSparkMax implements ModuleIO {
       case 0: // FL
         driveSparkMax = new CANSparkMax(3, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(1, MotorType.kBrushless);
-        turnAbsoluteEncoder = new CANcoder(2, Constants.CTRE_BUS_NAME);
+        turnAbsoluteEncoder = new CANcoder(2, Constants.DRIVE_BUS_NAME);
         absoluteEncoderOffset = Rotation2d.fromRotations(-0.315674); // MUST BE CALIBRATED
         break;
       case 1: // FR
         driveSparkMax = new CANSparkMax(6, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(4, MotorType.kBrushless);
-        turnAbsoluteEncoder = new CANcoder(5, Constants.CTRE_BUS_NAME);
+        turnAbsoluteEncoder = new CANcoder(5, Constants.DRIVE_BUS_NAME);
         absoluteEncoderOffset = Rotation2d.fromRotations(0.383301); // MUST BE CALIBRATED
         break;
       case 2: // BL
         driveSparkMax = new CANSparkMax(12, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(10, MotorType.kBrushless);
-        turnAbsoluteEncoder = new CANcoder(11, Constants.CTRE_BUS_NAME);
+        turnAbsoluteEncoder = new CANcoder(11, Constants.DRIVE_BUS_NAME);
         absoluteEncoderOffset = Rotation2d.fromRotations(-0.241699); // MUST BE CALIBRATED
         break;
       case 3: // BR
         driveSparkMax = new CANSparkMax(9, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(7, MotorType.kBrushless);
-        turnAbsoluteEncoder = new CANcoder(8, Constants.CTRE_BUS_NAME);
+        turnAbsoluteEncoder = new CANcoder(8, Constants.DRIVE_BUS_NAME);
         absoluteEncoderOffset = Rotation2d.fromRotations(0.132324); // MUST BE CALIBRATED
         break;
       default:

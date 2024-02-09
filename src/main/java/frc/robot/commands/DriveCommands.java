@@ -33,8 +33,8 @@ public class DriveCommands {
         () -> {
           Translation2d linearVelocity = getDriveTranslation(xSupplier, ySupplier);
 
-          // the rotational rate of the robot
-          double omega = JoystickUtils.curveInput(omegaSupplier.getAsDouble(), DEADBAND);
+          // the rotational rate of the robot (half cuz rotating too fast sucks)
+          double omega = JoystickUtils.curveInput(omegaSupplier.getAsDouble(), DEADBAND) * 0.5;
 
           // Convert to field relative speeds & send command
           drive.runVelocity(
@@ -47,6 +47,17 @@ public class DriveCommands {
         drive);
   }
 
+  /**
+   * Uses a PID loop to make the robot face a point on the feild, 
+   * while maintaing joydtick control of x and y.
+   * 
+   * @param drive the DriveSubsystem
+   * @param xSupplier a joystick supplier for the x velocity of the robot 
+   * @param ySupplier a joystick supplier for the y velocity of the robot 
+   * @param target a Translation2d representing the point on the field the robot should target
+   * 
+   * @return a Command with the specified behavior 
+   */
   public static Command orbitDrive(
       DriveSubsystem drive,
       DoubleSupplier xSupplier,
@@ -54,21 +65,26 @@ public class DriveCommands {
       Translation2d target) {
     return Commands.run(
             () -> {
+              // gets a x and y control inputs from the joystick
               Translation2d linearVelocity = getDriveTranslation(xSupplier, ySupplier);
-
-              Rotation2d driveAngle = drive.getRotation();
 
               Rotation2d rotationTarget =
                   drive
-                      .getPose()
+                      .getPose() 
+                      // get the drive position reletive to the target position
                       .relativeTo(new Pose2d(target, new Rotation2d()))
+                      // get as a vector
                       .getTranslation()
+                      // get the angle of the vector
                       .getAngle()
+                      // rotate the angle by 180 because we want the robot to face down the vector
                       .rotateBy(Rotation2d.fromDegrees(180));
 
+              // calculate pid output based on the delta to target rotation
               double omega =
                   -orbitPID.calculate(getAngleDelta(drive.getPose(), target).getRotations());
 
+              // send speeds to drive function
               drive.runVelocity(
                   ChassisSpeeds.fromFieldRelativeSpeeds(
                       linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
@@ -76,7 +92,7 @@ public class DriveCommands {
                       omega * drive.getMaxAngularSpeedRadPerSec(),
                       drive.getRotation()));
 
-              Logger.recordOutput("Drive/Orbit/Robot Rotation", driveAngle);
+              Logger.recordOutput("Drive/Orbit/Robot Rotation", drive.getRotation());
               Logger.recordOutput(
                   "Drive/Orbit/Target Rotation",
                   new Pose2d(drive.getPose().getTranslation(), rotationTarget));
@@ -88,7 +104,9 @@ public class DriveCommands {
               // config the PID controller before starting the command
               orbitPID =
                   new ProfiledPIDController(
-                      11.0, 0.2, 0.1, new Constraints(1.5, 0.75), 1.0 / 250.0);
+                      11.0, 0.2, 0.1, 
+                      new Constraints(1.5, 0.75),
+                      1.0 / 250.0);
               orbitPID.enableContinuousInput(-0.5, 0.5);
               orbitPID.setTolerance(10);
             });
@@ -111,8 +129,17 @@ public class DriveCommands {
     return rotationTarget.minus(robotPose.getRotation());
   }
 
-  public static Translation2d getDriveTranslation(
-      DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
+  /**
+   * Creates a new Translation2d for driving based off of an x and y output percent.
+   * This translation has been curved to make the stick feel smoother and offer more 
+   * control at the low end.
+   * 
+   * @param xSupplier the joystick x input
+   * @param ySupplier the joystick y input
+   * 
+   * @return a new translation ready to be used for driving 
+   */
+  public static Translation2d getDriveTranslation(DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
     // Apply deadband, and curve joystick inputs
     double linearMagnitude =
         JoystickUtils.curveInput(

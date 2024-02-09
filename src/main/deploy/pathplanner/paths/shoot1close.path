@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.757511523991659,
-        "y": 6.948451565064565
+        "x": 2.6291130339613615,
+        "y": 6.85858947774881
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2605361802651864,
-        "y": 6.745980128731558
+        "x": 2.263892462068012,
+        "y": 6.4911122584193715
       },
       "isLocked": false,
       "linkedName": "Pickup1End"
     },
     {
       "anchor": {
-        "x": 1.478260176251295,
-        "y": 5.650793723112111
+        "x": 1.7253455309606698,
+        "y": 5.787513342030361
       },
       "prevControl": {
-        "x": 2.0488614968261336,
-        "y": 5.788842429702797
+        "x": 1.9646689301037914,
+        "y": 6.194937180009164
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,18 +32,18 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 5.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0
+    "maxAngularAcceleration": 540.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 7.090992334700089,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "4PeiceAmp",
   "previewStartingState": null,
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
