@@ -22,7 +22,7 @@ public interface IntakeIO {
 
   public default void updateInputs(IntakeIOInputs inputs) {}
 
-  public default void setDeploy(boolean isDeployed) {}
+  public default void toggle() {}
 
   public default void setVoltage(double volts) {}
 

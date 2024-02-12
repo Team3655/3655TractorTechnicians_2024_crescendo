@@ -13,7 +13,8 @@ public class ShooterIOSim implements ShooterIO {
   private FlywheelSim flywheelSim1 = new FlywheelSim(DCMotor.getNeoVortex(1), 1, 0.004);
   private FlywheelSim flywheelSim2 = new FlywheelSim(DCMotor.getNeoVortex(1), 1, 0.004);
 
-  private DCMotorSim pivotSim = new DCMotorSim(DCMotor.getNEO(1), ShooterSubsystem.PIVOT_GEAR_RATIO, 0.125);
+  private DCMotorSim pivotSim =
+      new DCMotorSim(DCMotor.getNEO(1), ShooterSubsystem.PIVOT_GEAR_RATIO, 0.125);
 
   private PIDController flywheelPID = new PIDController(0.0, 0.0, 0.0);
   private PIDController pivotPID = new PIDController(0.0, 0.0, 0.0);
@@ -27,25 +28,25 @@ public class ShooterIOSim implements ShooterIO {
   @Override
   public void updateInputs(ShooterIOInputs inputs) {
 
-    // the shooter needs to be able to run in open loop at zero volts 
+    // the shooter needs to be able to run in open loop at zero volts
     // this is how the shooter coasts to a stop and is more gentle on the motors
     if (closedLoop) {
-      flywheelVolts = MathUtil.clamp(
-          flywheelPID.calculate(flywheelSim1.getAngularVelocityRadPerSec()) + flywheelFFVolts,
-          -12.0,
-          12.0);
+      flywheelVolts =
+          MathUtil.clamp(
+              flywheelPID.calculate(flywheelSim1.getAngularVelocityRadPerSec()) + flywheelFFVolts,
+              -12.0,
+              12.0);
     }
 
-    pivotVolts = MathUtil.clamp(
-        pivotPID.calculate(pivotSim.getAngularPositionRad()) + pivotFFVolts,
-        -12.0,
-        12.0);
+    pivotVolts =
+        MathUtil.clamp(
+            pivotPID.calculate(pivotSim.getAngularPositionRad()) + pivotFFVolts, -12.0, 12.0);
 
     flywheelSim1.setInputVoltage(flywheelVolts);
     flywheelSim2.setInputVoltage(flywheelVolts);
     pivotSim.setInputVoltage(pivotVolts);
 
-    // progress the simulation by 1/50 of a second 
+    // progress the simulation by 1/50 of a second
     flywheelSim1.update(0.02);
     flywheelSim2.update(0.02);
     pivotSim.update(0.02);
@@ -54,23 +55,21 @@ public class ShooterIOSim implements ShooterIO {
     inputs.topPositionRad = 0.0;
     inputs.topVelocityRPM = flywheelSim1.getAngularVelocityRadPerSec();
     inputs.topAppliedVolts = flywheelVolts;
-    inputs.topCurrentAmps = new double[] { flywheelSim1.getCurrentDrawAmps() };
+    inputs.topCurrentAmps = new double[] {flywheelSim1.getCurrentDrawAmps()};
 
     // bottom flywheel inputs
     inputs.bottomPositionRad = 0.0;
     inputs.bottomVelocityRPM = flywheelSim2.getAngularVelocityRadPerSec();
     inputs.bottomAppliedVolts = flywheelVolts;
-    inputs.bottomCurrentAmps = new double[] { flywheelSim2.getCurrentDrawAmps() };
+    inputs.bottomCurrentAmps = new double[] {flywheelSim2.getCurrentDrawAmps()};
 
     // pivot inputs
-    inputs.pivotAbsolutePosition = 
-        Rotation2d.fromRadians(pivotSim.getAngularPositionRad());
-    inputs.pivotPositionRotations = 
-        Units.radiansToRotations(pivotSim.getAngularPositionRad());
-    inputs.pivotVelocityRPM = 
+    inputs.pivotAbsolutePosition = Rotation2d.fromRadians(pivotSim.getAngularPositionRad());
+    inputs.pivotPositionRotations = Units.radiansToRotations(pivotSim.getAngularPositionRad());
+    inputs.pivotVelocityRPM =
         Units.radiansPerSecondToRotationsPerMinute(pivotSim.getAngularVelocityRadPerSec());
     inputs.pivotAppliedVolts = pivotVolts;
-    inputs.pivotCurrentAmps = new double[] { pivotSim.getCurrentDrawAmps() };
+    inputs.pivotCurrentAmps = new double[] {pivotSim.getCurrentDrawAmps()};
   }
 
   @Override

@@ -15,8 +15,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public static final double KICKER_GEAR_RATIO = 5.0 / 1.0;
 
   // add one to account for the coin paradox
-  public static final double PIVOT_TRACK_RATIO = (130.0 / 17.0) + 1.0;
-  public static final double PIVOT_GEARBOX_RATIO = 5.0 / 1.0;
+  public static final double PIVOT_TRACK_RATIO = (130.0 / 17.0); // + 1.0;
+  public static final double PIVOT_GEARBOX_RATIO = 25.0 / 1.0;
   public static final double PIVOT_GEAR_RATIO = PIVOT_TRACK_RATIO * PIVOT_GEARBOX_RATIO;
 
   private static final HashMap<Double, Rotation2d> DISTANCE_TO_ANGLE =
@@ -45,7 +45,7 @@ public class ShooterSubsystem extends SubsystemBase {
     switch (Constants.currentMode) {
       case REAL:
         io.configureFlywheelPID(0.001, 0.0, 0.0);
-        io.configurePivotPID(0.0, 0.0, 0.0);
+        io.configurePivotPID(3.5, 0.0, 0.0);
         pivotFFKs = 0.03;
         pivotFFKg = 0.1;
         break;
@@ -53,6 +53,7 @@ public class ShooterSubsystem extends SubsystemBase {
       case SIM:
         io.configureFlywheelPID(0.0, 0.0, 0.0);
         io.configurePivotPID(0.0, 0.0, 0.0);
+
         pivotFFKs = 0.0;
         pivotFFKg = 0.0;
         break;
@@ -80,9 +81,9 @@ public class ShooterSubsystem extends SubsystemBase {
     Logger.processInputs("Shooter", inputs);
 
     // use feed forward to compensate for the force of gravity of the current shooter angle
-    double ffVolts = (pivotFFKg * Math.cos(pivotTarget.getRadians())) + pivotFFKs;
-    Logger.recordOutput("Shooter/Pivot Target", pivotTarget);
-    io.setAngle(pivotTarget, ffVolts);
+    // double ffVolts = (pivotFFKg * Math.cos(pivotTarget.getRadians())) + pivotFFKs;
+    // Logger.recordOutput("Shooter/Pivot Target", pivotTarget);
+    // io.setAngle(pivotTarget, ffVolts);
   }
 
   public void runVelocity(double rpm) {
@@ -96,6 +97,11 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void stopFlywheel() {
     io.stopFlywheel();
+  }
+
+  public void setAngle(Rotation2d angle) {
+    io.setAngle(angle, 0);
+    Logger.recordOutput("Shooter/Pivot Target", angle);
   }
 
   public void setShooterAngleFromDist(double distance) {

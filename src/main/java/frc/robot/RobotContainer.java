@@ -1,8 +1,10 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -12,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.FeedForwardCharacterization;
+import frc.robot.commands.ShootingCommands;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -167,45 +170,62 @@ public class RobotContainer {
             () -> -turnJoystick.getX() - controller.getRightX()));
     // () -> -controller.getRawAxis(2))); // MacOS
 
-    // controller
-    //     .rightBumper()
-    //     .whileTrue(
-    //         DriveCommands.orbitDrive(
-    //             drive,
-    //             () -> -controller.getLeftY(),
-    //             () -> -controller.getLeftX(),
-    //             new Translation2d(0.0, 0.0))); // 0.0, 5.5
+    controller
+        .rightBumper()
+        .whileTrue(
+            DriveCommands.orbitDrive(
+                drive,
+                () -> -controller.getLeftY(),
+                () -> -controller.getLeftX(),
+                new Translation2d(1.5, 0.0))); // 0.0, 5.5
 
     driveJoystick.button(CommandNXT.D1).whileTrue(Commands.run(drive::stopWithX, drive));
 
     driveJoystick.button(CommandNXT.B1).onTrue(DriveCommands.zeroDrive(drive));
     controller.back().onTrue(DriveCommands.zeroDrive(drive));
+    controller.start().onTrue(DriveCommands.zeroOdometry(drive));
     // controller.button(1).onTrue(DriveCommands.zeroDrive(drive)); // MacOS
+
+    controller
+        .a()
+        .onTrue(
+            Commands.runOnce(
+                () -> {
+                  shooter.setAngle(Rotation2d.fromDegrees(60));
+                },
+                shooter));
+
+    controller
+        .povDown()
+        .onTrue(
+            Commands.runOnce(
+                () -> {
+                  shooter.setAngle(Rotation2d.fromDegrees(65));
+                },
+                shooter));
+
+    controller
+        .b()
+        .onTrue(
+            Commands.runOnce(
+                () -> {
+                  shooter.setAngle(Rotation2d.fromDegrees(0));
+                },
+                shooter));
+
+    controller.y().whileTrue(ShootingCommands.holdShoot(shooter, flywheelSpeedInput::get));
 
     driveJoystick
         .button(CommandNXT.FIRE_STAGE1)
-        .whileTrue(
-            Commands.startEnd(
-                () -> {
-                  intake.setIntakeState(IntakeSubsystem.SUCK_INTAKE_STATE);
-                  shooter.runVelocity(flywheelSpeedInput.get());
-                  shooter.setKicker(12.0);
-                },
-                () -> {
-                  intake.setIntakeState(IntakeSubsystem.TUCKED_INTAKE_STATE);
-                  shooter.stopFlywheel();
-                  shooter.setKicker(0);
-                },
-                shooter,
-                intake));
+        .whileTrue(ShootingCommands.holdShoot(shooter, flywheelSpeedInput::get));
 
-    driveJoystick
-        .button(CommandNXT.A2)
-        .whileTrue(
-            Commands.startEnd(
-                () -> shooter.runVelocity(flywheelSpeedInput.get()),
-                shooter::stopFlywheel,
-                shooter));
+    // driveJoystick
+    //     .button(CommandNXT.A2)
+    //     .whileTrue(
+    //         Commands.startEnd(
+    //             () -> shooter.runVelocity(flywheelSpeedInput.get()),
+    //             shooter::stopFlywheel,
+    //             shooter));
   }
 
   /**

@@ -48,15 +48,14 @@ public class DriveCommands {
   }
 
   /**
-   * Uses a PID loop to make the robot face a point on the feild, 
-   * while maintaing joydtick control of x and y.
-   * 
+   * Uses a PID loop to make the robot face a point on the feild, while maintaing joydtick control
+   * of x and y.
+   *
    * @param drive the DriveSubsystem
-   * @param xSupplier a joystick supplier for the x velocity of the robot 
-   * @param ySupplier a joystick supplier for the y velocity of the robot 
+   * @param xSupplier a joystick supplier for the x velocity of the robot
+   * @param ySupplier a joystick supplier for the y velocity of the robot
    * @param target a Translation2d representing the point on the field the robot should target
-   * 
-   * @return a Command with the specified behavior 
+   * @return a Command with the specified behavior
    */
   public static Command orbitDrive(
       DriveSubsystem drive,
@@ -70,7 +69,7 @@ public class DriveCommands {
 
               Rotation2d rotationTarget =
                   drive
-                      .getPose() 
+                      .getPose()
                       // get the drive position reletive to the target position
                       .relativeTo(new Pose2d(target, new Rotation2d()))
                       // get as a vector
@@ -81,8 +80,9 @@ public class DriveCommands {
                       .rotateBy(Rotation2d.fromDegrees(180));
 
               // calculate pid output based on the delta to target rotation
-              double omega =
-                  -orbitPID.calculate(getAngleDelta(drive.getPose(), target).getRotations());
+              orbitPID.setGoal(rotationTarget.getRotations());
+              double omega = orbitPID.calculate(drive.getPose().getRotation().getRotations());
+              Logger.recordOutput("Drive/Orbit/error", orbitPID.getPositionError());
 
               // send speeds to drive function
               drive.runVelocity(
@@ -102,11 +102,7 @@ public class DriveCommands {
         .beforeStarting(
             () -> {
               // config the PID controller before starting the command
-              orbitPID =
-                  new ProfiledPIDController(
-                      11.0, 0.2, 0.1, 
-                      new Constraints(1.5, 0.75),
-                      1.0 / 250.0);
+              orbitPID = new ProfiledPIDController(5.0, 0.0, 0.0, new Constraints(1.5, 0.75));
               orbitPID.enableContinuousInput(-0.5, 0.5);
               orbitPID.setTolerance(10);
             });
@@ -116,6 +112,12 @@ public class DriveCommands {
     return Commands.runOnce(
             () -> drive.setPose(new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
             drive)
+        .ignoringDisable(true);
+  }
+
+  public static Command zeroOdometry(DriveSubsystem drive) {
+    return Commands.runOnce(
+            () -> drive.setPose(new Pose2d(new Translation2d(), drive.getRotation())), drive)
         .ignoringDisable(true);
   }
 
@@ -130,16 +132,16 @@ public class DriveCommands {
   }
 
   /**
-   * Creates a new Translation2d for driving based off of an x and y output percent.
-   * This translation has been curved to make the stick feel smoother and offer more 
-   * control at the low end.
-   * 
+   * Creates a new Translation2d for driving based off of an x and y output percent. This
+   * translation has been curved to make the stick feel smoother and offer more control at the low
+   * end.
+   *
    * @param xSupplier the joystick x input
    * @param ySupplier the joystick y input
-   * 
-   * @return a new translation ready to be used for driving 
+   * @return a new translation ready to be used for driving
    */
-  public static Translation2d getDriveTranslation(DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
+  public static Translation2d getDriveTranslation(
+      DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
     // Apply deadband, and curve joystick inputs
     double linearMagnitude =
         JoystickUtils.curveInput(

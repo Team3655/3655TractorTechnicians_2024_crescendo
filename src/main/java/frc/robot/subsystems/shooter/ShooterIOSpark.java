@@ -6,6 +6,7 @@ package frc.robot.subsystems.shooter;
 
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
@@ -71,6 +72,7 @@ public class ShooterIOSpark implements ShooterIO {
     kicker.setCANTimeout(250);
     kicker.enableVoltageCompensation(12.0);
     kicker.setSmartCurrentLimit(20);
+    kicker.setInverted(true);
     kicker.burnFlash();
 
     kickerEncoder = kicker.getEncoder();
@@ -81,11 +83,14 @@ public class ShooterIOSpark implements ShooterIO {
     pivot.setCANTimeout(250);
     pivot.enableVoltageCompensation(12.0);
     pivot.setSmartCurrentLimit(20);
-    pivot.burnFlash();
+    pivot.setInverted(true);
+    pivot.setIdleMode(IdleMode.kCoast);
 
     pivotEncoder = pivot.getEncoder();
     pivotAbsolute = pivot.getAbsoluteEncoder(Type.kDutyCycle);
+
     pivotPID = pivot.getPIDController();
+    pivotPID.setOutputRange(-0.3, 0.2, 0);
   }
 
   @Override
@@ -139,8 +144,8 @@ public class ShooterIOSpark implements ShooterIO {
 
   @Override
   public void setAngle(Rotation2d angle, double ffVolts) {
-    pivotPID.setReference(
-        angle.getRotations(), ControlType.kVelocity, 0, ffVolts, ArbFFUnits.kVoltage);
+    double rotations = angle.getRotations() * ShooterSubsystem.PIVOT_GEAR_RATIO;
+    pivotPID.setReference(rotations, ControlType.kPosition, 0);
   }
 
   @Override

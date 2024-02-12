@@ -4,23 +4,26 @@
 
 package frc.robot.subsystems.intake;
 
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkAbsoluteEncoder;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
 
 /** Add your docs here. */
 public class IntakeIOHardware implements IntakeIO {
 
   private final CANSparkMax suckerMotor = new CANSparkMax(40, MotorType.kBrushless);
   private final RelativeEncoder suckerEncoder = suckerMotor.getEncoder();
-  private final AbsoluteEncoder deployEncoder =
-      suckerMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
-  private final Solenoid deploySolenoid = new Solenoid(50, PneumaticsModuleType.REVPH, 0);
+  private final DoubleSolenoid LinearRight =
+      new DoubleSolenoid(50, PneumaticsModuleType.REVPH, 0, 1);
+  private final DoubleSolenoid LinearLeft =
+      new DoubleSolenoid(50, PneumaticsModuleType.REVPH, 2, 3);
+  private final DoubleSolenoid RotateRight =
+      new DoubleSolenoid(50, PneumaticsModuleType.REVPH, 4, 5);
+  private final DoubleSolenoid RotateLeft =
+      new DoubleSolenoid(50, PneumaticsModuleType.REVPH, 6, 7);
 
   public IntakeIOHardware() {
     suckerMotor.restoreFactoryDefaults();
@@ -38,9 +41,6 @@ public class IntakeIOHardware implements IntakeIO {
     inputs.intakeAppliedVolts = suckerMotor.getAppliedOutput() * suckerMotor.getBusVoltage();
     inputs.intakeCurrentAmps = new double[] {suckerMotor.getOutputCurrent()};
     inputs.intakeMotorTemp = suckerMotor.getMotorTemperature();
-
-    // inputs.deploySolenoidState = deploySolenoid.get();
-    // inputs.deployPositionRads = Units.rotationsToRadians(deployEncoder.getPosition());
   }
 
   public void setVoltage(double volts) {
@@ -48,7 +48,10 @@ public class IntakeIOHardware implements IntakeIO {
   }
 
   @Override
-  public void setDeploy(boolean isDeployed) {
-    deploySolenoid.set(isDeployed);
+  public void toggle() {
+    LinearRight.toggle();
+    LinearLeft.toggle();
+    RotateRight.toggle();
+    RotateLeft.toggle();
   }
 }
