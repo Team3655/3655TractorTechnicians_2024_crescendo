@@ -67,13 +67,16 @@ public class DriveCommands {
               // gets a x and y control inputs from the joystick
               Translation2d linearVelocity = getDriveTranslation(xSupplier, ySupplier);
 
-              Rotation2d rotationTarget =
+              Translation2d reletiveTarget =
                   drive
                       .getPose()
                       // get the drive position reletive to the target position
                       .relativeTo(new Pose2d(target, new Rotation2d()))
                       // get as a vector
-                      .getTranslation()
+                      .getTranslation();
+
+              Rotation2d rotationTarget =
+                  reletiveTarget
                       // get the angle of the vector
                       .getAngle()
                       // rotate the angle by 180 because we want the robot to face down the vector
@@ -82,6 +85,7 @@ public class DriveCommands {
               // calculate pid output based on the delta to target rotation
               orbitPID.setGoal(rotationTarget.getRotations());
               double omega = orbitPID.calculate(drive.getPose().getRotation().getRotations());
+
               Logger.recordOutput("Drive/Orbit/error", orbitPID.getPositionError());
 
               // send speeds to drive function

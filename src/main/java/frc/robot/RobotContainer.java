@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.FeedForwardCharacterization;
+import frc.robot.commands.ShooterOrbit;
 import frc.robot.commands.ShootingCommands;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.GyroIO;
@@ -172,12 +173,14 @@ public class RobotContainer {
 
     controller
         .rightBumper()
+        .or(driveJoystick.a2())
         .whileTrue(
-            DriveCommands.orbitDrive(
+            new ShooterOrbit(
                 drive,
-                () -> -controller.getLeftY(),
-                () -> -controller.getLeftX(),
-                new Translation2d(1.5, 0.0))); // 0.0, 5.5
+                shooter,
+                () -> -driveJoystick.getY() - controller.getLeftY(),
+                () -> -driveJoystick.getX() - controller.getLeftX(),
+                new Translation2d(0.0, 5.5))); // 0.0, 5.5
 
     driveJoystick.button(CommandNXT.D1).whileTrue(Commands.run(drive::stopWithX, drive));
 

@@ -22,11 +22,12 @@ public class ShooterSubsystem extends SubsystemBase {
   private static final HashMap<Double, Rotation2d> DISTANCE_TO_ANGLE =
       new HashMap<>() {
         {
-          put(1.0, Rotation2d.fromDegrees(90));
-          put(2.0, Rotation2d.fromDegrees(60));
+          put(1.0, Rotation2d.fromDegrees(20));
+          put(2.0, Rotation2d.fromDegrees(25));
           put(3.0, Rotation2d.fromDegrees(30));
-          put(4.0, Rotation2d.fromDegrees(15));
-          put(5.0, Rotation2d.fromDegrees(0));
+          put(4.0, Rotation2d.fromDegrees(50));
+          put(5.0, Rotation2d.fromDegrees(70));
+          put(7.0, Rotation2d.fromDegrees(80));
         }
       };
 
@@ -80,8 +81,10 @@ public class ShooterSubsystem extends SubsystemBase {
     io.updateInputs(inputs);
     Logger.processInputs("Shooter", inputs);
 
-    // use feed forward to compensate for the force of gravity of the current shooter angle
-    // double ffVolts = (pivotFFKg * Math.cos(pivotTarget.getRadians())) + pivotFFKs;
+    // use feed forward to compensate for the force of gravity of the current
+    // shooter angle
+    // double ffVolts = (pivotFFKg * Math.cos(pivotTarget.getRadians())) +
+    // pivotFFKs;
     // Logger.recordOutput("Shooter/Pivot Target", pivotTarget);
     // io.setAngle(pivotTarget, ffVolts);
   }
@@ -106,7 +109,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setShooterAngleFromDist(double distance) {
     Rotation2d angle = getRotationFromDistance(distance);
-    pivotTarget = angle;
+    setAngle(angle);
   }
 
   /**
@@ -149,7 +152,8 @@ public class ShooterSubsystem extends SubsystemBase {
     // the delta between the rotations associated with minAbove and minBelow
     Rotation2d angleDelta = DISTANCE_TO_ANGLE.get(minAbove).minus(DISTANCE_TO_ANGLE.get(maxBelow));
 
-    // The final target angle of the shooter uses the maxBelow angle as a starting point,
+    // The final target angle of the shooter uses the maxBelow angle as a starting
+    // point,
     // then adds the angleDelta times the lerp percent
     Rotation2d angle = DISTANCE_TO_ANGLE.get(maxBelow).plus(angleDelta.times(lerpPercent));
 
