@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -180,13 +181,18 @@ public class RobotContainer {
                 shooter,
                 () -> -driveJoystick.getY() - controller.getLeftY(),
                 () -> -driveJoystick.getX() - controller.getLeftX(),
-                new Translation2d(0.0, 5.5))); // 0.0, 5.5
+                new Translation2d(-Units.inchesToMeters(36), 0.0))); // 0.0, 5.5
 
     driveJoystick.button(CommandNXT.D1).whileTrue(Commands.run(drive::stopWithX, drive));
 
     driveJoystick.button(CommandNXT.B1).onTrue(DriveCommands.zeroDrive(drive));
+    turnJoystick
+        .button(2)
+        .onTrue(DriveCommands.zeroOdometry(drive, new Translation2d(Units.inchesToMeters(36), 0)));
     controller.back().onTrue(DriveCommands.zeroDrive(drive));
-    controller.start().onTrue(DriveCommands.zeroOdometry(drive));
+    controller
+        .start()
+        .onTrue(DriveCommands.zeroOdometry(drive, new Translation2d(Units.inchesToMeters(36), 0)));
     // controller.button(1).onTrue(DriveCommands.zeroDrive(drive)); // MacOS
 
     controller
@@ -199,11 +205,22 @@ public class RobotContainer {
                 shooter));
 
     controller
-        .povDown()
+        .povUp()
+        .or(turnJoystick.button(5))
         .onTrue(
             Commands.runOnce(
                 () -> {
-                  shooter.setAngle(Rotation2d.fromDegrees(65));
+                  shooter.jogAngle(-1.0);
+                },
+                shooter));
+
+    controller
+        .povDown()
+        .or(turnJoystick.button(3))
+        .onTrue(
+            Commands.runOnce(
+                () -> {
+                  shooter.jogAngle(1.0);
                 },
                 shooter));
 

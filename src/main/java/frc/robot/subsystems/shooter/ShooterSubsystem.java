@@ -5,6 +5,7 @@
 package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import java.util.HashMap;
@@ -22,12 +23,12 @@ public class ShooterSubsystem extends SubsystemBase {
   private static final HashMap<Double, Rotation2d> DISTANCE_TO_ANGLE =
       new HashMap<>() {
         {
-          put(1.0, Rotation2d.fromDegrees(20));
-          put(2.0, Rotation2d.fromDegrees(25));
-          put(3.0, Rotation2d.fromDegrees(30));
-          put(4.0, Rotation2d.fromDegrees(50));
-          put(5.0, Rotation2d.fromDegrees(70));
-          put(7.0, Rotation2d.fromDegrees(80));
+          put(Units.inchesToMeters(234), Rotation2d.fromDegrees(66.5));
+          put(Units.inchesToMeters(172), Rotation2d.fromDegrees(62));
+          put(Units.inchesToMeters(137), Rotation2d.fromDegrees(57));
+          put(Units.inchesToMeters(100), Rotation2d.fromDegrees(52));
+          put(Units.inchesToMeters(55), Rotation2d.fromDegrees(29));
+          // put(Units.inchesToMeters(172), Rotation2d.fromDegrees(80));
         }
       };
 
@@ -104,12 +105,18 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setAngle(Rotation2d angle) {
     io.setAngle(angle, 0);
+    pivotTarget = angle;
     Logger.recordOutput("Shooter/Pivot Target", angle);
   }
 
   public void setShooterAngleFromDist(double distance) {
     Rotation2d angle = getRotationFromDistance(distance);
     setAngle(angle);
+  }
+
+  public void jogAngle(double degrees) {
+    pivotTarget = Rotation2d.fromDegrees(pivotTarget.getDegrees() + degrees);
+    setAngle(pivotTarget);
   }
 
   /**

@@ -119,9 +119,8 @@ public class DriveCommands {
         .ignoringDisable(true);
   }
 
-  public static Command zeroOdometry(DriveSubsystem drive) {
-    return Commands.runOnce(
-            () -> drive.setPose(new Pose2d(new Translation2d(), drive.getRotation())), drive)
+  public static Command zeroOdometry(DriveSubsystem drive, Translation2d pose) {
+    return Commands.runOnce(() -> drive.setPose(new Pose2d(pose, drive.getRotation())), drive)
         .ignoringDisable(true);
   }
 
