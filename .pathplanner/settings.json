@@ -3,9 +3,10 @@
   "robotLength": 0.78,
   "holonomicMode": true,
   "pathFolders": [
+    "3AmpDropoff",
     "3LongFlat",
     "4PeiceAmp",
-    "3AmpDropoff"
+    "Pathfinding"
   ],
   "autoFolders": [],
   "defaultMaxVel": 5.0,

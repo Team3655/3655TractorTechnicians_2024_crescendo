@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -15,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.FeedForwardCharacterization;
+import frc.robot.commands.PathfindingCommands;
 import frc.robot.commands.ShooterOrbit;
 import frc.robot.commands.ShootingCommands;
 import frc.robot.subsystems.drive.DriveSubsystem;
@@ -80,13 +82,13 @@ public class RobotContainer {
         vision = new VisionSubsystem(new VisionIOPhoton("camera1", robotToCamera));
 
         // drive =
-        //     new DriveSubsystem(
-        //         new GyroIOPigeon2(false),
-        //         new ModuleIOSparkMax(0),
-        //         new ModuleIOSparkMax(1),
-        //         new ModuleIOSparkMax(2),
-        //         new ModuleIOSparkMax(3),
-        //         vision);
+        // new DriveSubsystem(
+        // new GyroIOPigeon2(false),
+        // new ModuleIOSparkMax(0),
+        // new ModuleIOSparkMax(1),
+        // new ModuleIOSparkMax(2),
+        // new ModuleIOSparkMax(3),
+        // vision);
 
         drive =
             new DriveSubsystem(
@@ -181,18 +183,28 @@ public class RobotContainer {
                 shooter,
                 () -> -driveJoystick.getY() - controller.getLeftY(),
                 () -> -driveJoystick.getX() - controller.getLeftX(),
-                new Translation2d(-Units.inchesToMeters(36), 0.0))); // 0.0, 5.5
+                new Translation2d(0.0, 5.5))); // 0.0, 5.5
 
     driveJoystick.button(CommandNXT.D1).whileTrue(Commands.run(drive::stopWithX, drive));
 
     driveJoystick.button(CommandNXT.B1).onTrue(DriveCommands.zeroDrive(drive));
-    turnJoystick
-        .button(2)
-        .onTrue(DriveCommands.zeroOdometry(drive, new Translation2d(Units.inchesToMeters(36), 0)));
+
     controller.back().onTrue(DriveCommands.zeroDrive(drive));
+
     controller
         .start()
-        .onTrue(DriveCommands.zeroOdometry(drive, new Translation2d(Units.inchesToMeters(36), 0)));
+        .or(turnJoystick.button(2))
+        .onTrue(
+            DriveCommands.zeroOdometry(
+                drive,
+                new Translation2d(
+                    Units.inchesToMeters(36) + (drive.getBumperWidth() / 2.0), 5.55)));
+
+    controller
+        .leftBumper()
+        .whileTrue(
+            PathfindingCommands.pathfindToPose(
+                new Pose2d(1.88, 7.70, Rotation2d.fromDegrees(90)), 0, 0));
     // controller.button(1).onTrue(DriveCommands.zeroDrive(drive)); // MacOS
 
     controller
@@ -240,12 +252,12 @@ public class RobotContainer {
         .whileTrue(ShootingCommands.holdShoot(shooter, flywheelSpeedInput::get));
 
     // driveJoystick
-    //     .button(CommandNXT.A2)
-    //     .whileTrue(
-    //         Commands.startEnd(
-    //             () -> shooter.runVelocity(flywheelSpeedInput.get()),
-    //             shooter::stopFlywheel,
-    //             shooter));
+    // .button(CommandNXT.A2)
+    // .whileTrue(
+    // Commands.startEnd(
+    // () -> shooter.runVelocity(flywheelSpeedInput.get()),
+    // shooter::stopFlywheel,
+    // shooter));
   }
 
   /**

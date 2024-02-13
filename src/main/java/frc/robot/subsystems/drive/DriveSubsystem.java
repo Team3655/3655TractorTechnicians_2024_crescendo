@@ -30,7 +30,8 @@ public class DriveSubsystem extends SubsystemBase {
   // Specific drive constants
   private static final double MAX_LINEAR_SPEED = Units.feetToMeters(17.1);
   private static final double TRACK_WIDTH_X = Units.inchesToMeters(20.75);
-  private static final double TRACK_WIDTH_Y = Units.inchesToMeters(20.75);
+  private static final double TRACK_WIDTH_Y = TRACK_WIDTH_X;
+  private static final double BUMPER_WIDTH = TRACK_WIDTH_X + Units.inchesToMeters(5.25 + 6);
   private static final double DRIVE_BASE_RADIUS =
       Math.hypot(TRACK_WIDTH_X / 2.0, TRACK_WIDTH_Y / 2.0);
   private static final double MAX_ANGULAR_SPEED = MAX_LINEAR_SPEED / DRIVE_BASE_RADIUS;
@@ -73,7 +74,7 @@ public class DriveSubsystem extends SubsystemBase {
         this::runVelocity,
         new HolonomicPathFollowerConfig(
             // The PID constants for pathfollowing (adjust these to improve path following accuracy)
-            new PIDConstants(6.0, 0, 0),
+            new PIDConstants(6.5, 0, 0),
             new PIDConstants(6.0, 0, 0),
             MAX_LINEAR_SPEED,
             DRIVE_BASE_RADIUS,
@@ -254,6 +255,10 @@ public class DriveSubsystem extends SubsystemBase {
   /** Returns the maximum angular speed in radians per sec. */
   public double getMaxAngularSpeedRadPerSec() {
     return MAX_ANGULAR_SPEED;
+  }
+
+  public double getBumperWidth() {
+    return BUMPER_WIDTH;
   }
 
   /** Returns an array of module translations. */
