@@ -10,6 +10,7 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 /** Add your docs here. */
 public class IntakeIOHardware implements IntakeIO {
@@ -43,6 +44,7 @@ public class IntakeIOHardware implements IntakeIO {
     inputs.intakeMotorTemp = suckerMotor.getMotorTemperature();
   }
 
+  @Override
   public void setVoltage(double volts) {
     suckerMotor.setVoltage(volts);
   }
@@ -54,4 +56,17 @@ public class IntakeIOHardware implements IntakeIO {
     RotateRight.toggle();
     RotateLeft.toggle();
   }
+
+  @Override
+  public void setLinear(Value value){
+    LinearRight.set(value);
+    LinearLeft.set(value);
+  }
+
+  @Override
+  public void setRotate(Value value){
+    RotateLeft.set(value);
+    RotateRight.set(value);
+  }
+
 }

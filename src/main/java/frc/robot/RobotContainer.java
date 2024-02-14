@@ -1,6 +1,12 @@
 package frc.robot;
 
+import java.io.IOException;
+
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
+
 import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -10,6 +16,7 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -37,9 +44,6 @@ import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOPhoton;
 import frc.robot.subsystems.vision.VisionSubsystem;
 import frc.robot.util.CommandNXT;
-import java.io.IOException;
-import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
-import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -246,6 +250,23 @@ public class RobotContainer {
                 shooter));
 
     controller.y().whileTrue(ShootingCommands.holdShoot(shooter, flywheelSpeedInput::get));
+
+    controller
+        .povLeft()
+        .whileTrue(
+            Commands.startEnd(
+              () -> intake.setLinearPosition(Value.kForward), 
+              () -> intake.setLinearPosition(Value.kReverse), 
+              intake));
+
+      controller
+        .povRight()
+        .whileTrue(
+            Commands.startEnd(
+              ()-> intake.setRotatePosition(Value.kForward),
+              ()-> intake.setRotatePosition(Value.kReverse), 
+              intake));
+  
 
     driveJoystick
         .button(CommandNXT.FIRE_STAGE1)

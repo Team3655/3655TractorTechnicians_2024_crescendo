@@ -11,4 +11,6 @@ import edu.wpi.first.wpilibj.simulation.DoubleSolenoidSim;
 public class IntakeIOSim implements IntakeIO {
 
   private final DoubleSolenoidSim sim = new DoubleSolenoidSim(0, PneumaticsModuleType.REVPH, 0, 0);
+  
+
 }

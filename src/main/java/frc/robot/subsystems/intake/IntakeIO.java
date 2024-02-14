@@ -6,6 +6,8 @@ package frc.robot.subsystems.intake;
 
 import org.littletonrobotics.junction.AutoLog;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+
 /** Add your docs here. */
 public interface IntakeIO {
 
@@ -27,4 +29,8 @@ public interface IntakeIO {
   public default void setVoltage(double volts) {}
 
   public default void stop() {}
+
+  public default void setLinear(Value value) {}
+
+  public default void setRotate(Value value) {}
 }
