@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.intake;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -14,10 +15,10 @@ public class IntakeSubsystem extends SubsystemBase {
   private final IntakeIO io;
   private final IntakeIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
 
-  public static final IntakeState TUCKED_INTAKE_STATE = new IntakeState(0, true);
-  public static final IntakeState SUCK_INTAKE_STATE = new IntakeState(1, false);
+  public static final IntakeState TUCKED_STATE = new IntakeState(0, true);
+  public static final IntakeState INTAKE_STATE = new IntakeState(1, false);
 
-  private IntakeState targetState = TUCKED_INTAKE_STATE;
+  private IntakeState targetState = TUCKED_STATE;
 
   /** Creates a new intake. */
   public IntakeSubsystem(IntakeIO io) {
@@ -31,9 +32,18 @@ public class IntakeSubsystem extends SubsystemBase {
     Logger.processInputs("Intake", inputs);
   }
 
+  public void setLinearPosition(Value value){
+    io.setLinear(value);
+  }
+
+  public void setRotatePosition(Value value){
+    io.setRotate(value);
+  }
+
   public void setIntakeState(IntakeState state) {
     targetState = state;
     io.setVoltage(targetState.outputPercent * 12.0);
+    
     Logger.recordOutput("Intake/Sucker", targetState.outputPercent);
     Logger.recordOutput("Intake/isDeployed", targetState.isDeployed);
   }
@@ -58,6 +68,6 @@ public class IntakeSubsystem extends SubsystemBase {
     public IntakeState(double outputPercent, boolean isDeployed) {
       this.isDeployed = isDeployed;
       this.outputPercent = outputPercent;
-    }
+    } 
   }
 }
