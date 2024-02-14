@@ -9,8 +9,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 /** Add your docs here. */
 public class IntakeIOHardware implements IntakeIO {
@@ -58,15 +58,14 @@ public class IntakeIOHardware implements IntakeIO {
   }
 
   @Override
-  public void setLinear(Value value){
+  public void setLinear(Value value) {
     LinearRight.set(value);
     LinearLeft.set(value);
   }
 
   @Override
-  public void setRotate(Value value){
+  public void setRotate(Value value) {
     RotateLeft.set(value);
     RotateRight.set(value);
   }
-
 }

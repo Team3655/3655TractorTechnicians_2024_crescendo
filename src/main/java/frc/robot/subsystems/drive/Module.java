@@ -36,7 +36,7 @@ public class Module {
     switch (Constants.currentMode) {
       case REAL:
         // Tuned for krakens
-        driveFeedforward = new SimpleMotorFeedforward(0.21693, 0.11281);
+        driveFeedforward = new SimpleMotorFeedforward(0.21847, 0.12065);
         driveFeedback = new PIDController(0.05, 0.0, 0.0);
         turnFeedback = new PIDController(12.0, 0.01, 0.0);
         break;

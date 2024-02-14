@@ -32,18 +32,18 @@ public class IntakeSubsystem extends SubsystemBase {
     Logger.processInputs("Intake", inputs);
   }
 
-  public void setLinearPosition(Value value){
+  public void setLinearPosition(Value value) {
     io.setLinear(value);
   }
 
-  public void setRotatePosition(Value value){
+  public void setRotatePosition(Value value) {
     io.setRotate(value);
   }
 
   public void setIntakeState(IntakeState state) {
     targetState = state;
     io.setVoltage(targetState.outputPercent * 12.0);
-    
+
     Logger.recordOutput("Intake/Sucker", targetState.outputPercent);
     Logger.recordOutput("Intake/isDeployed", targetState.isDeployed);
   }
@@ -68,6 +68,6 @@ public class IntakeSubsystem extends SubsystemBase {
     public IntakeState(double outputPercent, boolean isDeployed) {
       this.isDeployed = isDeployed;
       this.outputPercent = outputPercent;
-    } 
+    }
   }
 }
