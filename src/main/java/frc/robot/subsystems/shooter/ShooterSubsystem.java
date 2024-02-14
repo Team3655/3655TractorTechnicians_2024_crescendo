@@ -106,7 +106,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void setAngle(Rotation2d angle) {
     io.setAngle(angle, 0);
     pivotTarget = angle;
-    Logger.recordOutput("Shooter/Pivot Target", angle);
+    Logger.recordOutput("Shooter/Pivot Target", pivotTarget);
   }
 
   public void setShooterAngleFromDist(double distance) {

@@ -185,9 +185,9 @@ public class RobotContainer {
                 () -> -driveJoystick.getX() - controller.getLeftX(),
                 new Translation2d(0.0, 5.5))); // 0.0, 5.5
 
-    driveJoystick.button(CommandNXT.D1).whileTrue(Commands.run(drive::stopWithX, drive));
+    driveJoystick.d1().whileTrue(Commands.run(drive::stopWithX, drive));
 
-    driveJoystick.button(CommandNXT.B1).onTrue(DriveCommands.zeroDrive(drive));
+    driveJoystick.b1().onTrue(DriveCommands.zeroDrive(drive));
 
     controller.back().onTrue(DriveCommands.zeroDrive(drive));
 
