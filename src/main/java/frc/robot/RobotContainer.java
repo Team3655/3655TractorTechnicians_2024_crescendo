@@ -268,6 +268,7 @@ public class RobotContainer {
         .fireStage1()
         .whileTrue(ShootingCommands.holdShoot(shooter, flywheelSpeedInput::get));
 
+    // shooter intake
     driveJoystick
         .a2()
         .whileTrue(
