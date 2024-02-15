@@ -265,8 +265,20 @@ public class RobotContainer {
                 intake));
 
     driveJoystick
-        .button(CommandNXT.FIRE_STAGE1)
+        .fireStage1()
         .whileTrue(ShootingCommands.holdShoot(shooter, flywheelSpeedInput::get));
+
+    driveJoystick
+        .a2()
+        .whileTrue(
+            Commands.startEnd(
+                () -> {
+                  shooter.runVelocity(-1000);
+                  shooter.setKicker(-12.0);}, 
+                () -> {
+                  shooter.stopFlywheel();
+                  shooter.setKicker(0.0);},
+                shooter));
 
     // driveJoystick
     // .button(CommandNXT.A2)
