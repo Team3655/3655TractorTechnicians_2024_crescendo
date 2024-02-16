@@ -8,7 +8,6 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -248,38 +247,38 @@ public class RobotContainer {
 
     controller.y().whileTrue(ShootingCommands.holdShoot(shooter, flywheelSpeedInput::get));
 
-    controller
-        .povLeft()
+    driveJoystick
+        .firePaddleDown()
         .whileTrue(
             Commands.startEnd(
-                () -> intake.setLinearPosition(Value.kForward),
-                () -> intake.setLinearPosition(Value.kReverse),
-                intake));
+                () -> intake.suckUpNote(true, 10), () -> intake.suckUpNote(false, 0), intake));
 
     controller
-        .povRight()
+        .x()
+        .or(driveJoystick.fireStage2())
+        .or(driveJoystick.firePaddleUp())
         .whileTrue(
             Commands.startEnd(
-                () -> intake.setRotatePosition(Value.kForward),
-                () -> intake.setRotatePosition(Value.kReverse),
-                intake));
+                () -> intake.setIntakeVoltage(10), () -> intake.setIntakeVoltage(0), intake));
 
     driveJoystick
         .fireStage1()
         .whileTrue(ShootingCommands.holdShoot(shooter, flywheelSpeedInput::get));
 
-    // shooter intake
-    driveJoystick
-        .a2()
-        .whileTrue(
-            Commands.startEnd(
-                () -> {
-                  shooter.runVelocity(-1000);
-                  shooter.setKicker(-12.0);}, 
-                () -> {
-                  shooter.stopFlywheel();
-                  shooter.setKicker(0.0);},
-                shooter));
+    // // shooter intake
+    // driveJoystick
+    //     .fireStage1()
+    //     .whileTrue(
+    //         Commands.startEnd(
+    //             () -> {
+    //               shooter.runVelocity(-1000);
+    //               shooter.setKicker(-12.0);
+    //             },
+    //             () -> {
+    //               shooter.stopFlywheel();
+    //               shooter.setKicker(0.0);
+    //             },
+    //             shooter));
 
     // driveJoystick
     // .button(CommandNXT.A2)

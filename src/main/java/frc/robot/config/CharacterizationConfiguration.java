@@ -18,7 +18,4 @@ public class CharacterizationConfiguration {
   public double driveFeedForwardKv;
 
   public double wheelRadius;
-
-  
-
 }
