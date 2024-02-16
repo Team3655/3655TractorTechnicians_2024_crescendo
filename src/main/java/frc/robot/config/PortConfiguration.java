@@ -48,6 +48,8 @@ public class PortConfiguration {
   public int climberMotorTwoID;
   // endregion
 
+  public int pneumaticHubID;
+
   public boolean usePheonixPro;
   public String driveCANBus;
 

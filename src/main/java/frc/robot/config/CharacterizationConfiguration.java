@@ -19,6 +19,5 @@ public class CharacterizationConfiguration {
 
   public double wheelRadius;
 
-  
-
+  public double driveGearRatio;
 }
