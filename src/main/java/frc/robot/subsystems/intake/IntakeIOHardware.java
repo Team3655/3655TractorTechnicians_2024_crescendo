@@ -8,23 +8,24 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.PneumaticHub;
+import edu.wpi.first.wpilibj.Solenoid;
 
 /** Add your docs here. */
 public class IntakeIOHardware implements IntakeIO {
 
+  private final PneumaticHub pneumaticHub = new PneumaticHub(50);
+  private final Solenoid Linear = pneumaticHub.makeSolenoid(1);
   private final CANSparkMax suckerMotor = new CANSparkMax(40, MotorType.kBrushless);
   private final RelativeEncoder suckerEncoder = suckerMotor.getEncoder();
-  private final DoubleSolenoid LinearRight =
-      new DoubleSolenoid(50, PneumaticsModuleType.REVPH, 0, 1);
-  private final DoubleSolenoid LinearLeft =
-      new DoubleSolenoid(50, PneumaticsModuleType.REVPH, 2, 3);
-  private final DoubleSolenoid RotateRight =
-      new DoubleSolenoid(50, PneumaticsModuleType.REVPH, 4, 5);
-  private final DoubleSolenoid RotateLeft =
-      new DoubleSolenoid(50, PneumaticsModuleType.REVPH, 6, 7);
+  // private final Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
+  // private final Solenoid Linear = new Solenoid(PneumaticsModuleType.REVPH, 1);
+  // private final DoubleSolenoid LinearLeft =
+  //     new DoubleSolenoid(50, PneumaticsModuleType.REVPH, 2, 3);
+  // private final DoubleSolenoid RotateRight =
+  //     new DoubleSolenoid(50, PneumaticsModuleType.REVPH, 4, 5);
+  // private final DoubleSolenoid RotateLeft =
+  //     new DoubleSolenoid(50, PneumaticsModuleType.REVPH, 6, 7);
 
   public IntakeIOHardware() {
     suckerMotor.restoreFactoryDefaults();
@@ -32,6 +33,9 @@ public class IntakeIOHardware implements IntakeIO {
     suckerMotor.enableVoltageCompensation(12.0);
     suckerMotor.setSmartCurrentLimit(30);
     suckerMotor.burnFlash();
+
+    Linear.set(false);
+    pneumaticHub.enableCompressorAnalog(50, 120);
   }
 
   @Override
@@ -50,22 +54,13 @@ public class IntakeIOHardware implements IntakeIO {
   }
 
   @Override
-  public void toggle() {
-    LinearRight.toggle();
-    LinearLeft.toggle();
-    RotateRight.toggle();
-    RotateLeft.toggle();
+  public void setLinear(Boolean value) {
+    Linear.set(value);
   }
 
   @Override
-  public void setLinear(Value value) {
-    LinearRight.set(value);
-    LinearLeft.set(value);
-  }
-
-  @Override
-  public void setRotate(Value value) {
-    RotateLeft.set(value);
-    RotateRight.set(value);
+  public void suckUpNote(Boolean value, int volts) {
+    suckerMotor.setVoltage(volts);
+    Linear.set(value);
   }
 }

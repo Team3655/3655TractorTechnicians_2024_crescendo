@@ -52,5 +52,4 @@ public class PortConfiguration {
 
   public boolean usePheonixPro;
   public String driveCANBus;
-
 }

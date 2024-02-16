@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems.intake;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -32,12 +31,8 @@ public class IntakeSubsystem extends SubsystemBase {
     Logger.processInputs("Intake", inputs);
   }
 
-  public void setLinearPosition(Value value) {
+  public void setLinearPosition(Boolean value) {
     io.setLinear(value);
-  }
-
-  public void setRotatePosition(Value value) {
-    io.setRotate(value);
   }
 
   public void setIntakeState(IntakeState state) {
@@ -46,6 +41,14 @@ public class IntakeSubsystem extends SubsystemBase {
 
     Logger.recordOutput("Intake/Sucker", targetState.outputPercent);
     Logger.recordOutput("Intake/isDeployed", targetState.isDeployed);
+  }
+
+  public void setIntakeVoltage(double voltage) {
+    io.setVoltage(voltage);
+  }
+
+  public void suckUpNote(Boolean value, int volts) {
+    io.suckUpNote(value, volts);
   }
 
   /** A class with two finals variables that control the intake's state */
