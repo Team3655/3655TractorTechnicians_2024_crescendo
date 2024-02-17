@@ -248,15 +248,15 @@ public class RobotContainer {
     controller.y().whileTrue(ShootingCommands.holdShoot(shooter, flywheelSpeedInput::get));
 
     driveJoystick
-        .firePaddleDown()
+        .firePaddleUp()
         .whileTrue(
             Commands.startEnd(
-                () -> intake.suckUpNote(true, 10), () -> intake.suckUpNote(false, 0), intake));
+                () -> intake.suckUpNote(true, 7), () -> intake.suckUpNote(false, 0), intake));
 
     controller
         .x()
         .or(driveJoystick.fireStage2())
-        .or(driveJoystick.firePaddleUp())
+        .or(driveJoystick.firePaddleDown())
         .whileTrue(
             Commands.startEnd(
                 () -> intake.setIntakeVoltage(10), () -> intake.setIntakeVoltage(0), intake));
