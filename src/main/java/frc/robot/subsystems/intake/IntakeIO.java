@@ -18,6 +18,8 @@ public interface IntakeIO {
 
     public boolean deploySolenoidState = false;
     public double deployPositionRads = 0.0;
+
+    public boolean hasPiece = false;
   }
 
   public default void updateInputs(IntakeIOInputs inputs) {}
@@ -28,5 +30,13 @@ public interface IntakeIO {
 
   public default void setLinear(Boolean value) {}
 
-  public default void suckUpNote(Boolean value, int volts) {}
+  public default boolean getProximity() {
+    return true;
+  }
+
+  public default void toggleLinear() {}
+
+  public default double getPressure() {
+    return 0;
+  }
 }

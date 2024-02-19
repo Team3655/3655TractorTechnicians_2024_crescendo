@@ -35,8 +35,8 @@ public class ShooterSubsystem extends SubsystemBase {
   private final ShooterIO io;
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
 
-  private final double pivotFFKs;
-  private double pivotFFKg;
+  // private final double pivotFFKs;
+  // private double pivotFFKg;
 
   private Rotation2d pivotTarget = new Rotation2d();
 
@@ -48,28 +48,28 @@ public class ShooterSubsystem extends SubsystemBase {
       case REAL:
         io.configureFlywheelPID(0.001, 0.0, 0.0);
         io.configurePivotPID(3.5, 0.0, 0.0);
-        pivotFFKs = 0.03;
-        pivotFFKg = 0.1;
+        // pivotFFKs = 0.03;
+        // pivotFFKg = 0.1;
         break;
 
       case SIM:
         io.configureFlywheelPID(0.0, 0.0, 0.0);
         io.configurePivotPID(0.0, 0.0, 0.0);
 
-        pivotFFKs = 0.0;
-        pivotFFKg = 0.0;
+        // pivotFFKs = 0.0;
+        // pivotFFKg = 0.0;
         break;
 
       default:
         io.configureFlywheelPID(0.0, 0.0, 0.0);
         io.configurePivotPID(0.0, 0.0, 0.0);
-        pivotFFKs = 0.0;
-        pivotFFKg = 0.0;
+        // pivotFFKs = 0.0;
+        // pivotFFKg = 0.0;
         break;
     }
 
     // subtract ks from kg for quicker tuning
-    pivotFFKg -= pivotFFKs;
+    // pivotFFKg -= pivotFFKs;
 
     // log gear ratios so that they can be inspected retroactivly
     Logger.recordOutput("Shooter/PIVOT_TRACK_RATIO ", PIVOT_TRACK_RATIO);

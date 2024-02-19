@@ -249,9 +249,18 @@ public class RobotContainer {
 
     driveJoystick
         .firePaddleUp()
+        .or(controller.povLeft())
         .whileTrue(
             Commands.startEnd(
-                () -> intake.suckUpNote(true, 7), () -> intake.suckUpNote(false, 0), intake));
+                () -> {
+                  intake.setLinearPosition(true);
+                  intake.setIntakeVoltage(12);
+                },
+                () -> {
+                  intake.setLinearPosition(false);
+                  intake.setIntakeVoltage(0);
+                },
+                intake));
 
     controller
         .x()
