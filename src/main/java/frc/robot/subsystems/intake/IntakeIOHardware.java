@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.Solenoid;
 
@@ -18,6 +19,7 @@ public class IntakeIOHardware implements IntakeIO {
   private final Solenoid Linear = pneumaticHub.makeSolenoid(1);
   private final CANSparkMax suckerMotor = new CANSparkMax(40, MotorType.kBrushless);
   private final RelativeEncoder suckerEncoder = suckerMotor.getEncoder();
+  private final DigitalInput proximity = new DigitalInput(0);
   // private final Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
   // private final Solenoid Linear = new Solenoid(PneumaticsModuleType.REVPH, 1);
   // private final DoubleSolenoid LinearLeft =
@@ -46,6 +48,8 @@ public class IntakeIOHardware implements IntakeIO {
     inputs.intakeAppliedVolts = suckerMotor.getAppliedOutput() * suckerMotor.getBusVoltage();
     inputs.intakeCurrentAmps = new double[] {suckerMotor.getOutputCurrent()};
     inputs.intakeMotorTemp = suckerMotor.getMotorTemperature();
+
+    inputs.hasPiece = !proximity.get();
   }
 
   @Override
@@ -59,8 +63,21 @@ public class IntakeIOHardware implements IntakeIO {
   }
 
   @Override
-  public void suckUpNote(Boolean value, int volts) {
-    suckerMotor.setVoltage(volts);
-    Linear.set(value);
+  public boolean getProximity() {
+    return proximity.get();
+  }
+
+  @Override
+  public void toggleLinear() {
+    if (Linear.get()) {
+      Linear.set(false);
+    } else {
+      Linear.set(true);
+    }
+  }
+
+  @Override
+  public double getPressure() {
+    return pneumaticHub.getPressure(0);
   }
 }

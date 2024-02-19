@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.intake;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -29,6 +30,13 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     io.updateInputs(inputs);
     Logger.processInputs("Intake", inputs);
+    SmartDashboard.putBoolean("Proximity", io.getProximity());
+    SmartDashboard.putNumber("Pressure", io.getPressure());
+
+    if (inputs.hasPiece) {
+      setLinearPosition(false);
+      setIntakeVoltage(0.0);
+    }
   }
 
   public void setLinearPosition(Boolean value) {
@@ -47,8 +55,8 @@ public class IntakeSubsystem extends SubsystemBase {
     io.setVoltage(voltage);
   }
 
-  public void suckUpNote(Boolean value, int volts) {
-    io.suckUpNote(value, volts);
+  public void setLinear(boolean value) {
+    io.setLinear(value);
   }
 
   /** A class with two finals variables that control the intake's state */
