@@ -1,19 +1,28 @@
 package frc.robot.subsystems.drive;
 
-import edu.wpi.first.math.geometry.Rotation2d;
+import com.ctre.phoenix6.BaseStatusSignal;
 import org.littletonrobotics.junction.AutoLog;
 
+/** Connects the software to the hardware and directly receives data from the gyroscope. */
 public interface GyroIO {
-  @AutoLog
-  public static class GyroIOInputs {
-    public boolean connected = false;
-    public Rotation2d yawPosition = new Rotation2d();
-    public Rotation2d[] odometryYawPositions = new Rotation2d[] {};
-    public double yawVelocityRadPerSec = 0.0;
-    public double xAccelerationMetersPerSec = 0.0;
-    public double yAccelerationMetersPerSec = 0.0;
-    public double AccelerationMetersPerSec = 0.0;
+  /**
+   * Reads information from sources (hardware or simulation) and updates the inputs object.
+   *
+   * @param inputs Contains the defaults for the input values listed above.
+   */
+  default void updateInputs(GyroIOInputs inputs) {}
+
+  default BaseStatusSignal[] getSignals() {
+    return new BaseStatusSignal[0];
   }
 
-  public default void updateInputs(GyroIOInputs inputs) {}
+  /** Holds data that can be read from the corresponding gyroscope IO implementation. */
+  @AutoLog
+  class GyroIOInputs {
+    public boolean connected = false;
+    public double yaw = 0;
+    public double pitch = 0;
+    public double roll = 0;
+    public double angularVelocity = 0;
+  }
 }

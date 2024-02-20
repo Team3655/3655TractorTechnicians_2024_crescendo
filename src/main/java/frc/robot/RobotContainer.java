@@ -7,7 +7,6 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -15,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveCommands;
-import frc.robot.commands.FeedForwardCharacterization;
 import frc.robot.commands.PathfindingCommands;
 import frc.robot.commands.ShooterOrbit;
 import frc.robot.commands.ShootingCommands;
@@ -24,7 +22,7 @@ import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
-import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.drive.ModuleIOTalonFXPro;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOHardware;
 import frc.robot.subsystems.intake.IntakeIOSim;
@@ -92,11 +90,11 @@ public class RobotContainer {
 
         drive =
             new DriveSubsystem(
-                new GyroIOPigeon2(true),
-                new ModuleIOTalonFX(0),
-                new ModuleIOTalonFX(1),
-                new ModuleIOTalonFX(2),
-                new ModuleIOTalonFX(3),
+                new GyroIOPigeon2(20, 0, 2.0, Constants.DRIVE_BUS),
+                new ModuleIOTalonFXPro(2, 1, 3, Constants.DRIVE_BUS, 0),
+                new ModuleIOTalonFXPro(5, 4, 6, Constants.DRIVE_BUS, 0),
+                new ModuleIOTalonFXPro(8, 7, 9, Constants.DRIVE_BUS, 0),
+                new ModuleIOTalonFXPro(11, 10, 12, Constants.DRIVE_BUS, 0),
                 vision);
 
         shooter = new ShooterSubsystem(new ShooterIOSpark());
@@ -147,10 +145,10 @@ public class RobotContainer {
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
     // Set up FF characterization routines
-    autoChooser.addOption(
-        "Drive FF Characterization",
-        new FeedForwardCharacterization(
-            drive, drive::runCharacterizationVolts, drive::getCharacterizationVelocity));
+    // autoChooser.addOption(
+    //     "Drive FF Characterization",
+    //     new FeedForwardCharacterization(
+    //         drive, drive::runCharacterizationVolts, drive::getCharacterizationVelocity));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -185,20 +183,20 @@ public class RobotContainer {
                 () -> -driveJoystick.getX() - controller.getLeftX(),
                 new Translation2d(0.0, 5.5))); // 0.0, 5.5
 
-    driveJoystick.d1().whileTrue(Commands.run(drive::stopWithX, drive));
+    // driveJoystick.d1().whileTrue(Commands.run(drive::stopWithX, drive));
 
-    driveJoystick.b1().onTrue(DriveCommands.zeroDrive(drive));
+    // driveJoystick.b1().onTrue(DriveCommands.zeroDrive(drive));
 
-    controller.back().onTrue(DriveCommands.zeroDrive(drive));
+    // controller.back().onTrue(DriveCommands.zeroDrive(drive));
 
-    controller
-        .start()
-        .or(turnJoystick.button(2))
-        .onTrue(
-            DriveCommands.zeroOdometry(
-                drive,
-                new Translation2d(
-                    Units.inchesToMeters(36) + (drive.getBumperWidth() / 2.0), 5.55)));
+    // controller
+    //     .start()
+    //     .or(turnJoystick.button(2))
+    //     .onTrue(
+    //         DriveCommands.zeroOdometry(
+    //             drive,
+    //             new Translation2d(
+    //                 Units.inchesToMeters(36) + (drive.getBumperWidth() / 2.0), 5.55)));
 
     controller
         .leftBumper()

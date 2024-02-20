@@ -75,21 +75,21 @@ public class ShooterOrbit extends Command {
 
     // calculate pid output based on the delta to target rotation
     turnFeedback.setGoal(rotationTarget.getRotations());
-    double omega = turnFeedback.calculate(drive.getRotation().getRotations());
+    double omega = turnFeedback.calculate(drive.getPose().getRotation().getRotations());
 
     shooter.setShooterAngleFromDist(reletiveTarget.getNorm());
 
     // send speeds to drive function
-    drive.runVelocity(
+    drive.setTargetVelocity(
         ChassisSpeeds.fromFieldRelativeSpeeds(
-            linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
-            linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
-            omega * drive.getMaxAngularSpeedRadPerSec(),
-            drive.getRotation()));
+            linearVelocity.getX() * drive.getMaxVelocityMetersPerSec(),
+            linearVelocity.getY() * drive.getMaxVelocityMetersPerSec(),
+            omega * drive.getMaxAngularVelocityRadPerSec(),
+            drive.getPose().getRotation()));
 
     Logger.recordOutput("Drive/Orbit/Distance To Target", reletiveTarget.getNorm());
     Logger.recordOutput("Drive/Orbit/Error", turnFeedback.getPositionError());
-    Logger.recordOutput("Drive/Orbit/Robot Rotation", drive.getRotation());
+    Logger.recordOutput("Drive/Orbit/Robot Rotation", drive.getPose().getRotation());
     Logger.recordOutput(
         "Drive/Orbit/Target Rotation",
         new Pose2d(drive.getPose().getTranslation(), rotationTarget));

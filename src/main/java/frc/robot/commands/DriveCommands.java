@@ -32,27 +32,27 @@ public class DriveCommands {
           double omega = JoystickUtils.curveInput(omegaSupplier.getAsDouble(), DEADBAND) * 0.5;
 
           // Convert to field relative speeds & send command
-          drive.runVelocity(
+          drive.setTargetVelocity(
               ChassisSpeeds.fromFieldRelativeSpeeds(
-                  linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
-                  linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
-                  omega * drive.getMaxAngularSpeedRadPerSec(),
-                  drive.getRotation()));
+                  linearVelocity.getX() * drive.getMaxVelocityMetersPerSec(),
+                  linearVelocity.getY() * drive.getMaxVelocityMetersPerSec(),
+                  omega * drive.getMaxAngularVelocityRadPerSec(),
+                  drive.getPose().getRotation()));
         },
         drive);
   }
 
-  public static Command zeroDrive(DriveSubsystem drive) {
-    return Commands.runOnce(
-            () -> drive.setPose(new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
-            drive)
-        .ignoringDisable(true);
-  }
+  // public static Command zeroDrive(DriveSubsystem drive) {
+  //   return Commands.runOnce(
+  //           () -> drive.getOdometry().resetPosition(,
+  //           drive)
+  //       .ignoringDisable(true);
+  // }
 
-  public static Command zeroOdometry(DriveSubsystem drive, Translation2d pose) {
-    return Commands.runOnce(() -> drive.setPose(new Pose2d(pose, drive.getRotation())), drive)
-        .ignoringDisable(true);
-  }
+  // public static Command zeroOdometry(DriveSubsystem drive, Translation2d pose) {
+  //   return Commands.runOnce(() -> drive.setPose(new Pose2d(pose, drive.getRotation())), drive)
+  //       .ignoringDisable(true);
+  // }
 
   public static Rotation2d getAngleDelta(Pose2d robotPose, Translation2d target) {
     Rotation2d rotationTarget =

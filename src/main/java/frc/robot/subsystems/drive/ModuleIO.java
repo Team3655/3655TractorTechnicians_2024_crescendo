@@ -1,40 +1,91 @@
 package frc.robot.subsystems.drive;
 
-import edu.wpi.first.math.geometry.Rotation2d;
+import com.ctre.phoenix6.BaseStatusSignal;
 import org.littletonrobotics.junction.AutoLog;
 
+/**
+ * Connects the software to the hardware and directly receives data and/or sends control data to the
+ * swerve drive module.
+ */
 public interface ModuleIO {
-  @AutoLog
-  public static class ModuleIOInputs {
-    public double drivePositionRad = 0.0;
-    public double driveVelocityRadPerSec = 0.0;
-    public double driveAppliedVolts = 0.0;
-    public double[] driveCurrentAmps = new double[] {};
-    public double driveMotorTemp = 0.0;
+  /**
+   * Updates the swerve module values from the data received by the module.
+   *
+   * @param swerveModuleIOInputs Has the current data of the swerve drive module.
+   */
+  default void updateInputs(SwerveModuleIOInputs swerveModuleIOInputs) {}
 
-    public Rotation2d turnAbsolutePosition = new Rotation2d();
-    public Rotation2d turnPosition = new Rotation2d();
-    public double turnVelocityRadPerSec = 0.0;
-    public double turnAppliedVolts = 0.0;
-    public double[] turnCurrentAmps = new double[] {};
-    public double turnMotorTemp = 0.0;
+  /**
+   * Sets the target steer position of the swerve drive module
+   *
+   * @param targetSteerPositionRad Target steer angle in radians
+   */
+  default void setTargetSteerPosition(double targetSteerPositionRad) {}
 
-    public double[] odometryDrivePositionsRad = new double[] {};
-    public Rotation2d[] odometryTurnPositions = new Rotation2d[] {};
+  /**
+   * Set the steer angle of thh swerve drive module
+   *
+   * @param targetSteerAngleRadians Target steer angle in radians
+   * @param turnSpeed Turn speed
+   */
+  default void setTargetSteerAngle(double targetSteerAngleRadians, double turnSpeed) {}
+
+  /**
+   * Sets the target drive velocity of the swerve drive module
+   *
+   * @param targetDriveVelocityMetersPerSec Target drive velocity in meters per second
+   */
+  default void setTargetDriveVelocity(double targetDriveVelocityMetersPerSec) {}
+
+  default void resetToAbsoluteAngle() {}
+
+  default double getMaxVelocity() {
+    return 5.0;
   }
 
-  /** Updates the set of loggable inputs. */
-  public default void updateInputs(ModuleIOInputs inputs) {}
+  default BaseStatusSignal[] getSignals() {
+    return new BaseStatusSignal[0];
+  }
 
-  /** Run the drive motor at the specified voltage. */
-  public default void setDriveVoltage(double volts) {}
+  /** Holds data that can be read from the corresponding swerve drive module IO implementation. */
+  @AutoLog
+  class SwerveModuleIOInputs {
+    // Drive Inputs
+    public double drivePositionRad = 0;
+    /** Drive motor positioning */
+    public double drivePositionMeters = 0;
+    /** Drive motor speed */
+    public double driveVelocityMetersPerSec = 0;
+    /** Amps going to drive motor */
+    public double driveCurrentDrawAmps = 0;
+    /** Volts being sent to the drive motor */
+    public double driveAppliedVolts = 0;
 
-  /** Run the turn motor at the specified voltage. */
-  public default void setTurnVoltage(double volts) {}
+    // Steering Inputs
+    /** Steering position angle */
+    public double steerPositionTicks = 0;
 
-  /** Enable or disable brake mode on the drive motor. */
-  public default void setDriveBrakeMode(boolean enable) {}
+    public double steerPositionRad = 0;
 
-  /** Enable or disable brake mode on the turn motor. */
-  public default void setTurnBrakeMode(boolean enable) {}
+    public double steerPositionDeg = 0;
+    /** Steering motor speed */
+    public double steerVelocityRadPerSec = 0;
+    /** Amps going to steer motor. */
+    public double steerCurrentDrawAmps = 0;
+    /** Volts being sent to the steer motor */
+    public double steerAppliedVolts = 0;
+
+    // Steering Encoder Inputs
+    /**
+     * Absolute position. Angle stays the same at all times (as opposed to the motor encoders which
+     * update the angles based off of the starting angle).
+     */
+    public double steerAbsolutePosition = 0;
+
+    // Drive Outputs
+    public double targetDriveVelocityMetersPerSec = 0;
+
+    // Steer Outputs
+    public double targetSteerPositionRad = 0;
+  }
 }
