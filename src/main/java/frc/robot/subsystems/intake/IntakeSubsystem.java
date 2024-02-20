@@ -5,7 +5,9 @@
 package frc.robot.subsystems.intake;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import org.littletonrobotics.junction.Logger;
 
 public class IntakeSubsystem extends SubsystemBase {
@@ -23,6 +25,14 @@ public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new intake. */
   public IntakeSubsystem(IntakeIO io) {
     this.io = io;
+    Trigger photoEye = new Trigger(() -> io.getProximity());
+    photoEye.onTrue(
+        Commands.runOnce(
+            () -> {
+              setLinearPosition(false);
+              setIntakeVoltage(0.0);
+            },
+            this));
   }
 
   @Override
@@ -32,11 +42,6 @@ public class IntakeSubsystem extends SubsystemBase {
     Logger.processInputs("Intake", inputs);
     SmartDashboard.putBoolean("Proximity", io.getProximity());
     SmartDashboard.putNumber("Pressure", io.getPressure());
-
-    if (inputs.hasPiece) {
-      setLinearPosition(false);
-      setIntakeVoltage(0.0);
-    }
   }
 
   public void setLinearPosition(Boolean value) {

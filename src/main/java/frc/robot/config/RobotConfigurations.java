@@ -10,7 +10,5 @@ public class RobotConfigurations {
   public class RoadRunner {
 
     private static final int FRONT_LEFT_DRIVE_ID = 1;
-    
   }
-
 }

@@ -64,7 +64,7 @@ public class IntakeIOHardware implements IntakeIO {
 
   @Override
   public boolean getProximity() {
-    return proximity.get();
+    return !proximity.get();
   }
 
   @Override

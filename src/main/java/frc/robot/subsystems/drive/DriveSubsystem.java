@@ -5,6 +5,8 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.util.ReplanningConfig;
+
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -44,6 +46,18 @@ public class DriveSubsystem extends SubsystemBase {
   private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(getModuleTranslations());
   private Pose2d pose = new Pose2d();
   private Rotation2d lastGyroRotation = new Rotation2d();
+
+  private SwerveDrivePoseEstimator estimator = 
+      new SwerveDrivePoseEstimator(
+            kinematics, 
+            new Rotation2d(), 
+            new SwerveModulePosition[]{
+              new SwerveModulePosition(),
+              new SwerveModulePosition(),
+              new SwerveModulePosition(),
+              new SwerveModulePosition()
+            }, 
+            new Pose2d());
 
   private final VisionSubsystem vision;
 
@@ -160,7 +174,11 @@ public class DriveSubsystem extends SubsystemBase {
       pose = pose.exp(twist);
     }
 
-    vision.updateRobotPose(pose);
+    // if (vision.hasTarget()) {
+    // Twist2d visionTwist = pose.log(vision.getLLRobotPose());
+    // Twist2d twist = new Twist2d(visionTwist.dx / 5.0, visionTwist.dx / 5.0, 0.0);
+    // pose.exp(visionTwist);
+    // }
     // endregion:
   }
 

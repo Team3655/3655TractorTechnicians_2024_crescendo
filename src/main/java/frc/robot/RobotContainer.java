@@ -62,7 +62,7 @@ public class RobotContainer {
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
   private final LoggedDashboardNumber flywheelSpeedInput =
-      new LoggedDashboardNumber("Flywheel Speed", 6000);
+      new LoggedDashboardNumber("Flywheel Speed", 5000);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -254,11 +254,11 @@ public class RobotContainer {
             Commands.startEnd(
                 () -> {
                   intake.setLinearPosition(true);
-                  intake.setIntakeVoltage(12);
+                  intake.setIntakeVoltage(10.0);
                 },
                 () -> {
                   intake.setLinearPosition(false);
-                  intake.setIntakeVoltage(0);
+                  intake.setIntakeVoltage(0.0);
                 },
                 intake));
 
