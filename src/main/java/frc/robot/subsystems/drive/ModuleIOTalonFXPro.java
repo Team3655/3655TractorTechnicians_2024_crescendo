@@ -1,7 +1,5 @@
 package frc.robot.subsystems.drive;
 
-import org.littletonrobotics.junction.Logger;
-
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
@@ -20,9 +18,9 @@ import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.util.Units;
+import org.littletonrobotics.junction.Logger;
 
 /**
  * Implementation of the Swerve Module IO class. We use the Falcon500 motors to directly link the

@@ -4,7 +4,8 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.simulation.FlywheelSim;
+import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import frc.robot.Robot;
 
 /**
  * Implementation of the Swerve Module IO interface. Simulating the drive train of a robot through
@@ -14,10 +15,10 @@ public class ModuleIOSim implements ModuleIO {
   /** Wheel radius of a Swerve Module */
   private static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(2.0);
   /** Simulated drive motor using the accurate gearing ratios and moment of inertia */
-  private final FlywheelSim driveSim = new FlywheelSim(DCMotor.getKrakenX60(1), 6.75, 0.025);
+  private final DCMotorSim driveSim = new DCMotorSim(DCMotor.getKrakenX60(1), 6.12, 0.025);
   /** Simulated steer motor using the accurate gearing ratios and moment of inertia */
-  private final FlywheelSim steerSim =
-      new FlywheelSim(DCMotor.getKrakenX60(1), 150.0 / 7.0, 0.004096955);
+  private final DCMotorSim steerSim =
+      new DCMotorSim(DCMotor.getKrakenX60(1), 150.0 / 7.0, 0.004096955);
   /** PID Controller for drive motor. Will do our target drive velocity to voltage calculation */
   private final PIDController driveFeedback = new PIDController(10, 0, 0);
   /** PID Controller for steer motor. Will do our target angular position to voltage calculation */
@@ -42,13 +43,13 @@ public class ModuleIOSim implements ModuleIO {
     // Updates every set amount of seconds (replicating a robot, we are using the default time
     // between updates for
     // the robot)
-    driveSim.update(1.0 / 50.0);
-    steerSim.update(1.0 / 50.0);
+    driveSim.update(Robot.defaultPeriodSecs);
+    steerSim.update(Robot.defaultPeriodSecs);
 
     // Adding the difference in angles between the absolute and relative angles to the current angle
     // (correcting for
     // the offset)
-    double angleDiffRad = steerSim.getAngularVelocityRadPerSec() * (1.0 / 50.0);
+    double angleDiffRad = steerSim.getAngularVelocityRadPerSec() * Robot.defaultPeriodSecs;
     steerRelativePositionRad += angleDiffRad;
     steerAbsolutePositionRad += angleDiffRad;
 
@@ -57,9 +58,9 @@ public class ModuleIOSim implements ModuleIO {
 
     // Setting the inputs within the IO class
     inputs.drivePositionRad =
-        inputs.drivePositionRad + (driveSim.getAngularVelocityRadPerSec() * (1.0 / 50.0));
-    inputs.drivePositionMeters +=
-        (driveSim.getAngularVelocityRadPerSec() * (1.0 / 50.0)) * WHEEL_RADIUS_METERS;
+        inputs.drivePositionRad
+            + (driveSim.getAngularVelocityRadPerSec() * Robot.defaultPeriodSecs);
+    inputs.drivePositionMeters = driveSim.getAngularPositionRad() * WHEEL_RADIUS_METERS;
     inputs.driveVelocityMetersPerSec = driveSim.getAngularVelocityRadPerSec() * WHEEL_RADIUS_METERS;
     inputs.driveAppliedVolts = driveAppliedVolts;
     inputs.driveCurrentDrawAmps = Math.abs(driveSim.getCurrentDrawAmps());

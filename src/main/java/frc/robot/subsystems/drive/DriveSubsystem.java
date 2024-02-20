@@ -1,17 +1,12 @@
 package frc.robot.subsystems.drive;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import org.littletonrobotics.junction.Logger;
-
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.Utils;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
-
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.LinearFilter;
@@ -26,9 +21,11 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.vision.VisionSubsystem;
+import java.util.ArrayList;
+import java.util.Arrays;
+import org.littletonrobotics.junction.Logger;
 
 /** Coordinator for the drivetrain. Speaks to the Gyro and the Swerve Modules */
 public class DriveSubsystem extends SubsystemBase {
@@ -61,6 +58,7 @@ public class DriveSubsystem extends SubsystemBase {
    * <p>[0 = front left, 1 = front right, 2 = back left, 3 = back right]
    */
   private final Module[] swerveModules;
+
   /**
    * We use this to calculate angular calculations based off of the swerve module locations on the
    * bot
@@ -94,6 +92,7 @@ public class DriveSubsystem extends SubsystemBase {
     private LinearFilter lowpass = LinearFilter.movingAverage(50);
     private double lastTime = 0;
     private double currentTime = 0;
+    private double deltaTime = 0;
     private double averageLoopTime = 0;
 
     public OdometryUpdateThread() {
@@ -116,7 +115,7 @@ public class DriveSubsystem extends SubsystemBase {
       while (true) {
         var status = BaseStatusSignal.waitForAll(0.1, allSignals);
         lastTime = currentTime;
-        currentTime = Timer.getFPGATimestamp();
+        currentTime = Utils.getCurrentTimeSeconds();
         averageLoopTime = lowpass.calculate(currentTime - lastTime);
         if (status.isOK()) {
           successfulDataAcquisitions++;
