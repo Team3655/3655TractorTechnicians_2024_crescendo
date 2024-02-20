@@ -438,7 +438,7 @@ public class DriveSubsystem extends SubsystemBase {
   public ChassisSpeeds getChassisSpeeds() {
     var states = new SwerveModuleState[4];
 
-    for (var i = 0; i < getSwerveModules().length; i++) {
+    for (int i = 0; i < getSwerveModules().length; i++) {
       states[i] = getSwerveModules()[i].getState();
     }
 
