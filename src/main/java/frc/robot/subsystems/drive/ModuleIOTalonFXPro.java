@@ -35,9 +35,9 @@ public class ModuleIOTalonFXPro implements ModuleIO {
 
   // Constants specific to the hardware
   /** Radius of the wheel. Can be used to figure out distance data */
-  private static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.95);
+  private static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.85);
   /** From motor rotations to the wheel revolutions */
-  private static final double DRIVE_GEAR_RATIO = (50.0 / 18.0) * (16.0 / 28.0) * (45.0 / 15.0);
+  private static final double DRIVE_GEAR_RATIO = (50.0 / 14.0) * (16.0 / 28.0) * (45.0 / 15.0);
 
   /**
    * Conversion constant: From motor encoder ticks to position data (m)
