@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -16,18 +17,11 @@ import edu.wpi.first.wpilibj.Solenoid;
 public class IntakeIOHardware implements IntakeIO {
 
   private final PneumaticHub pneumaticHub = new PneumaticHub(50);
+  private final Compressor compressor = pneumaticHub.makeCompressor();
   private final Solenoid Linear = pneumaticHub.makeSolenoid(1);
   private final CANSparkMax suckerMotor = new CANSparkMax(40, MotorType.kBrushless);
   private final RelativeEncoder suckerEncoder = suckerMotor.getEncoder();
   private final DigitalInput proximity = new DigitalInput(0);
-  // private final Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
-  // private final Solenoid Linear = new Solenoid(PneumaticsModuleType.REVPH, 1);
-  // private final DoubleSolenoid LinearLeft =
-  //     new DoubleSolenoid(50, PneumaticsModuleType.REVPH, 2, 3);
-  // private final DoubleSolenoid RotateRight =
-  //     new DoubleSolenoid(50, PneumaticsModuleType.REVPH, 4, 5);
-  // private final DoubleSolenoid RotateLeft =
-  //     new DoubleSolenoid(50, PneumaticsModuleType.REVPH, 6, 7);
 
   public IntakeIOHardware() {
     suckerMotor.restoreFactoryDefaults();
@@ -37,7 +31,7 @@ public class IntakeIOHardware implements IntakeIO {
     suckerMotor.burnFlash();
 
     Linear.set(false);
-    pneumaticHub.enableCompressorAnalog(50, 120);
+    pneumaticHub.enableCompressorAnalog(80, 120);
   }
 
   @Override
@@ -50,6 +44,11 @@ public class IntakeIOHardware implements IntakeIO {
     inputs.intakeMotorTemp = suckerMotor.getMotorTemperature();
 
     inputs.hasPiece = !proximity.get();
+
+    inputs.compressorPressure = compressor.getPressure();
+    inputs.compressorCurrent = compressor.getCurrent();
+    inputs.pneumaticHubVoltage = pneumaticHub.getInputVoltage();
+    inputs.compressorEnabled = compressor.isEnabled();
   }
 
   @Override

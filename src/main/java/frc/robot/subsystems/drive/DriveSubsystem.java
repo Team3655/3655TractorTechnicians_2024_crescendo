@@ -39,6 +39,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Max transitional velocity of the drivetrain */
   private final double maxVelocityMetersPerSec;
+
+  private final double diveBaseRadius;
   /** Max angular velocity of the drivetrain */
   private final double maxAngularVelocityRadPerSec;
 
@@ -92,7 +94,6 @@ public class DriveSubsystem extends SubsystemBase {
     private LinearFilter lowpass = LinearFilter.movingAverage(50);
     private double lastTime = 0;
     private double currentTime = 0;
-    private double deltaTime = 0;
     private double averageLoopTime = 0;
 
     public OdometryUpdateThread() {
@@ -107,9 +108,9 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void run() {
-      for (var sig : allSignals) {
-        if (sig instanceof StatusSignal) {
-          ((StatusSignal<?>) sig).setUpdateFrequency(250);
+      for (var signal : allSignals) {
+        if (signal instanceof StatusSignal) {
+          ((StatusSignal<?>) signal).setUpdateFrequency(250);
         }
       }
       while (true) {
@@ -157,7 +158,7 @@ public class DriveSubsystem extends SubsystemBase {
       }
     }
 
-    public double getTime() {
+    public double getAverageLoopTime() {
       return averageLoopTime;
     }
 
@@ -181,9 +182,10 @@ public class DriveSubsystem extends SubsystemBase {
       ModuleIO backLeftSwerveModuleIO,
       ModuleIO backRightSwerveModuleIO,
       VisionSubsystem vision) {
+
     maxVelocityMetersPerSec = frontLeftSwerveModuleIO.getMaxVelocity();
-    maxAngularVelocityRadPerSec =
-        maxVelocityMetersPerSec / Math.hypot(WHEELBASE_METERS / 2, TRACK_METERS / 2);
+    diveBaseRadius = Math.hypot(WHEELBASE_METERS / 2, TRACK_METERS / 2);
+    maxAngularVelocityRadPerSec = maxVelocityMetersPerSec / diveBaseRadius;
 
     // Configure AutoBuilder last
     AutoBuilder.configureHolonomic(
@@ -198,7 +200,8 @@ public class DriveSubsystem extends SubsystemBase {
             new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
             new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
             maxVelocityMetersPerSec, // Max module speed, in m/s
-            0.4, // Drive base radius in meters. Distance from robot center to furthest module.
+            diveBaseRadius, // Drive base radius in meters. Distance from robot center to furthest
+            // module.
             new ReplanningConfig() // Default path replanning config. See the API for the options
             // here
             ),
@@ -227,6 +230,7 @@ public class DriveSubsystem extends SubsystemBase {
           new Module(backLeftSwerveModuleIO, "BackLeft"),
           new Module(backRightSwerveModuleIO, "BackRight")
         };
+
     swerveModulePositions =
         new SwerveModulePosition[] {
           new SwerveModulePosition(),
@@ -234,6 +238,7 @@ public class DriveSubsystem extends SubsystemBase {
           new SwerveModulePosition(),
           new SwerveModulePosition()
         };
+
     var frontLeftLocation = new Translation2d(WHEELBASE_METERS / 2, TRACK_METERS / 2);
     var frontRightLocation = new Translation2d(WHEELBASE_METERS / 2, -TRACK_METERS / 2);
     var backLeftLocation = new Translation2d(-WHEELBASE_METERS / 2, TRACK_METERS / 2);
@@ -304,7 +309,7 @@ public class DriveSubsystem extends SubsystemBase {
       }
     }
 
-    Logger.recordOutput("Drive/Angle", getPose().getRotation().getRadians());
+    Logger.recordOutput("Drive/Angle", getPose().getRotation());
     Logger.recordOutput("Drive/ModuleStates", swerveModuleStates);
     Logger.recordOutput(
         "Drive/TargetChassisVelocity",
@@ -341,7 +346,7 @@ public class DriveSubsystem extends SubsystemBase {
     synchronized (odometry) {
       Logger.recordOutput("Drive/OdometryPose", odometry.getPoseMeters());
     }
-    Logger.recordOutput("Drive/OdometryThreadLoop", odometryUpdateThread.getTime());
+    Logger.recordOutput("Drive/OdometryThreadLoop", odometryUpdateThread.getAverageLoopTime());
   }
 
   /**

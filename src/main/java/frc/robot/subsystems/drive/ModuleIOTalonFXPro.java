@@ -7,7 +7,6 @@ import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
-import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -20,16 +19,14 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.util.Units;
-import org.littletonrobotics.junction.Logger;
 
 /**
  * Implementation of the Swerve Module IO class. We use the Falcon500 motors to directly link the
  * software to the motors. For use with the SDS MK4i modules only.
  */
 public class ModuleIOTalonFXPro implements ModuleIO {
-  public static final int DRIVE_CURRENT_LIMIT = 40;
-  public static final int SECONDARY_DRIVE_CURRENT_LIMIT = 30;
-  public static final int STEER_CURRENT_LIMIT = 30;
+  private static final int DRIVE_CURRENT_LIMIT = 20;
+  private static final int STEER_CURRENT_LIMIT = 15;
 
   // Used to calculate feed forward for turn speed in 2nd order dynamics calc.
   public static final double TURN_kA = 0;
@@ -45,8 +42,7 @@ public class ModuleIOTalonFXPro implements ModuleIO {
   /**
    * Conversion constant: From motor encoder ticks to position data (m)
    *
-   * <p>motor encoder ticks -> meters: motor encoder ticks * constant meters -> motor encoder ticks:
-   * meters / constant
+   * <p>rotations -> meters
    */
   private static final double DRIVE_SENSOR_POSITION_COEFFICIENT =
       (2 * Math.PI * WHEEL_RADIUS_METERS) / DRIVE_GEAR_RATIO;
@@ -54,8 +50,7 @@ public class ModuleIOTalonFXPro implements ModuleIO {
   /**
    * Conversion constant: From motor encoder ticks to velocity data (m/s)
    *
-   * <p>motor encoder ticks / 100 ms -> meters per second: motor encoder ticks * constant meters per
-   * second -> motor encoder ticks / 100 ms: meters per second / constant
+   * <p>rotations / second -> meters per second
    */
   private static final double DRIVE_SENSOR_VELOCITY_COEFFICIENT = DRIVE_SENSOR_POSITION_COEFFICIENT;
 
@@ -64,25 +59,8 @@ public class ModuleIOTalonFXPro implements ModuleIO {
    * wheel [2π])
    */
   private static final double STEER_GEAR_RATIO = 150.0 / 7;
-  /**
-   * Conversion constant: From motor encoder ticks to angle data (steer position) (radians)
-   *
-   * <p>motor encoder ticks -> radians: motor encoder ticks * constant radians -> motor encoder
-   * ticks: radians / constant
-   */
-  private static final double STEER_SENSOR_POSITION_COEFFICIENT =
-      (2 * Math.PI) / (2048 * STEER_GEAR_RATIO);
-  /**
-   * Conversion constant: From motor encoder ticks to angular velocity data (steer velocity)
-   * (radians/s)
-   *
-   * <p>motor encoder ticks / 100 ms -> radians per second: motor encoder ticks / 100 ms * constant
-   * radians per second -> motor encoder ticks / 100 ms: radians per second / constant
-   */
-  private static final double STEER_SENSOR_VELOCITY_COEFFICIENT =
-      STEER_SENSOR_POSITION_COEFFICIENT * 10;
 
-  private static final double VELOCITY_COEFFICIENT = 1.8;
+  private static final double MAX_VELOCITY = Units.feetToMeters(17.1);
 
   // Hardware object initialization
   /** TalonFX swerve module drive motor */
@@ -114,15 +92,15 @@ public class ModuleIOTalonFXPro implements ModuleIO {
    * @param steerMotorId Steer motor CAN ID
    * @param steerEncoderId Steer encoder CAN ID
    * @param canBus The name of the CAN bus the device is connected to.
-   * @param steerAngleOffsetRad This is the offset applied to the angle motor's absolute encoder so
-   *     that a reading of 0 degrees means the module is facing forwards.
+   * @param absoluteOffsetRotations This is the offset applied to the angle motor's absolute encoder
+   *     so that a reading of 0 degrees means the module is facing forwards.
    */
   public ModuleIOTalonFXPro(
       int driveMotorId,
       int steerMotorId,
       int steerEncoderId,
       String canBus,
-      double steerAngleOffsetRad) {
+      double absoluteOffsetRotations) {
 
     driveMotor = new TalonFX(driveMotorId, canBus);
     steerMotor = new TalonFX(steerMotorId, canBus);
@@ -144,19 +122,12 @@ public class ModuleIOTalonFXPro implements ModuleIO {
     driveConfig.Feedback = feedBackConfigs;
     driveConfig.CurrentLimits = driveCurrentLimitsConfigs;
     driveConfig.MotorOutput = motorOutputConfigs;
-    driveConfig.Slot0.kP = 0.0;
-    driveConfig.Slot0.kV =
-        1023.0 / ((12.0 / VELOCITY_COEFFICIENT) / (DRIVE_SENSOR_VELOCITY_COEFFICIENT));
+    driveConfig.Slot0.kP = 0.3;
+    driveConfig.Slot0.kV = 0.13;
 
     driveMotor.getConfigurator().apply(driveConfig);
 
     TalonFXConfiguration steerConfig = new TalonFXConfiguration();
-    //        steerConfig.
-    //        steerConfig.primaryPID.selectedFeedbackSensor =
-    // TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice();
-    //        steerConfig.slot0.kP = 0.2;
-    //        steerConfig.supplyCurrLimit.currentLimit = STEER_CURRENT_LIMIT;
-    //        steerConfig.supplyCurrLimit.enable = true;
 
     FeedbackConfigs feedBackSteerConfigs = new FeedbackConfigs();
     feedBackSteerConfigs.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
@@ -167,16 +138,13 @@ public class ModuleIOTalonFXPro implements ModuleIO {
     steerCurrentLimitsConfigs.SupplyCurrentLimit = STEER_CURRENT_LIMIT;
     steerCurrentLimitsConfigs.SupplyCurrentLimitEnable = true;
 
-    Slot0Configs slot0Configs = new Slot0Configs();
-    slot0Configs.kP = 100;
-
     steerConfig.Feedback = feedBackSteerConfigs;
     steerConfig.CurrentLimits = steerCurrentLimitsConfigs;
-    steerConfig.Slot0 = slot0Configs;
+    steerConfig.Slot0.kP = 100.0;
 
     MotorOutputConfigs steerMotorOutputConfigs = new MotorOutputConfigs();
     steerMotorOutputConfigs.Inverted = InvertedValue.Clockwise_Positive;
-    steerMotorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
+    steerMotorOutputConfigs.NeutralMode = NeutralModeValue.Coast;
     steerConfig.MotorOutput = steerMotorOutputConfigs;
 
     steerMotor.getConfigurator().apply(steerConfig);
@@ -184,7 +152,7 @@ public class ModuleIOTalonFXPro implements ModuleIO {
     CANcoderConfiguration steerEncoderConfig = new CANcoderConfiguration();
     MagnetSensorConfigs encoderMagnetSensorConfigs = new MagnetSensorConfigs();
     encoderMagnetSensorConfigs.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
-    encoderMagnetSensorConfigs.MagnetOffset = Units.radiansToRotations(steerAngleOffsetRad);
+    encoderMagnetSensorConfigs.MagnetOffset = absoluteOffsetRotations;
     steerEncoderConfig.MagnetSensor = encoderMagnetSensorConfigs;
 
     steerEncoder.getConfigurator().apply(steerEncoderConfig);
@@ -213,10 +181,10 @@ public class ModuleIOTalonFXPro implements ModuleIO {
         BaseStatusSignal.getLatencyCompensatedValue(
                 primaryDrivePositionSignal, primaryDriveVelocitySignal)
             * (DRIVE_SENSOR_POSITION_COEFFICIENT);
-    ;
+
     inputs.driveVelocityMetersPerSec =
         primaryDriveVelocitySignal.getValue() * (DRIVE_SENSOR_VELOCITY_COEFFICIENT);
-    ;
+
     inputs.driveCurrentDrawAmps = driveMotor.getSupplyCurrent().getValue();
     inputs.driveAppliedVolts = driveAppliedVolts;
     inputs.targetDriveVelocityMetersPerSec = targetVelocityMetersPerSeconds;
@@ -256,10 +224,13 @@ public class ModuleIOTalonFXPro implements ModuleIO {
 
   @Override
   public void setTargetDriveVelocity(double targetDriveVelocityMetersPerSec) {
-    driveMotor.setControl(
-        voltageControl.withOutput((targetDriveVelocityMetersPerSec / getMaxVelocity()) * 12));
 
-    Logger.recordOutput("Voltage", (targetDriveVelocityMetersPerSec / getMaxVelocity()) * 12);
+    driveMotor.setControl(
+        targetDriveVelocityMetersPerSec != 0.0
+            ? velocityControl.withVelocity(
+                targetDriveVelocityMetersPerSec / DRIVE_SENSOR_VELOCITY_COEFFICIENT)
+            : voltageControl.withOutput(
+                (targetDriveVelocityMetersPerSec / getMaxVelocity()) * 12.0));
 
     this.targetVelocityMetersPerSeconds = targetDriveVelocityMetersPerSec;
   }
@@ -269,7 +240,7 @@ public class ModuleIOTalonFXPro implements ModuleIO {
 
   @Override
   public double getMaxVelocity() {
-    return 12.0 / VELOCITY_COEFFICIENT;
+    return MAX_VELOCITY;
   }
 
   @Override

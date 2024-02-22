@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -91,10 +92,10 @@ public class RobotContainer {
         drive =
             new DriveSubsystem(
                 new GyroIOPigeon2(20, 0, 2.0, Constants.DRIVE_BUS),
-                new ModuleIOTalonFXPro(2, 1, 3, Constants.DRIVE_BUS, 0),
-                new ModuleIOTalonFXPro(5, 4, 6, Constants.DRIVE_BUS, 0),
-                new ModuleIOTalonFXPro(8, 7, 9, Constants.DRIVE_BUS, 0),
-                new ModuleIOTalonFXPro(11, 10, 12, Constants.DRIVE_BUS, 0),
+                new ModuleIOTalonFXPro(2, 1, 3, Constants.DRIVE_BUS, -0.626221 + .5),
+                new ModuleIOTalonFXPro(5, 4, 6, Constants.DRIVE_BUS, -0.357910 + .5),
+                new ModuleIOTalonFXPro(8, 7, 9, Constants.DRIVE_BUS, -0.424805 + .5),
+                new ModuleIOTalonFXPro(11, 10, 12, Constants.DRIVE_BUS, -0.589844 + .5),
                 vision);
 
         shooter = new ShooterSubsystem(new ShooterIOSpark());
@@ -185,18 +186,14 @@ public class RobotContainer {
 
     // driveJoystick.d1().whileTrue(Commands.run(drive::stopWithX, drive));
 
-    // driveJoystick.b1().onTrue(DriveCommands.zeroDrive(drive));
+    driveJoystick.b1().or(controller.back()).onTrue(DriveCommands.zeroDrive(drive));
 
-    // controller.back().onTrue(DriveCommands.zeroDrive(drive));
-
-    // controller
-    //     .start()
-    //     .or(turnJoystick.button(2))
-    //     .onTrue(
-    //         DriveCommands.zeroOdometry(
-    //             drive,
-    //             new Translation2d(
-    //                 Units.inchesToMeters(36) + (drive.getBumperWidth() / 2.0), 5.55)));
+    controller
+        .start()
+        .or(turnJoystick.button(2))
+        .onTrue(
+            DriveCommands.zeroOdometry(
+                drive, new Translation2d(Units.inchesToMeters(36 + (32.0 / 2.0)), 5.55)));
 
     controller
         .leftBumper()

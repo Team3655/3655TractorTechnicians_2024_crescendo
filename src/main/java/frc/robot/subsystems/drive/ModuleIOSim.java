@@ -57,9 +57,7 @@ public class ModuleIOSim implements ModuleIO {
     steerAbsolutePositionRad = MathUtil.inputModulus(steerAbsolutePositionRad, 0, 2 * Math.PI);
 
     // Setting the inputs within the IO class
-    inputs.drivePositionRad =
-        inputs.drivePositionRad
-            + (driveSim.getAngularVelocityRadPerSec() * Robot.defaultPeriodSecs);
+    inputs.drivePositionRad = driveSim.getAngularPositionRad();
     inputs.drivePositionMeters = driveSim.getAngularPositionRad() * WHEEL_RADIUS_METERS;
     inputs.driveVelocityMetersPerSec = driveSim.getAngularVelocityRadPerSec() * WHEEL_RADIUS_METERS;
     inputs.driveAppliedVolts = driveAppliedVolts;

@@ -42,30 +42,19 @@ public class Module {
    */
   public void setTargetState(SwerveModuleState targetState) {
     double currentAngle = inputs.steerPositionRad; // Current angle of the swerve module
-    double targetAngle =
-        MathUtil.inputModulus(
-            targetState.angle.getRadians(),
-            0,
-            2 * Math.PI); // Target angle of the swerve module, limited to a domain between 0 and
-    // 2π.
 
-    double absoluteAngle =
-        MathUtil.inputModulus(
-            currentAngle,
-            0,
-            2 * Math.PI); // Limiting the domain of the current angle to a domain of 0 to 2π.
+    // Target angle of the swerve module, limited to a domain between 0 and 2π.
+    double targetAngle = MathUtil.inputModulus(targetState.angle.getRadians(), 0, 2 * Math.PI);
 
-    double angleError =
-        MathUtil.inputModulus(
-            targetAngle - absoluteAngle,
-            -Math.PI,
-            Math.PI); // Finding the difference in between the current and target angle (in
-    // radians).
-    double resultAngle =
-        currentAngle
-            + angleError; // Adding that distance to our current angle (directly from the steer
-    // encoder). Becomes
-    // our target angle
+    // Limiting the domain of the current angle to a domain of 0 to 2π.
+    double absoluteAngle = MathUtil.inputModulus(currentAngle, 0, 2 * Math.PI);
+
+    // Finding the difference in between the current and target angle (in radians).
+    double angleError = MathUtil.inputModulus(targetAngle - absoluteAngle, -Math.PI, Math.PI);
+
+    // Adding that distance to our current angle (directly from the steer encoder).
+    // Becomes our target angle
+    double resultAngle = currentAngle + angleError;
 
     // Setting the target swerve module state values (drive velocity and steer angle).
     io.setTargetDriveVelocity(targetState.speedMetersPerSecond);

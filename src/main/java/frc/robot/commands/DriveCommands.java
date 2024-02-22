@@ -42,17 +42,16 @@ public class DriveCommands {
         drive);
   }
 
-  // public static Command zeroDrive(DriveSubsystem drive) {
-  //   return Commands.runOnce(
-  //           () -> drive.getOdometry().resetPosition(,
-  //           drive)
-  //       .ignoringDisable(true);
-  // }
+  public static Command zeroDrive(DriveSubsystem drive) {
+    return Commands.runOnce(
+            () -> drive.resetPose(new Pose2d(drive.getPose().getTranslation(), new Rotation2d())))
+        .ignoringDisable(true);
+  }
 
-  // public static Command zeroOdometry(DriveSubsystem drive, Translation2d pose) {
-  //   return Commands.runOnce(() -> drive.setPose(new Pose2d(pose, drive.getRotation())), drive)
-  //       .ignoringDisable(true);
-  // }
+  public static Command zeroOdometry(DriveSubsystem drive, Translation2d pose) {
+    return Commands.runOnce(() -> drive.resetPose(new Pose2d(pose, drive.getPose().getRotation())))
+        .ignoringDisable(true);
+  }
 
   public static Rotation2d getAngleDelta(Pose2d robotPose, Translation2d target) {
     Rotation2d rotationTarget =
