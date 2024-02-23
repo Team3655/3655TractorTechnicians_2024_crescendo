@@ -66,16 +66,11 @@ public class ShooterOrbit extends Command {
             // get as a vector
             .getTranslation();
 
-    Rotation2d rotationTarget =
-        reletiveTarget
-            // get the angle of the vector
-            .getAngle()
-            // rotate the angle by 180 because we want the robot to face down the vector
-            .rotateBy(Rotation2d.fromDegrees(180));
+    Rotation2d rotationTarget = reletiveTarget.getAngle();
 
     // calculate pid output based on the delta to target rotation
     turnFeedback.setGoal(rotationTarget.getRotations());
-    double omega = turnFeedback.calculate(drive.getPose().getRotation().getRotations());
+    double omega = -turnFeedback.calculate(drive.getPose().getRotation().getRotations());
 
     shooter.setShooterAngleFromDist(reletiveTarget.getNorm());
 

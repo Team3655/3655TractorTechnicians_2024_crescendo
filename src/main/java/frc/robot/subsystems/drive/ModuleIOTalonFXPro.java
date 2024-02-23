@@ -174,8 +174,8 @@ public class ModuleIOTalonFXPro implements ModuleIO {
 
   @Override
   public void updateInputs(SwerveModuleIOInputs inputs) {
-    double driveAppliedVolts = driveMotor.getSupplyVoltage().getValue();
-    double steerAppliedVolts = steerMotor.getSupplyVoltage().getValue();
+    double driveAppliedVolts = driveMotor.getMotorVoltage().getValue();
+    double steerAppliedVolts = steerMotor.getMotorVoltage().getValue();
 
     inputs.drivePositionMeters =
         BaseStatusSignal.getLatencyCompensatedValue(
@@ -229,8 +229,8 @@ public class ModuleIOTalonFXPro implements ModuleIO {
         targetDriveVelocityMetersPerSec != 0.0
             ? velocityControl.withVelocity(
                 targetDriveVelocityMetersPerSec / DRIVE_SENSOR_VELOCITY_COEFFICIENT)
-            : voltageControl.withOutput(
-                (targetDriveVelocityMetersPerSec / getMaxVelocity()) * 12.0));
+            // if the vel is 0 let the robot coast to a stop (this is gentler on the robot)
+            : voltageControl.withOutput(0.0));
 
     this.targetVelocityMetersPerSeconds = targetDriveVelocityMetersPerSec;
   }

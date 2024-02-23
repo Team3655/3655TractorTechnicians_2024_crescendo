@@ -6,19 +6,25 @@ package frc.robot.subsystems.vision;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import java.util.ArrayList;
 import org.littletonrobotics.junction.Logger;
 
 public class VisionSubsystem extends SubsystemBase {
 
-  // NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  private final VisionIO limelight;
+  private final VisionIOInputsAutoLogged llInputs = new VisionIOInputsAutoLogged();
 
   private final VisionIO[] cameras;
   private final VisionIOInputsAutoLogged[] inputs;
 
   private Pose2d robotPose = new Pose2d();
 
+  private ArrayList<TimestampedPose> acceptedMeasurements = new ArrayList<>();
+  private ArrayList<TimestampedPose> rejectedMeasurements = new ArrayList<>();
+
   /** Creates a new VisionSubsystem. */
   public VisionSubsystem(VisionIO limelight, VisionIO... cameras) {
+    this.limelight = limelight;
     this.cameras = cameras;
     inputs = new VisionIOInputsAutoLogged[cameras.length];
     for (int i = 0; i < cameras.length; i++) {
@@ -28,30 +34,44 @@ public class VisionSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    acceptedMeasurements.clear();
+
     for (int i = 0; i < cameras.length; i++) {
       cameras[i].updateRobotPose(robotPose);
       cameras[i].updateInputs(inputs[i]);
       Logger.processInputs("Vision/" + cameras[i].getName(), inputs[i]);
-      Logger.recordOutput("Vision/Robot Pose", robotPose);
     }
 
-    // Logger.recordOutput(
-    //     "Vision/Limelight/Botpose Blue", LimelightHelpers.getBotPose_wpiBlue("limelight"));
+    limelight.updateInputs(llInputs);
+    Logger.processInputs("Vision/limelight", llInputs);
+    if (llInputs.hasValidTarget) {
+      acceptedMeasurements.add(new TimestampedPose(llInputs.robotPose, llInputs.timestamp));
+    }
+  }
+
+  public ArrayList<TimestampedPose> getMeasurements() {
+    return acceptedMeasurements;
   }
 
   public void updateRobotPose(Pose2d robotPose) {
     this.robotPose = robotPose;
   }
 
-  // @AutoLogOutput(key = "Vision/Limelight/Botpose Blue")
-  // public Pose2d getLLRobotPose() {
-  //   double[] output = LimelightHelpers.getBotPose_wpiBlue("limelight");
+  public class TimestampedPose {
+    private final Pose2d pose;
+    private final double timestamp;
 
-  //   return new Pose2d(output[0], output[1], Rotation2d.fromDegrees(output[5]));
-  // }
+    public TimestampedPose(Pose2d pose, double timestamp) {
+      this.pose = pose;
+      this.timestamp = timestamp;
+    }
 
-  // public boolean hasTarget() {
-  //   if (LimelightHelpers.getTV("limelight")) return true;
-  //   else return false;
-  // }
+    public Pose2d getPose() {
+      return pose;
+    }
+
+    public double getTimestamp() {
+      return timestamp;
+    }
+  }
 }

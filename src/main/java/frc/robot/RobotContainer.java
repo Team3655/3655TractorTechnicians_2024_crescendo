@@ -3,10 +3,8 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -33,6 +31,7 @@ import frc.robot.subsystems.shooter.ShooterIOSim;
 import frc.robot.subsystems.shooter.ShooterIOSpark;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.vision.VisionIO;
+import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.subsystems.vision.VisionIOPhoton;
 import frc.robot.subsystems.vision.VisionSubsystem;
 import frc.robot.util.CommandNXT;
@@ -70,32 +69,22 @@ public class RobotContainer {
    */
   public RobotContainer() throws IOException {
 
-    Translation3d robotToCameraTrl = new Translation3d(0.1, 0, 0.5);
-    // and pitched 15 degrees up.
-    Rotation3d robotToCameraRot = new Rotation3d(0, Math.toRadians(-15), 0);
-    Transform3d robotToCamera = new Transform3d(robotToCameraTrl, robotToCameraRot);
+    // Translation3d robotToCameraTrl = new Translation3d(0.1, 0, 0.5);
+    // Rotation3d robotToCameraRot = new Rotation3d(0, Math.toRadians(-15), 0);
+    // Transform3d robotToCamera = new Transform3d(robotToCameraTrl, robotToCameraRot);
 
     switch (Constants.currentMode) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
-        vision = new VisionSubsystem(new VisionIOPhoton("camera1", robotToCamera));
-
-        // drive =
-        // new DriveSubsystem(
-        // new GyroIOPigeon2(false),
-        // new ModuleIOSparkMax(0),
-        // new ModuleIOSparkMax(1),
-        // new ModuleIOSparkMax(2),
-        // new ModuleIOSparkMax(3),
-        // vision);
+        vision = new VisionSubsystem(new VisionIOLimelight("limelight"));
 
         drive =
             new DriveSubsystem(
                 new GyroIOPigeon2(20, 0, 2.0, Constants.DRIVE_BUS),
-                new ModuleIOTalonFXPro(2, 1, 3, Constants.DRIVE_BUS, -0.626221 + .5),
-                new ModuleIOTalonFXPro(5, 4, 6, Constants.DRIVE_BUS, -0.357910 + .5),
-                new ModuleIOTalonFXPro(8, 7, 9, Constants.DRIVE_BUS, -0.424805 + .5),
-                new ModuleIOTalonFXPro(11, 10, 12, Constants.DRIVE_BUS, -0.589844 + .5),
+                new ModuleIOTalonFXPro(2, 1, 3, Constants.DRIVE_BUS, -0.626221),
+                new ModuleIOTalonFXPro(5, 4, 6, Constants.DRIVE_BUS, -0.357910),
+                new ModuleIOTalonFXPro(8, 7, 9, Constants.DRIVE_BUS, -0.424805),
+                new ModuleIOTalonFXPro(11, 10, 12, Constants.DRIVE_BUS, -0.589844),
                 vision);
 
         shooter = new ShooterSubsystem(new ShooterIOSpark());
@@ -170,7 +159,7 @@ public class RobotContainer {
             // the robots zoomieness
             () -> -driveJoystick.getY() - controller.getLeftY(),
             () -> -driveJoystick.getX() - controller.getLeftX(),
-            () -> -turnJoystick.getX() - controller.getRightX()));
+            () -> turnJoystick.getX() + controller.getRightX()));
     // () -> -controller.getRawAxis(2))); // MacOS
 
     controller
@@ -247,14 +236,8 @@ public class RobotContainer {
         .or(controller.povLeft())
         .whileTrue(
             Commands.startEnd(
-                () -> {
-                  intake.setLinearPosition(true);
-                  intake.setIntakeVoltage(10.0);
-                },
-                () -> {
-                  intake.setLinearPosition(false);
-                  intake.setIntakeVoltage(0.0);
-                },
+                () -> intake.setState(IntakeSubsystem.INTAKE_STATE),
+                () -> intake.setState(IntakeSubsystem.TUCKED_STATE),
                 intake));
 
     controller
@@ -262,14 +245,13 @@ public class RobotContainer {
         .or(driveJoystick.fireStage2())
         .or(driveJoystick.firePaddleDown())
         .whileTrue(
-            Commands.startEnd(
-                () -> intake.setIntakeVoltage(10), () -> intake.setIntakeVoltage(0), intake));
+            Commands.startEnd(() -> intake.setVoltage(10), () -> intake.setVoltage(0), intake));
 
     driveJoystick
         .fireStage1()
         .whileTrue(ShootingCommands.holdShoot(shooter, flywheelSpeedInput::get));
 
-    // // shooter intake
+    // shooter intake
     // driveJoystick
     //     .fireStage1()
     //     .whileTrue(

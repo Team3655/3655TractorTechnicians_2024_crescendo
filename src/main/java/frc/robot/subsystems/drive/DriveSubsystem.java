@@ -117,6 +117,7 @@ public class DriveSubsystem extends SubsystemBase {
         var status = BaseStatusSignal.waitForAll(0.1, allSignals);
         lastTime = currentTime;
         currentTime = Utils.getCurrentTimeSeconds();
+        // calculate loop time and run it through a lowpass to make it more readable
         averageLoopTime = lowpass.calculate(currentTime - lastTime);
         if (status.isOK()) {
           successfulDataAcquisitions++;
@@ -257,6 +258,7 @@ public class DriveSubsystem extends SubsystemBase {
               new SwerveModulePosition()
             },
             new Pose2d());
+
     estimator =
         new SwerveDrivePoseEstimator(
             kinematics,
@@ -277,18 +279,16 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    Logger.processInputs(
-        "Drive/Gyro", gyroInputs); // Logging the gyro scope readings. Goes to AdvantageScope
+    // Logging the gyro scope readings. Goes to AdvantageScope
+    Logger.processInputs("Drive/Gyro", gyroInputs);
 
     SwerveModuleState[] optimizedSwerveModuleStates = new SwerveModuleState[4];
 
-    swerveModuleStates =
-        kinematics.toSwerveModuleStates(
-            targetVelocity); // Using the target chassis speed (speed of the entire robot), we
-    // calculate the
-    // angle
-    // and speed for each swerve drive module by creating separate swerve drive module
-    // states.
+    // Using the target chassis speed (speed of the entire robot), we calculate the
+    // angle and speed for each swerve drive module by creating separate swerve
+    // drive module states.
+    swerveModuleStates = kinematics.toSwerveModuleStates(targetVelocity);
+
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates,
         maxVelocityMetersPerSec); // Making sure that one module isn't going faster than it's
@@ -325,20 +325,17 @@ public class DriveSubsystem extends SubsystemBase {
     // Figures out the current location and rotation of the robot on the field.
 
     Logger.recordOutput("Drive/UsingVision?", shouldUseVisionData);
-    // if (shouldUseVisionData) {
-    //     synchronized (estimator) {
-    //         for (int i = 0; i < vision.getVisionOdometry().size(); i++) {
-    //             estimator.addVisionMeasurement(
-    //                     vision.getVisionOdometry().get(i).getPose(),
-    //                     vision.getVisionOdometry().get(i).getTimestamp(),
-    //                     VecBuilder.fill(
-    //                             vision.getMinDistance(i) * ESTIMATION_COEFFICIENT,
-    //                             vision.getMinDistance(i) * ESTIMATION_COEFFICIENT,
-    //                             5.0));
-    //         }
-    //     }
-    // }
-
+    if (shouldUseVisionData) {
+      synchronized (estimator) {
+        for (int i = 0; i < vision.getMeasurements().size(); i++) {
+          Logger.recordOutput("Drive/VisionMeasurement", vision.getMeasurements().get(i).getPose());
+          estimator.addVisionMeasurement(
+              vision.getMeasurements().get(i).getPose(),
+              vision.getMeasurements().get(i).getTimestamp(),
+              VecBuilder.fill(0.5, 0.5, 5.0));
+        }
+      }
+    }
     Logger.recordOutput("Drive/Pose", getPose()); // Logging the pose data
     synchronized (estimator) {
       Logger.recordOutput("Drive/EstimatedPose", estimator.getEstimatedPosition());
@@ -346,7 +343,14 @@ public class DriveSubsystem extends SubsystemBase {
     synchronized (odometry) {
       Logger.recordOutput("Drive/OdometryPose", odometry.getPoseMeters());
     }
-    Logger.recordOutput("Drive/OdometryThreadLoop", odometryUpdateThread.getAverageLoopTime());
+    Logger.recordOutput(
+        "Drive/OdometryThread/Average Loop Time", odometryUpdateThread.getAverageLoopTime());
+    Logger.recordOutput(
+        "Drive/OdometryThread/Successful Data Acquisitions",
+        odometryUpdateThread.getSuccessfulDataAcquisitions());
+    Logger.recordOutput(
+        "Drive/OdometryThread/Failed Data Acquisitions",
+        odometryUpdateThread.getFailedDataAcquisitions());
   }
 
   /**
@@ -401,6 +405,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void resetPose() {
+    // store pose to optimize synchronization
     Pose2d pose = getPose();
     resetPose(new Pose2d(pose.getX(), pose.getY(), new Rotation2d()));
   }
@@ -430,24 +435,18 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public Pose2d getProjectedPose(double latency) {
-    ChassisSpeeds currentVelocity = kinematics.toChassisSpeeds(swerveModuleStates);
+    ChassisSpeeds currentVelocity = getChassisSpeeds();
 
     double xSinceLastPose = currentVelocity.vxMetersPerSecond * latency;
     double ySinceLastPose = currentVelocity.vyMetersPerSecond * latency;
     double angleSinceLastPose = currentVelocity.omegaRadiansPerSecond * latency;
 
-    Twist2d poseChanges = new Twist2d(xSinceLastPose, ySinceLastPose, angleSinceLastPose);
-    return getPose().exp(poseChanges);
+    Twist2d poseDelta = new Twist2d(xSinceLastPose, ySinceLastPose, angleSinceLastPose);
+    return getPose().exp(poseDelta);
   }
 
   public ChassisSpeeds getChassisSpeeds() {
-    var states = new SwerveModuleState[4];
-
-    for (int i = 0; i < getSwerveModules().length; i++) {
-      states[i] = getSwerveModules()[i].getState();
-    }
-
-    return kinematics.toChassisSpeeds(states);
+    return kinematics.toChassisSpeeds(swerveModuleStates);
   }
 
   public double getMaxVelocityMetersPerSec() {

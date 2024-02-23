@@ -13,16 +13,15 @@ public interface VisionIO {
 
   @AutoLog
   public class VisionIOInputs {
-
     public boolean hasValidTarget = false;
 
-    public double deltaX = 0.0;
-
     public double[] ambiguity = new double[] {};
+
     public Pose3d[] targetPoses = new Pose3d[] {};
 
     public Pose2d robotPose = new Pose2d();
-    public double timeStamp = 0.0;
+    public double timestamp = 0.0;
+    public double distance = 0.0;
   }
 
   /** Updates the set of loggable inputs. */

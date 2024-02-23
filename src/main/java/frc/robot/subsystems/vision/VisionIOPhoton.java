@@ -102,7 +102,7 @@ public class VisionIOPhoton implements VisionIO {
       // Basic inputs
       inputs.hasValidTarget = true;
       inputs.robotPose = EstimatedRobotPose.get().estimatedPose.toPose2d();
-      inputs.timeStamp = EstimatedRobotPose.get().timestampSeconds;
+      inputs.timestamp = EstimatedRobotPose.get().timestampSeconds;
       // List inputs
       inputs.ambiguity = new double[result.targets.size()];
       inputs.targetPoses = new Pose3d[result.targets.size()];
