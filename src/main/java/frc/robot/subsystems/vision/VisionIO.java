@@ -21,7 +21,7 @@ public interface VisionIO {
 
     public Pose2d robotPose = new Pose2d();
     public double timestamp = 0.0;
-    public double distance = 0.0;
+    public double distanceToCamera = 0.0;
   }
 
   /** Updates the set of loggable inputs. */

@@ -10,6 +10,7 @@ import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.util.Units;
 import frc.robot.util.LimelightHelpers;
+import java.util.Optional;
 
 /** Add your docs here. */
 public class VisionIOLimelight implements VisionIO {
@@ -28,9 +29,13 @@ public class VisionIOLimelight implements VisionIO {
     if (LimelightHelpers.getTV(name)) {
       inputs.hasValidTarget = true;
       inputs.robotPose = LimelightHelpers.getBotPose2d_wpiBlue(name);
-      // inputs.distance = LimelightHelpers.getTargetPose_CameraSpace(name)
-      inputs.targetPoses =
-          new Pose3d[] {TAG_LAYOUT.getTagPose((int) LimelightHelpers.getFiducialID(name)).get()};
+      inputs.distanceToCamera =
+          LimelightHelpers.getCameraPose3d_TargetSpace(name).getTranslation().getNorm();
+      Optional<Pose3d> targetPose =
+          TAG_LAYOUT.getTagPose((int) LimelightHelpers.getFiducialID(name));
+      if (targetPose.isPresent()) {
+        inputs.targetPoses = new Pose3d[] {targetPose.get()};
+      }
       inputs.timestamp =
           MathSharedStore.getTimestamp()
               - Units.millisecondsToSeconds(

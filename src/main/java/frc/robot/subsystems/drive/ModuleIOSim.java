@@ -1,11 +1,11 @@
 package frc.robot.subsystems.drive;
 
+import com.ctre.phoenix6.Utils;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
-import frc.robot.Robot;
 
 /**
  * Implementation of the Swerve Module IO interface. Simulating the drive train of a robot through
@@ -28,8 +28,16 @@ public class ModuleIOSim implements ModuleIO {
   /** Represents a starting angular position value for our MOTOR encoder */
   private double steerAbsolutePositionRad = Math.random() * 2.0 * Math.PI;
 
+  private double currentTime = 0.0;
+  private double lastTime = 0.0;
+
   @Override
   public void updateInputs(SwerveModuleIOInputs inputs) {
+
+    lastTime = currentTime;
+    currentTime = Utils.getCurrentTimeSeconds();
+    double deltaTime = currentTime - lastTime;
+
     // Calculating target data to voltage data
     double driveAppliedVolts = driveFeedback.calculate(inputs.driveVelocityMetersPerSec);
     driveAppliedVolts = MathUtil.clamp(driveAppliedVolts, -12.0, 12.0);
@@ -43,13 +51,13 @@ public class ModuleIOSim implements ModuleIO {
     // Updates every set amount of seconds (replicating a robot, we are using the default time
     // between updates for
     // the robot)
-    driveSim.update(Robot.defaultPeriodSecs);
-    steerSim.update(Robot.defaultPeriodSecs);
+    driveSim.update(deltaTime);
+    steerSim.update(deltaTime);
 
     // Adding the difference in angles between the absolute and relative angles to the current angle
     // (correcting for
     // the offset)
-    double angleDiffRad = steerSim.getAngularVelocityRadPerSec() * Robot.defaultPeriodSecs;
+    double angleDiffRad = steerSim.getAngularVelocityRadPerSec() * deltaTime;
     steerRelativePositionRad += angleDiffRad;
     steerAbsolutePositionRad += angleDiffRad;
 

@@ -13,6 +13,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.Logger;
 
@@ -27,6 +28,7 @@ public class ShooterOrbit extends Command {
 
   private DoubleSupplier xSupplier;
   private DoubleSupplier ySupplier;
+  private BooleanSupplier kickSupplier;
 
   /** Creates a new OrbitAndShootCommand. */
   public ShooterOrbit(
@@ -34,12 +36,14 @@ public class ShooterOrbit extends Command {
       ShooterSubsystem shooter,
       DoubleSupplier xSupplier,
       DoubleSupplier ySupplier,
+      BooleanSupplier kickSupplier,
       Translation2d target) {
 
     this.drive = drive;
     this.shooter = shooter;
     this.xSupplier = xSupplier;
     this.ySupplier = ySupplier;
+    this.kickSupplier = kickSupplier;
     this.target = target;
 
     turnFeedback = new ProfiledPIDController(3.0, 0.0012, 0.0, new Constraints(0.0, 0.0));
@@ -60,19 +64,18 @@ public class ShooterOrbit extends Command {
 
     Translation2d reletiveTarget =
         drive
-            .getPose()
+            .getPose(true)
             // get the drive position reletive to the target position
             .relativeTo(new Pose2d(target, new Rotation2d()))
             // get as a vector
             .getTranslation();
 
-    Rotation2d rotationTarget = reletiveTarget.getAngle();
+    // adjust offset to ensure robot shoots into target center
+    Rotation2d rotationTarget = reletiveTarget.getAngle().plus(Rotation2d.fromDegrees(7.5));
 
     // calculate pid output based on the delta to target rotation
     turnFeedback.setGoal(rotationTarget.getRotations());
     double omega = -turnFeedback.calculate(drive.getPose().getRotation().getRotations());
-
-    shooter.setShooterAngleFromDist(reletiveTarget.getNorm());
 
     // send speeds to drive function
     drive.setTargetVelocity(
@@ -81,6 +84,10 @@ public class ShooterOrbit extends Command {
             linearVelocity.getY() * drive.getMaxVelocityMetersPerSec(),
             omega * drive.getMaxAngularVelocityRadPerSec(),
             drive.getPose().getRotation()));
+
+    shooter.setShooterAngleFromDist(reletiveTarget.getNorm());
+    shooter.setKicker(kickSupplier.getAsBoolean() ? 12.0 : 0.0);
+    shooter.runVelocity(5000);
 
     Logger.recordOutput("Drive/Orbit/Distance To Target", reletiveTarget.getNorm());
     Logger.recordOutput("Drive/Orbit/Error", turnFeedback.getPositionError());
@@ -93,7 +100,9 @@ public class ShooterOrbit extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    shooter.stopFlywheel();
+  }
 
   // Returns true when the command should end.
   @Override

@@ -9,7 +9,13 @@ import edu.wpi.first.math.geometry.Pose2d;
 /** Add your docs here. */
 public class MirroredPose {
 
-  private Pose2d bluePose;
+  private final Pose2d bluePose;
 
-  public MirroredPose(Pose2d bluePose) {}
+  public MirroredPose(Pose2d bluePose) {
+    this.bluePose = bluePose;
+  }
+
+  public Pose2d getPose() {
+    return bluePose;
+  }
 }

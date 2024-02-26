@@ -5,7 +5,6 @@
 package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import java.util.HashMap;
@@ -23,11 +22,13 @@ public class ShooterSubsystem extends SubsystemBase {
   private static final HashMap<Double, Rotation2d> DISTANCE_TO_ANGLE =
       new HashMap<>() {
         {
-          put(Units.inchesToMeters(234), Rotation2d.fromDegrees(66.5));
-          put(Units.inchesToMeters(172), Rotation2d.fromDegrees(62));
-          put(Units.inchesToMeters(137), Rotation2d.fromDegrees(57));
-          put(Units.inchesToMeters(100), Rotation2d.fromDegrees(52));
-          put(Units.inchesToMeters(55), Rotation2d.fromDegrees(29));
+          put(4.5604, Rotation2d.fromRotations(0.1726));
+          put(4.5604, Rotation2d.fromRotations(0.1726));
+          put(3.7741, Rotation2d.fromRotations(0.1587));
+          put(3.1782, Rotation2d.fromRotations(0.1539));
+          put(3.0634, Rotation2d.fromRotations(0.1452));
+          put(2.2614, Rotation2d.fromRotations(0.1289));
+          put(1.3632, Rotation2d.fromRotations(0.0805));
           // put(Units.inchesToMeters(172), Rotation2d.fromDegrees(80));
         }
       };

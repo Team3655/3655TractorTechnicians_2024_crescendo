@@ -19,8 +19,8 @@ public class VisionSubsystem extends SubsystemBase {
 
   private Pose2d robotPose = new Pose2d();
 
-  private ArrayList<TimestampedPose> acceptedMeasurements = new ArrayList<>();
-  private ArrayList<TimestampedPose> rejectedMeasurements = new ArrayList<>();
+  private ArrayList<visionMeasurement> acceptedMeasurements = new ArrayList<>();
+  private ArrayList<visionMeasurement> rejectedMeasurements = new ArrayList<>();
 
   /** Creates a new VisionSubsystem. */
   public VisionSubsystem(VisionIO limelight, VisionIO... cameras) {
@@ -44,12 +44,16 @@ public class VisionSubsystem extends SubsystemBase {
 
     limelight.updateInputs(llInputs);
     Logger.processInputs("Vision/limelight", llInputs);
-    if (llInputs.hasValidTarget) {
-      acceptedMeasurements.add(new TimestampedPose(llInputs.robotPose, llInputs.timestamp));
+    if (llInputs.hasValidTarget && llInputs.distanceToCamera <= 6.4) {
+      acceptedMeasurements.add(
+          new visionMeasurement(llInputs.robotPose, llInputs.distanceToCamera, llInputs.timestamp));
+    } else {
+      rejectedMeasurements.add(
+          new visionMeasurement(llInputs.robotPose, llInputs.distanceToCamera, llInputs.timestamp));
     }
   }
 
-  public ArrayList<TimestampedPose> getMeasurements() {
+  public ArrayList<visionMeasurement> getMeasurements() {
     return acceptedMeasurements;
   }
 
@@ -57,19 +61,41 @@ public class VisionSubsystem extends SubsystemBase {
     this.robotPose = robotPose;
   }
 
-  public class TimestampedPose {
+  public class visionMeasurement {
     private final Pose2d pose;
     private final double timestamp;
+    private final double distance;
 
-    public TimestampedPose(Pose2d pose, double timestamp) {
+    /**
+     * A class holding the data relevent to adding vision data to poseEstimation
+     *
+     * @param pose the Pose2d reported by the camera
+     * @param distance the distance to the closest target
+     * @param timestamp the timestamp of when the measurement was taken
+     */
+    public visionMeasurement(Pose2d pose, double distance, double timestamp) {
       this.pose = pose;
       this.timestamp = timestamp;
+      this.distance = distance;
     }
 
+    /**
+     * @return the Pose2d reported by the camera
+     */
     public Pose2d getPose() {
       return pose;
     }
 
+    /**
+     * @return the distance to the closest target
+     */
+    public double getDistance() {
+      return distance;
+    }
+
+    /**
+     * @return the timestamp of when the measurement was taken
+     */
     public double getTimestamp() {
       return timestamp;
     }

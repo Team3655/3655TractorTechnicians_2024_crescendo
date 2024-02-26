@@ -164,13 +164,14 @@ public class RobotContainer {
 
     controller
         .rightBumper()
-        .or(driveJoystick.a2())
+        .or(driveJoystick.fireStage1())
         .whileTrue(
             new ShooterOrbit(
                 drive,
                 shooter,
                 () -> -driveJoystick.getY() - controller.getLeftY(),
                 () -> -driveJoystick.getX() - controller.getLeftX(),
+                () -> driveJoystick.fireStage2().getAsBoolean(),
                 new Translation2d(0.0, 5.5))); // 0.0, 5.5
 
     // driveJoystick.d1().whileTrue(Commands.run(drive::stopWithX, drive));
@@ -247,9 +248,7 @@ public class RobotContainer {
         .whileTrue(
             Commands.startEnd(() -> intake.setVoltage(10), () -> intake.setVoltage(0), intake));
 
-    driveJoystick
-        .fireStage1()
-        .whileTrue(ShootingCommands.holdShoot(shooter, flywheelSpeedInput::get));
+    driveJoystick.a2().whileTrue(ShootingCommands.holdShoot(shooter, flywheelSpeedInput::get));
 
     // shooter intake
     // driveJoystick
