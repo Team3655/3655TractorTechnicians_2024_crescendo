@@ -174,3 +174,5 @@ simgui*.json
 # Version file
 src/main/java/frc/robot/BuildConstants.java
 src/main/java/frc/robot/BuildConstants.java
+*.dat
+*.dat

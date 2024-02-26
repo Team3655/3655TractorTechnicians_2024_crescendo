@@ -3,10 +3,8 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -15,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveCommands;
-import frc.robot.commands.FeedForwardCharacterization;
 import frc.robot.commands.PathfindingCommands;
 import frc.robot.commands.ShooterOrbit;
 import frc.robot.commands.ShootingCommands;
@@ -24,7 +21,7 @@ import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
-import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.drive.ModuleIOTalonFXPro;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOHardware;
 import frc.robot.subsystems.intake.IntakeIOSim;
@@ -34,6 +31,7 @@ import frc.robot.subsystems.shooter.ShooterIOSim;
 import frc.robot.subsystems.shooter.ShooterIOSpark;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.vision.VisionIO;
+import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.subsystems.vision.VisionIOPhoton;
 import frc.robot.subsystems.vision.VisionSubsystem;
 import frc.robot.util.CommandNXT;
@@ -71,32 +69,22 @@ public class RobotContainer {
    */
   public RobotContainer() throws IOException {
 
-    Translation3d robotToCameraTrl = new Translation3d(0.1, 0, 0.5);
-    // and pitched 15 degrees up.
-    Rotation3d robotToCameraRot = new Rotation3d(0, Math.toRadians(-15), 0);
-    Transform3d robotToCamera = new Transform3d(robotToCameraTrl, robotToCameraRot);
+    // Translation3d robotToCameraTrl = new Translation3d(0.1, 0, 0.5);
+    // Rotation3d robotToCameraRot = new Rotation3d(0, Math.toRadians(-15), 0);
+    // Transform3d robotToCamera = new Transform3d(robotToCameraTrl, robotToCameraRot);
 
     switch (Constants.currentMode) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
-        vision = new VisionSubsystem(new VisionIOPhoton("camera1", robotToCamera));
-
-        // drive =
-        // new DriveSubsystem(
-        // new GyroIOPigeon2(false),
-        // new ModuleIOSparkMax(0),
-        // new ModuleIOSparkMax(1),
-        // new ModuleIOSparkMax(2),
-        // new ModuleIOSparkMax(3),
-        // vision);
+        vision = new VisionSubsystem(new VisionIOLimelight("limelight"));
 
         drive =
             new DriveSubsystem(
-                new GyroIOPigeon2(true),
-                new ModuleIOTalonFX(0),
-                new ModuleIOTalonFX(1),
-                new ModuleIOTalonFX(2),
-                new ModuleIOTalonFX(3),
+                new GyroIOPigeon2(20, 0, 2.0, Constants.DRIVE_BUS),
+                new ModuleIOTalonFXPro(2, 1, 3, Constants.DRIVE_BUS, -0.626221),
+                new ModuleIOTalonFXPro(5, 4, 6, Constants.DRIVE_BUS, -0.357910),
+                new ModuleIOTalonFXPro(8, 7, 9, Constants.DRIVE_BUS, -0.424805),
+                new ModuleIOTalonFXPro(11, 10, 12, Constants.DRIVE_BUS, -0.589844),
                 vision);
 
         shooter = new ShooterSubsystem(new ShooterIOSpark());
@@ -147,10 +135,10 @@ public class RobotContainer {
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
     // Set up FF characterization routines
-    autoChooser.addOption(
-        "Drive FF Characterization",
-        new FeedForwardCharacterization(
-            drive, drive::runCharacterizationVolts, drive::getCharacterizationVelocity));
+    // autoChooser.addOption(
+    //     "Drive FF Characterization",
+    //     new FeedForwardCharacterization(
+    //         drive, drive::runCharacterizationVolts, drive::getCharacterizationVelocity));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -171,34 +159,31 @@ public class RobotContainer {
             // the robots zoomieness
             () -> -driveJoystick.getY() - controller.getLeftY(),
             () -> -driveJoystick.getX() - controller.getLeftX(),
-            () -> -turnJoystick.getX() - controller.getRightX()));
+            () -> turnJoystick.getX() + controller.getRightX()));
     // () -> -controller.getRawAxis(2))); // MacOS
 
     controller
         .rightBumper()
-        .or(driveJoystick.a2())
+        .or(driveJoystick.fireStage1())
         .whileTrue(
             new ShooterOrbit(
                 drive,
                 shooter,
                 () -> -driveJoystick.getY() - controller.getLeftY(),
                 () -> -driveJoystick.getX() - controller.getLeftX(),
+                () -> driveJoystick.fireStage2().getAsBoolean(),
                 new Translation2d(0.0, 5.5))); // 0.0, 5.5
 
-    driveJoystick.d1().whileTrue(Commands.run(drive::stopWithX, drive));
+    // driveJoystick.d1().whileTrue(Commands.run(drive::stopWithX, drive));
 
-    driveJoystick.b1().onTrue(DriveCommands.zeroDrive(drive));
-
-    controller.back().onTrue(DriveCommands.zeroDrive(drive));
+    driveJoystick.b1().or(controller.back()).onTrue(DriveCommands.zeroDrive(drive));
 
     controller
         .start()
         .or(turnJoystick.button(2))
         .onTrue(
             DriveCommands.zeroOdometry(
-                drive,
-                new Translation2d(
-                    Units.inchesToMeters(36) + (drive.getBumperWidth() / 2.0), 5.55)));
+                drive, new Translation2d(Units.inchesToMeters(36 + (32.0 / 2.0)), 5.55)));
 
     controller
         .leftBumper()
@@ -252,14 +237,8 @@ public class RobotContainer {
         .or(controller.povLeft())
         .whileTrue(
             Commands.startEnd(
-                () -> {
-                  intake.setLinearPosition(true);
-                  intake.setIntakeVoltage(10.0);
-                },
-                () -> {
-                  intake.setLinearPosition(false);
-                  intake.setIntakeVoltage(0.0);
-                },
+                () -> intake.setState(IntakeSubsystem.INTAKE_STATE),
+                () -> intake.setState(IntakeSubsystem.TUCKED_STATE),
                 intake));
 
     controller
@@ -267,14 +246,11 @@ public class RobotContainer {
         .or(driveJoystick.fireStage2())
         .or(driveJoystick.firePaddleDown())
         .whileTrue(
-            Commands.startEnd(
-                () -> intake.setIntakeVoltage(10), () -> intake.setIntakeVoltage(0), intake));
+            Commands.startEnd(() -> intake.setVoltage(10), () -> intake.setVoltage(0), intake));
 
-    driveJoystick
-        .fireStage1()
-        .whileTrue(ShootingCommands.holdShoot(shooter, flywheelSpeedInput::get));
+    driveJoystick.a2().whileTrue(ShootingCommands.holdShoot(shooter, flywheelSpeedInput::get));
 
-    // // shooter intake
+    // shooter intake
     // driveJoystick
     //     .fireStage1()
     //     .whileTrue(

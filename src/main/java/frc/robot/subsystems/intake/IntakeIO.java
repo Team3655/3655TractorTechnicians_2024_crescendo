@@ -17,9 +17,13 @@ public interface IntakeIO {
     public double intakeMotorTemp = 0.0;
 
     public boolean deploySolenoidState = false;
-    public double deployPositionRads = 0.0;
 
     public boolean hasPiece = false;
+
+    public double compressorPressure = 0.0;
+    public double compressorCurrent = 0.0;
+    public double pneumaticHubVoltage = 0.0;
+    public boolean compressorEnabled = false;
   }
 
   public default void updateInputs(IntakeIOInputs inputs) {}

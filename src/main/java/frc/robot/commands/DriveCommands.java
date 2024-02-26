@@ -32,25 +32,24 @@ public class DriveCommands {
           double omega = JoystickUtils.curveInput(omegaSupplier.getAsDouble(), DEADBAND) * 0.5;
 
           // Convert to field relative speeds & send command
-          drive.runVelocity(
+          drive.setTargetVelocity(
               ChassisSpeeds.fromFieldRelativeSpeeds(
-                  linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
-                  linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
-                  omega * drive.getMaxAngularSpeedRadPerSec(),
-                  drive.getRotation()));
+                  linearVelocity.getX() * drive.getMaxVelocityMetersPerSec(),
+                  linearVelocity.getY() * drive.getMaxVelocityMetersPerSec(),
+                  omega * drive.getMaxAngularVelocityRadPerSec(),
+                  drive.getPose().getRotation()));
         },
         drive);
   }
 
   public static Command zeroDrive(DriveSubsystem drive) {
     return Commands.runOnce(
-            () -> drive.setPose(new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
-            drive)
+            () -> drive.resetPose(new Pose2d(drive.getPose().getTranslation(), new Rotation2d())))
         .ignoringDisable(true);
   }
 
   public static Command zeroOdometry(DriveSubsystem drive, Translation2d pose) {
-    return Commands.runOnce(() -> drive.setPose(new Pose2d(pose, drive.getRotation())), drive)
+    return Commands.runOnce(() -> drive.resetPose(new Pose2d(pose, drive.getPose().getRotation())))
         .ignoringDisable(true);
   }
 
