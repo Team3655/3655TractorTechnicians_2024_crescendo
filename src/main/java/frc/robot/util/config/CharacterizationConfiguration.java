@@ -14,8 +14,5 @@ public class CharacterizationConfiguration {
   public Rotation2d backLeftOffset;
   public Rotation2d backRightOffset;
 
-  public double driveFeedForwardKs;
-  public double driveFeedForwardKv;
-
-  public double wheelRadius;
+  public double wheelRadiusMeters;
 }

@@ -26,26 +26,23 @@ public class PortConfiguration {
   // endregion
 
   // region: shooter
-  public int topFlywheelID;
-  public int bottomFlywheelID;
-  public int kickerID;
-  public int pivotID;
+  public int topFlywheelMotrID;
+  public int bottomFlywheelMotorID;
+  public int kickerMotorID;
+  public int pivotMotorID;
   public int kickerBeamBreakPort;
   public int flyWheelBeamBreakport;
   // endregion
 
   // region: intake
   public int intakeMotorID;
-  public int deployLinearForwardPort;
-  public int deployLinearReversePort;
-  public int deployRotateForwardPort;
-  public int deployRotateReversePort;
+  public int deploySolenoidPort;
   public int intakeBeamBreakPort;
   // endregion
 
   // region: climber
-  public int climberMotorOneID;
-  public int climberMotorTwoID;
+  public int rightClimberMotorID;
+  public int leftClimberMotorID;
   // endregion
 
   public int pneumaticHubID;

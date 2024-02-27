@@ -35,6 +35,12 @@ import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.subsystems.vision.VisionIOPhoton;
 import frc.robot.subsystems.vision.VisionSubsystem;
 import frc.robot.util.CommandNXT;
+import frc.robot.util.config.CharacterizationConfiguration;
+import frc.robot.util.config.PortConfiguration;
+import frc.robot.util.config.RobotConfigurations;
+import frc.robot.util.config.RobotConfigurations.BetaBot;
+import frc.robot.util.config.RobotConfigurations.RoadRunner;
+
 import java.io.IOException;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
@@ -75,6 +81,22 @@ public class RobotContainer {
 
     switch (Constants.currentMode) {
       case REAL:
+
+        PortConfiguration portConfig;
+        CharacterizationConfiguration characterizationConfig;
+
+        switch (Constants.currentVersion) {
+          case ROADRUNNER:
+            portConfig = RoadRunner.portConfig;
+            characterizationConfig = RoadRunner.characterizationConfig;
+            break;
+        
+          case BETA_BOT:
+            portConfig = BetaBot.portConfig;
+            characterizationConfig = BetaBot.characterizationConfig;
+            break;
+        }
+
         // Real robot, instantiate hardware IO implementations
         vision = new VisionSubsystem(new VisionIOLimelight("limelight"));
 

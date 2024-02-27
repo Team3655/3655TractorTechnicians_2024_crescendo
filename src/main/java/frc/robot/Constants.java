@@ -11,6 +11,14 @@ package frc.robot;
 public final class Constants {
 
   public static final Mode currentMode = Mode.REAL;
+  public static final RobotVersion currentVersion = RobotVersion.BETA_BOT;
+
+  public static final String DRIVE_BUS = "ctre";
+
+  public static enum RobotVersion {
+    ROADRUNNER,
+    BETA_BOT
+  }
 
   public static enum Mode {
     /** Running on a real robot. */
@@ -20,7 +28,4 @@ public final class Constants {
     /** Replaying from a log file. */
     REPLAY
   }
-
-  public static final String DRIVE_BUS = "ctre";
-  public static final String RIO_BUS_NAME = "rio";
 }
