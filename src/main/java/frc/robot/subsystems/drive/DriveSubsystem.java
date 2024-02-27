@@ -25,6 +25,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.vision.VisionSubsystem;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 /** Coordinator for the drivetrain. Speaks to the Gyro and the Swerve Modules */
@@ -322,8 +324,8 @@ public class DriveSubsystem extends SubsystemBase {
     Logger.recordOutput(
         "Drive/OptimizedModuleStates",
         optimizedSwerveModuleStates); // Logging each optimized module state
-    // Figures out the current location and rotation of the robot on the field.
 
+    // Figures out the current location and rotation of the robot on the field using vision data.
     Logger.recordOutput("Drive/UsingVision?", shouldUseVisionData);
     if (shouldUseVisionData) {
       synchronized (estimator) {
@@ -339,15 +341,16 @@ public class DriveSubsystem extends SubsystemBase {
         }
       }
     }
-    Logger.recordOutput("Drive/Pose", getPose()); // Logging the pose data
-    synchronized (estimator) {
-      Logger.recordOutput("Drive/EstimatedPose", estimator.getEstimatedPosition());
-    }
-    synchronized (odometry) {
-      Logger.recordOutput("Drive/OdometryPose", odometry.getPoseMeters());
-    }
+
+    // synchronized (estimator) {
+    //   Logger.recordOutput("Drive/EstimatedPose", estimator.getEstimatedPosition());
+    // }
+    // synchronized (odometry) {
+    //   Logger.recordOutput("Drive/OdometryPose", odometry.getPoseMeters());
+    // }
     Logger.recordOutput(
-        "Drive/OdometryThread/Average Loop Time", odometryUpdateThread.getAverageLoopTime());
+        "Drive/OdometryThread/Average Loop Time", 
+        odometryUpdateThread.getAverageLoopTime());
     Logger.recordOutput(
         "Drive/OdometryThread/Successful Data Acquisitions",
         odometryUpdateThread.getSuccessfulDataAcquisitions());
@@ -374,16 +377,19 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @return The pose of the robot on the field.
    */
+  @AutoLogOutput(key = "Drive/OdometryPose")
   public SwerveDrivePoseEstimator getOdometry() {
     synchronized (estimator) {
       return estimator;
     }
   }
 
+  @AutoLogOutput(key = "Drive/Pose")
   public Pose2d getPose() {
     return getPose(false);
   }
 
+  @AutoLogOutput(key = "Drive/EstimatedPose")
   public Pose2d getPose(boolean visionAngle) {
     synchronized (estimator) {
       synchronized (odometry) {

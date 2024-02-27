@@ -1,6 +1,12 @@
 package frc.robot;
 
+import java.io.IOException;
+
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
+
 import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -35,11 +41,8 @@ import frc.robot.subsystems.vision.VisionSubsystem;
 import frc.robot.util.CommandNXT;
 import frc.robot.util.config.CharacterizationConfiguration;
 import frc.robot.util.config.PortConfiguration;
-import frc.robot.util.config.RobotConfigurations.Timmy;
 import frc.robot.util.config.RobotConfigurations.RoadRunner;
-import java.io.IOException;
-import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
-import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
+import frc.robot.util.config.RobotConfigurations.Timmy;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
