@@ -35,11 +35,7 @@ public class ShooterIOSpark implements ShooterIO {
   private final AbsoluteEncoder pivotAbsolute;
   private final SparkPIDController pivotPID;
 
-  public ShooterIOSpark(
-      int topFlywheelID,
-      int bottomFlywheelID,
-      int kickerID,
-      int pivotID) {
+  public ShooterIOSpark(int topFlywheelID, int bottomFlywheelID, int kickerID, int pivotID) {
 
     // top flywheel
     top = new CANSparkFlex(topFlywheelID, MotorType.kBrushless);
@@ -103,28 +99,28 @@ public class ShooterIOSpark implements ShooterIO {
     inputs.topPositionRad = topEncoder.getPosition();
     inputs.topVelocityRPM = topEncoder.getVelocity();
     inputs.topAppliedVolts = top.getAppliedOutput() * top.getBusVoltage();
-    inputs.topCurrentAmps = new double[] { top.getOutputCurrent() };
+    inputs.topCurrentAmps = new double[] {top.getOutputCurrent()};
     inputs.topMotorTemp = top.getMotorTemperature();
     // endregion
     // region: update bottom inputs
     inputs.bottomPositionRad = bottomEncoder.getPosition();
     inputs.bottomVelocityRPM = bottomEncoder.getVelocity();
     inputs.bottomAppliedVolts = bottom.getAppliedOutput() * bottom.getBusVoltage();
-    inputs.bottomCurrentAmps = new double[] { bottom.getOutputCurrent() };
+    inputs.bottomCurrentAmps = new double[] {bottom.getOutputCurrent()};
     inputs.bottomMotorTemp = bottom.getMotorTemperature();
     // endregion
     // region: update kicker inputs
     inputs.kickerPositionRad = kickerEncoder.getPosition() / ShooterSubsystem.KICKER_GEAR_RATIO;
     inputs.kickerVelocityRPM = kickerEncoder.getVelocity() / ShooterSubsystem.KICKER_GEAR_RATIO;
     inputs.kickerAppliedVolts = kicker.getAppliedOutput() * kicker.getBusVoltage();
-    inputs.kickerCurrentAmps = new double[] { kicker.getOutputCurrent() };
+    inputs.kickerCurrentAmps = new double[] {kicker.getOutputCurrent()};
     inputs.kickerMotorTemp = kicker.getMotorTemperature();
     // endregion
     // region: update pivot inputs
     inputs.pivotAbsolutePosition = Rotation2d.fromRotations(pivotAbsolute.getPosition());
     inputs.pivotPositionRotations = pivotEncoder.getPosition() / ShooterSubsystem.PIVOT_GEAR_RATIO;
     inputs.pivotAppliedVolts = pivot.getAppliedOutput() * pivot.getBusVoltage();
-    inputs.pivotCurrentAmps = new double[] { pivot.getOutputCurrent() };
+    inputs.pivotCurrentAmps = new double[] {pivot.getOutputCurrent()};
     inputs.pivotMotorTemp = pivot.getMotorTemperature();
     // endregion
   }

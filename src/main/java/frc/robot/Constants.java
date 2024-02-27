@@ -13,8 +13,6 @@ public final class Constants {
   public static final Mode currentMode = Mode.REAL;
   public static final RobotVersion currentVersion = RobotVersion.BETA_BOT;
 
-  public static final String DRIVE_BUS = "ctre";
-
   public static enum RobotVersion {
     ROADRUNNER,
     BETA_BOT

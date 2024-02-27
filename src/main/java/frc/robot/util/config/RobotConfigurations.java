@@ -60,7 +60,8 @@ public class RobotConfigurations {
 
     private static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.85);
 
-    public static final CharacterizationConfiguration characterizationConfig = new CharacterizationConfiguration();
+    public static final CharacterizationConfiguration characterizationConfig =
+        new CharacterizationConfiguration();
 
     public RoadRunner() {
       portConfig.gyroID = GYRO_ID;
@@ -91,7 +92,7 @@ public class RobotConfigurations {
       portConfig.intakeMotorID = INTAKE_MOTOR_ID;
       portConfig.deploySolenoidPort = DEPLOY_SOLENOID_PORT;
       portConfig.intakeBeamBreakPort = INTAKE_BEAMBREAK_PORT;
-      
+
       portConfig.rightClimberMotorID = RIGHT_CLIMER_ID;
       portConfig.leftClimberMotorID = LEFT_CLIMER_ID;
 
@@ -160,7 +161,8 @@ public class RobotConfigurations {
 
     private static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.85);
 
-    public static final CharacterizationConfiguration characterizationConfig = new CharacterizationConfiguration();
+    public static final CharacterizationConfiguration characterizationConfig =
+        new CharacterizationConfiguration();
 
     public BetaBot() {
       portConfig.gyroID = GYRO_ID;
@@ -191,7 +193,7 @@ public class RobotConfigurations {
       portConfig.intakeMotorID = INTAKE_MOTOR_ID;
       portConfig.deploySolenoidPort = DEPLOY_SOLENOID_PORT;
       portConfig.intakeBeamBreakPort = INTAKE_BEAMBREAK_PORT;
-      
+
       portConfig.rightClimberMotorID = RIGHT_CLIMER_ID;
       portConfig.leftClimberMotorID = LEFT_CLIMER_ID;
 

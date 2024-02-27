@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
-  
+
   private final ClimberIO io;
   // TODO: add autologged inputs
 
@@ -17,7 +17,7 @@ public class ClimberSubsystem extends SubsystemBase {
     this.io = io;
 
     // I don't think there will be a use for this be its fine to
-    // leave ot for refrance until were sure 
+    // leave ot for refrance until were sure
     switch (Constants.currentMode) {
       case REAL:
         break;

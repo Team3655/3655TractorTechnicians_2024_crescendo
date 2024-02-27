@@ -24,10 +24,7 @@ public class IntakeIOHardware implements IntakeIO {
   private final DigitalInput proximity;
 
   public IntakeIOHardware(
-      int pneumaticHubID,
-      int intakeMotorID,
-      int deploySolenoidPort,
-      int intakeBeamBreakPort) {
+      int pneumaticHubID, int intakeMotorID, int deploySolenoidPort, int intakeBeamBreakPort) {
 
     pneumaticHub = new PneumaticHub(pneumaticHubID);
     compressor = pneumaticHub.makeCompressor();

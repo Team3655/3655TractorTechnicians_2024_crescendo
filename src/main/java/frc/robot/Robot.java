@@ -1,6 +1,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import java.io.IOException;
@@ -48,7 +50,7 @@ public class Robot extends LoggedRobot {
     // Set up data receivers & replay source
     switch (Constants.currentMode) {
       case REAL:
-        // Running on a real robot, log to a USB stick
+        new PowerDistribution(60, ModuleType.kRev);
         Logger.addDataReceiver(new WPILOGWriter("/U"));
         Logger.addDataReceiver(new NT4Publisher());
         break;
