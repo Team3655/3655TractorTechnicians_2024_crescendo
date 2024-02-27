@@ -294,15 +294,12 @@ public class DriveSubsystem extends SubsystemBase {
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates,
         maxVelocityMetersPerSec); // Making sure that one module isn't going faster than it's
-    // allowed max
-    // speed.
+    // allowed max speed.
 
     // Making sure that the swerve module wheel can get to the desired state in the fastest way
     // possible.
     // Linking this with the PIDController's continuous input means that the module's angle
     // motor will never turn a wheel more than 90 degrees.
-    // SwerveModuleState[] optimizedSwerveModuleStates = new SwerveModuleState[4];
-    //        SwerveModulePosition[] swerveModulePositions = new SwerveModulePosition[4];
     synchronized (swerveModules) {
       for (int i = 0; i < optimizedSwerveModuleStates.length; i++) {
         optimizedSwerveModuleStates[i] =
