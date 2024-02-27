@@ -112,7 +112,7 @@ public class RobotConfigurations {
     }
   }
 
-  public class BetaBot {
+  public class Timmy {
     private static final int GYRO_ID = 20;
 
     private static final int FRONT_LEFT_TURN_ID = 1;
@@ -164,7 +164,7 @@ public class RobotConfigurations {
     public static final CharacterizationConfiguration characterizationConfig =
         new CharacterizationConfiguration();
 
-    public BetaBot() {
+    public Timmy() {
       portConfig.gyroID = GYRO_ID;
 
       portConfig.frontLeftTurnMotorID = FRONT_LEFT_TURN_ID;

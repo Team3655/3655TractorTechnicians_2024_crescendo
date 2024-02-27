@@ -35,7 +35,7 @@ import frc.robot.subsystems.vision.VisionSubsystem;
 import frc.robot.util.CommandNXT;
 import frc.robot.util.config.CharacterizationConfiguration;
 import frc.robot.util.config.PortConfiguration;
-import frc.robot.util.config.RobotConfigurations.BetaBot;
+import frc.robot.util.config.RobotConfigurations.Timmy;
 import frc.robot.util.config.RobotConfigurations.RoadRunner;
 import java.io.IOException;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -83,9 +83,9 @@ public class RobotContainer {
             characterizationConfig = RoadRunner.characterizationConfig;
             break;
 
-          case BETA_BOT:
-            portConfig = BetaBot.portConfig;
-            characterizationConfig = BetaBot.characterizationConfig;
+          case TIMMY:
+            portConfig = Timmy.portConfig;
+            characterizationConfig = Timmy.characterizationConfig;
             break;
 
           default:
