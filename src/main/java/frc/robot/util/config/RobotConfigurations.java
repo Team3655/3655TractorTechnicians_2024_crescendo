@@ -11,6 +11,9 @@ import edu.wpi.first.math.util.Units;
 public class RobotConfigurations {
 
   public class RoadRunner {
+
+    private static final int GYRO_ID = 20;
+
     private static final int FRONT_LEFT_TURN_ID = 1;
     private static final int FRONT_LEFT_DRIVE_ID = 2;
     private static final int FRONT_LEFT_ABSOLUTE_ID = 3;
@@ -60,6 +63,8 @@ public class RobotConfigurations {
     public static final CharacterizationConfiguration characterizationConfig = new CharacterizationConfiguration();
 
     public RoadRunner() {
+      portConfig.gyroID = GYRO_ID;
+
       portConfig.frontLeftTurnMotorID = FRONT_LEFT_TURN_ID;
       portConfig.frontLeftDriveMotorID = FRONT_LEFT_DRIVE_ID;
       portConfig.frontLeftAbsoluteEncoderID = FRONT_LEFT_ABSOLUTE_ID;
@@ -76,7 +81,7 @@ public class RobotConfigurations {
       portConfig.backRightDriveMotorID = BACK_RIGHT_DRIVE_ID;
       portConfig.backRightAbsoluteEncoderID = BACK_RIGHT_ABSOLUTE_ID;
 
-      portConfig.topFlywheelMotrID = TOP_FLYWHEEL_ID;
+      portConfig.topFlywheelMoterID = TOP_FLYWHEEL_ID;
       portConfig.bottomFlywheelMotorID = BOTTOM_FLYWHEEL_ID;
       portConfig.kickerMotorID = KICKER_ID;
       portConfig.pivotMotorID = PIVOT_ID;
@@ -107,6 +112,8 @@ public class RobotConfigurations {
   }
 
   public class BetaBot {
+    private static final int GYRO_ID = 20;
+
     private static final int FRONT_LEFT_TURN_ID = 1;
     private static final int FRONT_LEFT_DRIVE_ID = 2;
     private static final int FRONT_LEFT_ABSOLUTE_ID = 3;
@@ -156,6 +163,8 @@ public class RobotConfigurations {
     public static final CharacterizationConfiguration characterizationConfig = new CharacterizationConfiguration();
 
     public BetaBot() {
+      portConfig.gyroID = GYRO_ID;
+
       portConfig.frontLeftTurnMotorID = FRONT_LEFT_TURN_ID;
       portConfig.frontLeftDriveMotorID = FRONT_LEFT_DRIVE_ID;
       portConfig.frontLeftAbsoluteEncoderID = FRONT_LEFT_ABSOLUTE_ID;
@@ -172,7 +181,7 @@ public class RobotConfigurations {
       portConfig.backRightDriveMotorID = BACK_RIGHT_DRIVE_ID;
       portConfig.backRightAbsoluteEncoderID = BACK_RIGHT_ABSOLUTE_ID;
 
-      portConfig.topFlywheelMotrID = TOP_FLYWHEEL_ID;
+      portConfig.topFlywheelMoterID = TOP_FLYWHEEL_ID;
       portConfig.bottomFlywheelMotorID = BOTTOM_FLYWHEEL_ID;
       portConfig.kickerMotorID = KICKER_ID;
       portConfig.pivotMotorID = PIVOT_ID;

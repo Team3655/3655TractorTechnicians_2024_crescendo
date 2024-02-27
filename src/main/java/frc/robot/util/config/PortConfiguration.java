@@ -8,6 +8,8 @@ package frc.robot.util.config;
 public class PortConfiguration {
 
   // region: drivetrain
+  public int gyroID;
+
   public int frontLeftDriveMotorID;
   public int frontLeftTurnMotorID;
   public int frontLeftAbsoluteEncoderID;
@@ -26,7 +28,7 @@ public class PortConfiguration {
   // endregion
 
   // region: shooter
-  public int topFlywheelMotrID;
+  public int topFlywheelMoterID;
   public int bottomFlywheelMotorID;
   public int kickerMotorID;
   public int pivotMotorID;

@@ -7,13 +7,13 @@ package frc.robot.subsystems.climber;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class ClimbingSubsystem extends SubsystemBase {
+public class ClimberSubsystem extends SubsystemBase {
   
   private final ClimberIO io;
   // TODO: add autologged inputs
 
   /** Creates a new ClimbingSubsystem. */
-  public ClimbingSubsystem(ClimberIO io) {
+  public ClimberSubsystem(ClimberIO io) {
     this.io = io;
 
     // I don't think there will be a use for this be its fine to

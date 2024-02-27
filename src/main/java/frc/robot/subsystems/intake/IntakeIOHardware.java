@@ -16,21 +16,35 @@ import edu.wpi.first.wpilibj.Solenoid;
 /** Add your docs here. */
 public class IntakeIOHardware implements IntakeIO {
 
-  private final PneumaticHub pneumaticHub = new PneumaticHub(50);
-  private final Compressor compressor = pneumaticHub.makeCompressor();
-  private final Solenoid Linear = pneumaticHub.makeSolenoid(1);
-  private final CANSparkMax suckerMotor = new CANSparkMax(40, MotorType.kBrushless);
-  private final RelativeEncoder suckerEncoder = suckerMotor.getEncoder();
-  private final DigitalInput proximity = new DigitalInput(0);
+  private final PneumaticHub pneumaticHub;
+  private final Compressor compressor;
+  private final Solenoid extension;
+  private final CANSparkMax intakeMotor;
+  private final RelativeEncoder intakeEncoder;
+  private final DigitalInput proximity;
 
-  public IntakeIOHardware() {
-    suckerMotor.restoreFactoryDefaults();
-    suckerMotor.setCANTimeout(250);
-    suckerMotor.enableVoltageCompensation(12.0);
-    suckerMotor.setSmartCurrentLimit(30);
-    suckerMotor.burnFlash();
+  public IntakeIOHardware(
+      int pneumaticHubID,
+      int intakeMotorID,
+      int deploySolenoidPort,
+      int intakeBeamBreakPort) {
 
-    Linear.set(false);
+    pneumaticHub = new PneumaticHub(pneumaticHubID);
+    compressor = pneumaticHub.makeCompressor();
+    extension = pneumaticHub.makeSolenoid(deploySolenoidPort);
+
+    intakeMotor = new CANSparkMax(intakeMotorID, MotorType.kBrushless);
+    intakeEncoder = intakeMotor.getEncoder();
+
+    proximity = new DigitalInput(intakeBeamBreakPort);
+
+    intakeMotor.restoreFactoryDefaults();
+    intakeMotor.setCANTimeout(250);
+    intakeMotor.enableVoltageCompensation(12.0);
+    intakeMotor.setSmartCurrentLimit(30);
+    intakeMotor.burnFlash();
+
+    extension.set(false);
     pneumaticHub.enableCompressorAnalog(80, 120);
   }
 
@@ -38,10 +52,10 @@ public class IntakeIOHardware implements IntakeIO {
   public void updateInputs(IntakeIOInputs inputs) {
     inputs.intakeVelRadsPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(
-            suckerEncoder.getVelocity() / IntakeSubsystem.SUCKER_GEAR_RATIO);
-    inputs.intakeAppliedVolts = suckerMotor.getAppliedOutput() * suckerMotor.getBusVoltage();
-    inputs.intakeCurrentAmps = new double[] {suckerMotor.getOutputCurrent()};
-    inputs.intakeMotorTemp = suckerMotor.getMotorTemperature();
+            intakeEncoder.getVelocity() / IntakeSubsystem.SUCKER_GEAR_RATIO);
+    inputs.intakeAppliedVolts = intakeMotor.getAppliedOutput() * intakeMotor.getBusVoltage();
+    inputs.intakeCurrentAmps = new double[] {intakeMotor.getOutputCurrent()};
+    inputs.intakeMotorTemp = intakeMotor.getMotorTemperature();
 
     inputs.hasPiece = !proximity.get();
 
@@ -53,12 +67,12 @@ public class IntakeIOHardware implements IntakeIO {
 
   @Override
   public void setVoltage(double volts) {
-    suckerMotor.setVoltage(volts);
+    intakeMotor.setVoltage(volts);
   }
 
   @Override
   public void setLinear(Boolean value) {
-    Linear.set(value);
+    extension.set(value);
   }
 
   @Override
@@ -68,10 +82,10 @@ public class IntakeIOHardware implements IntakeIO {
 
   @Override
   public void toggleLinear() {
-    if (Linear.get()) {
-      Linear.set(false);
+    if (extension.get()) {
+      extension.set(false);
     } else {
-      Linear.set(true);
+      extension.set(true);
     }
   }
 

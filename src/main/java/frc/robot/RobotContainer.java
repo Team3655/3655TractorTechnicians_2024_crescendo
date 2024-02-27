@@ -1,6 +1,12 @@
 package frc.robot;
 
+import java.io.IOException;
+
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
+
 import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -40,14 +46,13 @@ import frc.robot.util.config.PortConfiguration;
 import frc.robot.util.config.RobotConfigurations.BetaBot;
 import frc.robot.util.config.RobotConfigurations.RoadRunner;
 
-import java.io.IOException;
-import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
-import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
-
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
@@ -64,19 +69,15 @@ public class RobotContainer {
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
-  private final LoggedDashboardNumber flywheelSpeedInput =
-      new LoggedDashboardNumber("Flywheel Speed", 5000);
+  private final LoggedDashboardNumber flywheelSpeedInput = new LoggedDashboardNumber("Flywheel Speed", 5000);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    *
    * @throws IOException
+   * @throws IllegalAccessException
    */
   public RobotContainer() throws IOException {
-
-    // Translation3d robotToCameraTrl = new Translation3d(0.1, 0, 0.5);
-    // Rotation3d robotToCameraRot = new Rotation3d(0, Math.toRadians(-15), 0);
-    // Transform3d robotToCamera = new Transform3d(robotToCameraTrl, robotToCameraRot);
 
     switch (Constants.currentMode) {
       case REAL:
@@ -89,42 +90,79 @@ public class RobotContainer {
             portConfig = RoadRunner.portConfig;
             characterizationConfig = RoadRunner.characterizationConfig;
             break;
-        
+
           case BETA_BOT:
             portConfig = BetaBot.portConfig;
             characterizationConfig = BetaBot.characterizationConfig;
             break;
+
+          default:
+            throw new IllegalArgumentException("Current robot config is not accounted for in the switch statement!");
         }
 
         // Real robot, instantiate hardware IO implementations
-        vision = new VisionSubsystem(new VisionIOLimelight("limelight"));
+        vision = new VisionSubsystem(
+            new VisionIOLimelight(
+                portConfig.limelightName));
 
-        drive =
-            new DriveSubsystem(
-                new GyroIOPigeon2(20, 0, 2.0, Constants.DRIVE_BUS),
-                new ModuleIOTalonFXPro(2, 1, 3, Constants.DRIVE_BUS, -0.626221),
-                new ModuleIOTalonFXPro(5, 4, 6, Constants.DRIVE_BUS, -0.357910),
-                new ModuleIOTalonFXPro(8, 7, 9, Constants.DRIVE_BUS, -0.424805),
-                new ModuleIOTalonFXPro(11, 10, 12, Constants.DRIVE_BUS, -0.589844),
-                vision);
+        drive = new DriveSubsystem(
+            new GyroIOPigeon2(
+                portConfig.gyroID,
+                0,
+                0.0,
+                portConfig.driveCANBus),
+            new ModuleIOTalonFXPro(
+                portConfig.frontLeftDriveMotorID,
+                portConfig.frontLeftTurnMotorID,
+                portConfig.frontLeftAbsoluteEncoderID,
+                portConfig.driveCANBus,
+                characterizationConfig.frontLeftOffset.getRotations()),
+            new ModuleIOTalonFXPro(
+                portConfig.frontRightDriveMotorID,
+                portConfig.frontRightTurnMotorID,
+                portConfig.frontRightAbsoluteEncoderID,
+                portConfig.driveCANBus,
+                characterizationConfig.frontRightOffset.getRotations()),
+            new ModuleIOTalonFXPro(
+                portConfig.backLeftDriveMotorID,
+                portConfig.backLeftTurnMotorID,
+                portConfig.backLeftAbsoluteEncoderID,
+                portConfig.driveCANBus,
+                characterizationConfig.backLeftOffset.getRotations()),
+            new ModuleIOTalonFXPro(
+                portConfig.backRightDriveMotorID,
+                portConfig.backRightTurnMotorID,
+                portConfig.backRightAbsoluteEncoderID,
+                portConfig.driveCANBus,
+                characterizationConfig.backRightOffset.getRotations()),
+            vision);
 
-        shooter = new ShooterSubsystem(new ShooterIOSpark());
+        shooter = new ShooterSubsystem(
+            new ShooterIOSpark(
+                portConfig.topFlywheelMoterID,
+                portConfig.bottomFlywheelMotorID,
+                portConfig.kickerMotorID,
+                portConfig.pivotMotorID));
 
-        intake = new IntakeSubsystem(new IntakeIOHardware());
+        intake = new IntakeSubsystem(
+            new IntakeIOHardware(
+                portConfig.pneumaticHubID,
+                portConfig.intakeMotorID,
+                portConfig.deploySolenoidPort,
+                portConfig.intakeBeamBreakPort));
         break;
 
       case SIM:
         // Sim robot, instantiate physics sim IO implementations
         vision = new VisionSubsystem(new VisionIOPhoton("camera1", new Transform3d()));
 
-        drive =
-            new DriveSubsystem(
-                new GyroIO() {},
-                new ModuleIOSim(),
-                new ModuleIOSim(),
-                new ModuleIOSim(),
-                new ModuleIOSim(),
-                vision);
+        drive = new DriveSubsystem(
+            null,
+            new ModuleIOSim(),
+            new ModuleIOSim(),
+            new ModuleIOSim(),
+            new ModuleIOSim(),
+            vision);
 
         shooter = new ShooterSubsystem(new ShooterIOSim());
 
@@ -133,20 +171,27 @@ public class RobotContainer {
 
       default:
         // Replayed robot, disable IO implementations
-        vision = new VisionSubsystem(new VisionIO() {});
+        vision = new VisionSubsystem(new VisionIO() {
+        });
 
-        drive =
-            new DriveSubsystem(
-                new GyroIO() {},
-                new ModuleIO() {},
-                new ModuleIO() {},
-                new ModuleIO() {},
-                new ModuleIO() {},
-                vision);
+        drive = new DriveSubsystem(
+            new GyroIO() {
+            },
+            new ModuleIO() {
+            },
+            new ModuleIO() {
+            },
+            new ModuleIO() {
+            },
+            new ModuleIO() {
+            },
+            vision);
 
-        intake = new IntakeSubsystem(new IntakeIO() {});
+        intake = new IntakeSubsystem(new IntakeIO() {
+        });
 
-        shooter = new ShooterSubsystem(new ShooterIO() {});
+        shooter = new ShooterSubsystem(new ShooterIO() {
+        });
         break;
     }
 
@@ -157,18 +202,20 @@ public class RobotContainer {
 
     // Set up FF characterization routines
     // autoChooser.addOption(
-    //     "Drive FF Characterization",
-    //     new FeedForwardCharacterization(
-    //         drive, drive::runCharacterizationVolts, drive::getCharacterizationVelocity));
+    // "Drive FF Characterization",
+    // new FeedForwardCharacterization(
+    // drive, drive::runCharacterizationVolts, drive::getCharacterizationVelocity));
 
     // Configure the button bindings
     configureButtonBindings();
   }
 
   /**
-   * Use this method to define your button -> command mappings. Buttons can be created by
+   * Use this method to define your button -> command mappings. Buttons can be
+   * created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
+   * it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
@@ -273,18 +320,18 @@ public class RobotContainer {
 
     // shooter intake
     // driveJoystick
-    //     .fireStage1()
-    //     .whileTrue(
-    //         Commands.startEnd(
-    //             () -> {
-    //               shooter.runVelocity(-1000);
-    //               shooter.setKicker(-12.0);
-    //             },
-    //             () -> {
-    //               shooter.stopFlywheel();
-    //               shooter.setKicker(0.0);
-    //             },
-    //             shooter));
+    // .fireStage1()
+    // .whileTrue(
+    // Commands.startEnd(
+    // () -> {
+    // shooter.runVelocity(-1000);
+    // shooter.setKicker(-12.0);
+    // },
+    // () -> {
+    // shooter.stopFlywheel();
+    // shooter.setKicker(0.0);
+    // },
+    // shooter));
 
     // driveJoystick
     // .button(CommandNXT.A2)
