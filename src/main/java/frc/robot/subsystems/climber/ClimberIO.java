@@ -2,16 +2,16 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.Climbing;
+package frc.robot.subsystems.climber;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import org.littletonrobotics.junction.AutoLog;
 
 /** Add your docs here. */
-public interface ClimbingIO {
+public interface ClimberIO {
 
   @AutoLog
-  public static class ClimbingIOInputs {
+  public static class ClimberIOInputs {
 
     public Rotation2d leftAbsolutePosition = new Rotation2d();
     public double leftPositionRotations = 0.0;
@@ -28,7 +28,10 @@ public interface ClimbingIO {
     public double rightMotorTemp = 0.0;
   }
 
-  public default void UpdateInputs(ClimbingIOInputs inputs) {}
+  // camel case starts lower case
+  public default void updateInputs(ClimberIOInputs inputs) {}
 
-  public default void SetVoltage(double volts) {}
+  public default void setVoltage(double volts) {}
+
+  // TODO: add set position method
 }

@@ -43,6 +43,8 @@ public class RobotConfigurations {
 
     private static final int PNEUMATIC_HUB_ID = 50;
 
+    private static final String LIMELIGHT_NAME = "limelight";
+
     private static final boolean USE_PHEONIX_PRO = true;
     private static final String DRIVE_CANBUS = "ctre";
 
@@ -90,6 +92,8 @@ public class RobotConfigurations {
 
       portConfig.pneumaticHubID = PNEUMATIC_HUB_ID;
 
+      portConfig.limelightName = LIMELIGHT_NAME;
+
       portConfig.usePheonixPro = USE_PHEONIX_PRO;
       portConfig.driveCANBus = DRIVE_CANBUS;
 
@@ -134,6 +138,8 @@ public class RobotConfigurations {
     private static final int LEFT_CLIMER_ID = 42;
 
     private static final int PNEUMATIC_HUB_ID = 50;
+
+    private static final String LIMELIGHT_NAME = "limelight";
 
     private static final boolean USE_PHEONIX_PRO = true;
     private static final String DRIVE_CANBUS = "ctre";
@@ -181,6 +187,8 @@ public class RobotConfigurations {
       portConfig.leftClimberMotorID = LEFT_CLIMER_ID;
 
       portConfig.pneumaticHubID = PNEUMATIC_HUB_ID;
+
+      portConfig.limelightName = LIMELIGHT_NAME;
 
       portConfig.usePheonixPro = USE_PHEONIX_PRO;
       portConfig.driveCANBus = DRIVE_CANBUS;

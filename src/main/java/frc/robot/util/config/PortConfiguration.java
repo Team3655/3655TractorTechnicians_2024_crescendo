@@ -47,6 +47,8 @@ public class PortConfiguration {
 
   public int pneumaticHubID;
 
+  public String limelightName;
+
   public boolean usePheonixPro;
   public String driveCANBus;
 }

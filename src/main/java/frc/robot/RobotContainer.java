@@ -37,7 +37,6 @@ import frc.robot.subsystems.vision.VisionSubsystem;
 import frc.robot.util.CommandNXT;
 import frc.robot.util.config.CharacterizationConfiguration;
 import frc.robot.util.config.PortConfiguration;
-import frc.robot.util.config.RobotConfigurations;
 import frc.robot.util.config.RobotConfigurations.BetaBot;
 import frc.robot.util.config.RobotConfigurations.RoadRunner;
 
