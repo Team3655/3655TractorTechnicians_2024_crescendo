@@ -6,11 +6,44 @@ package frc.robot.util.config;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import frc.robot.Constants.RobotVersion;
 
 /** Add your docs here. */
 public class RobotConfigurations {
 
-  public class RoadRunner {
+  private static RoadRunner roadRunner = new RoadRunner();
+  private static Timmy timmy = new Timmy();
+
+  public static PortConfiguration getPortConfiguration(RobotVersion version) {
+    switch (version) {
+      case ROADRUNNER:
+        return roadRunner.portConfig;
+
+      case TIMMY:
+        return timmy.portConfig;
+
+      default:
+        throw new IllegalArgumentException(
+            "Current robot config is not accounted for in the switch statement!");
+    }
+  }
+
+  public static CharacterizationConfiguration getCharacterizationConfiguration(
+      RobotVersion version) {
+    switch (version) {
+      case ROADRUNNER:
+        return roadRunner.characterizationConfig;
+
+      case TIMMY:
+        return timmy.characterizationConfig;
+
+      default:
+        throw new IllegalArgumentException(
+            "Current robot config is not accounted for in the switch statement!");
+    }
+  }
+
+  public static class RoadRunner {
 
     private static final int GYRO_ID = 20;
 
@@ -51,7 +84,7 @@ public class RobotConfigurations {
     private static final boolean USE_PHEONIX_PRO = true;
     private static final String DRIVE_CANBUS = "ctre";
 
-    public static final PortConfiguration portConfig = new PortConfiguration();
+    public final PortConfiguration portConfig = new PortConfiguration();
 
     private static final Rotation2d FRONT_LEFT_OFFSET = Rotation2d.fromDegrees(-0.626221);
     private static final Rotation2d FRONT_RIGHT_OFFSET = Rotation2d.fromDegrees(-0.357910);
@@ -60,7 +93,7 @@ public class RobotConfigurations {
 
     private static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.85);
 
-    public static final CharacterizationConfiguration characterizationConfig =
+    public final CharacterizationConfiguration characterizationConfig =
         new CharacterizationConfiguration();
 
     public RoadRunner() {
@@ -112,7 +145,7 @@ public class RobotConfigurations {
     }
   }
 
-  public class Timmy {
+  public static class Timmy {
     private static final int GYRO_ID = 20;
 
     private static final int FRONT_LEFT_TURN_ID = 1;
@@ -152,7 +185,7 @@ public class RobotConfigurations {
     private static final boolean USE_PHEONIX_PRO = true;
     private static final String DRIVE_CANBUS = "ctre";
 
-    public static final PortConfiguration portConfig = new PortConfiguration();
+    public final PortConfiguration portConfig = new PortConfiguration();
 
     private static final Rotation2d FRONT_LEFT_OFFSET = Rotation2d.fromDegrees(-0.626221);
     private static final Rotation2d FRONT_RIGHT_OFFSET = Rotation2d.fromDegrees(-0.357910);
@@ -161,7 +194,7 @@ public class RobotConfigurations {
 
     private static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.85);
 
-    public static final CharacterizationConfiguration characterizationConfig =
+    public final CharacterizationConfiguration characterizationConfig =
         new CharacterizationConfiguration();
 
     public Timmy() {

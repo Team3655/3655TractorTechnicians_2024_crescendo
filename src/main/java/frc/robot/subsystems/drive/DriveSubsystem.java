@@ -25,7 +25,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.vision.VisionSubsystem;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
@@ -346,8 +345,7 @@ public class DriveSubsystem extends SubsystemBase {
     //   Logger.recordOutput("Drive/OdometryPose", odometry.getPoseMeters());
     // }
     Logger.recordOutput(
-        "Drive/OdometryThread/Average Loop Time", 
-        odometryUpdateThread.getAverageLoopTime());
+        "Drive/OdometryThread/Average Loop Time", odometryUpdateThread.getAverageLoopTime());
     Logger.recordOutput(
         "Drive/OdometryThread/Successful Data Acquisitions",
         odometryUpdateThread.getSuccessfulDataAcquisitions());

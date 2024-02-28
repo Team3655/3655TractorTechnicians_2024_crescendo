@@ -13,6 +13,8 @@ public final class Constants {
   public static final Mode currentMode = Mode.REAL;
   public static final RobotVersion currentVersion = RobotVersion.TIMMY;
 
+  public static final String DRIVE_CANBUS = "ctre";
+
   public static enum RobotVersion {
     ROADRUNNER,
     TIMMY

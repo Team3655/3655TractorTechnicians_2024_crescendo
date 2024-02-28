@@ -1,12 +1,6 @@
 package frc.robot;
 
-import java.io.IOException;
-
-import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
-import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
-
 import com.pathplanner.lib.auto.AutoBuilder;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -41,8 +35,10 @@ import frc.robot.subsystems.vision.VisionSubsystem;
 import frc.robot.util.CommandNXT;
 import frc.robot.util.config.CharacterizationConfiguration;
 import frc.robot.util.config.PortConfiguration;
-import frc.robot.util.config.RobotConfigurations.RoadRunner;
-import frc.robot.util.config.RobotConfigurations.Timmy;
+import frc.robot.util.config.RobotConfigurations;
+import java.io.IOException;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -77,24 +73,10 @@ public class RobotContainer {
 
     switch (Constants.currentMode) {
       case REAL:
-        PortConfiguration portConfig;
-        CharacterizationConfiguration characterizationConfig;
-
-        switch (Constants.currentVersion) {
-          case ROADRUNNER:
-            portConfig = RoadRunner.portConfig;
-            characterizationConfig = RoadRunner.characterizationConfig;
-            break;
-
-          case TIMMY:
-            portConfig = Timmy.portConfig;
-            characterizationConfig = Timmy.characterizationConfig;
-            break;
-
-          default:
-            throw new IllegalArgumentException(
-                "Current robot config is not accounted for in the switch statement!");
-        }
+        PortConfiguration portConfig =
+            RobotConfigurations.getPortConfiguration(Constants.currentVersion);
+        CharacterizationConfiguration characterizationConfig =
+            RobotConfigurations.getCharacterizationConfiguration(Constants.currentVersion);
 
         // Real robot, instantiate hardware IO implementations
         vision = new VisionSubsystem(new VisionIOLimelight(portConfig.limelightName));
