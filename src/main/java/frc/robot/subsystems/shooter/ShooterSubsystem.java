@@ -22,14 +22,21 @@ public class ShooterSubsystem extends SubsystemBase {
   private static final HashMap<Double, Rotation2d> DISTANCE_TO_ANGLE =
       new HashMap<>() {
         {
-          put(4.5604, Rotation2d.fromRotations(0.1726));
-          put(4.5604, Rotation2d.fromRotations(0.1726));
-          put(3.7741, Rotation2d.fromRotations(0.1587));
-          put(3.1782, Rotation2d.fromRotations(0.1539));
-          put(3.0634, Rotation2d.fromRotations(0.1452));
-          put(2.2614, Rotation2d.fromRotations(0.1289));
-          put(1.3632, Rotation2d.fromRotations(0.0805));
-          // put(Units.inchesToMeters(172), Rotation2d.fromDegrees(80));
+          // put(4.5604, Rotation2d.fromRotations(0.1626));
+          // put(3.9529, Rotation2d.fromRotations(0.1567));
+          // put(3.7741, Rotation2d.fromRotations(0.1557));
+          // put(3.1782, Rotation2d.fromRotations(0.1539));
+          // put(3.0634, Rotation2d.fromRotations(0.1452));
+          // put(2.2614, Rotation2d.fromRotations(0.1289));
+          // put(1.3632, Rotation2d.fromRotations(0.0805));
+          put(4.5866, Rotation2d.fromDegrees(62));
+          put(4.3000, Rotation2d.fromDegrees(61));
+          put(4.0225, Rotation2d.fromDegrees(60));
+          put(3.4130, Rotation2d.fromDegrees(57));
+          put(2.7768, Rotation2d.fromDegrees(54));
+          put(2.1333, Rotation2d.fromDegrees(45));
+          put(1.6488, Rotation2d.fromDegrees(40));
+          put(1.3854, Rotation2d.fromDegrees(36));
         }
       };
 

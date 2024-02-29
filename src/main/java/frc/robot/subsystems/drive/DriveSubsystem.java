@@ -111,7 +111,7 @@ public class DriveSubsystem extends SubsystemBase {
     public void run() {
       for (var signal : allSignals) {
         if (signal instanceof StatusSignal) {
-          ((StatusSignal<?>) signal).setUpdateFrequency(250);
+          ((StatusSignal<?>) signal).setUpdateFrequency(500);
         }
       }
       while (true) {
@@ -360,6 +360,11 @@ public class DriveSubsystem extends SubsystemBase {
    * @param targetVelocity The target chassis speed
    */
   public void setTargetVelocity(ChassisSpeeds targetVelocity) {
+    targetVelocity =
+        new ChassisSpeeds(
+            targetVelocity.vxMetersPerSecond,
+            targetVelocity.vyMetersPerSecond,
+            -targetVelocity.omegaRadiansPerSecond);
     this.targetVelocity = targetVelocity;
   }
 
@@ -372,7 +377,6 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @return The pose of the robot on the field.
    */
-  @AutoLogOutput(key = "Drive/OdometryPose")
   public SwerveDrivePoseEstimator getOdometry() {
     synchronized (estimator) {
       return estimator;

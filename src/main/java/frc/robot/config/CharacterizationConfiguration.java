@@ -4,15 +4,13 @@
 
 package frc.robot.config;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-
 /** Add your docs here. */
 public class CharacterizationConfiguration {
 
-  public Rotation2d frontLeftOffset;
-  public Rotation2d frontRightOffset;
-  public Rotation2d backLeftOffset;
-  public Rotation2d backRightOffset;
+  public double frontLeftOffset;
+  public double frontRightOffset;
+  public double backLeftOffset;
+  public double backRightOffset;
 
   public double wheelRadiusMeters;
 }

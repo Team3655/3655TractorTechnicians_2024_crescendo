@@ -19,12 +19,12 @@ import org.littletonrobotics.junction.Logger;
 
 public class ShooterOrbit extends Command {
 
+  public static Translation2d target = new Translation2d(0.0, 5.5);
+
   private DriveSubsystem drive;
   private ShooterSubsystem shooter;
 
   private ProfiledPIDController turnFeedback;
-
-  private Translation2d target;
 
   private DoubleSupplier xSupplier;
   private DoubleSupplier ySupplier;
@@ -36,15 +36,13 @@ public class ShooterOrbit extends Command {
       ShooterSubsystem shooter,
       DoubleSupplier xSupplier,
       DoubleSupplier ySupplier,
-      BooleanSupplier kickSupplier,
-      Translation2d target) {
+      BooleanSupplier kickRequest) {
 
     this.drive = drive;
     this.shooter = shooter;
     this.xSupplier = xSupplier;
     this.ySupplier = ySupplier;
-    this.kickSupplier = kickSupplier;
-    this.target = target;
+    this.kickSupplier = kickRequest;
 
     turnFeedback = new ProfiledPIDController(3.0, 0.0012, 0.0, new Constraints(0.0, 0.0));
     turnFeedback.enableContinuousInput(-0.5, 0.5);
@@ -71,11 +69,11 @@ public class ShooterOrbit extends Command {
             .getTranslation();
 
     // adjust offset to ensure robot shoots into target center
-    Rotation2d rotationTarget = reletiveTarget.getAngle().plus(Rotation2d.fromDegrees(7.5));
+    Rotation2d rotationTarget = reletiveTarget.getAngle().plus(Rotation2d.fromDegrees(0.0));
 
     // calculate pid output based on the delta to target rotation
     turnFeedback.setGoal(rotationTarget.getRotations());
-    double omega = -turnFeedback.calculate(drive.getPose().getRotation().getRotations());
+    double omega = turnFeedback.calculate(drive.getPose().getRotation().getRotations());
 
     // send speeds to drive function
     drive.setTargetVelocity(
@@ -102,6 +100,7 @@ public class ShooterOrbit extends Command {
   @Override
   public void end(boolean interrupted) {
     shooter.stopFlywheel();
+    shooter.setAngle(Rotation2d.fromDegrees(35));
   }
 
   // Returns true when the command should end.

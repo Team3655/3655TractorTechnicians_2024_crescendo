@@ -9,9 +9,9 @@
     "Pathfinding"
   ],
   "autoFolders": [],
-  "defaultMaxVel": 5.0,
-  "defaultMaxAccel": 2.0,
-  "defaultMaxAngVel": 540.0,
+  "defaultMaxVel": 5.24,
+  "defaultMaxAccel": 3.5,
+  "defaultMaxAngVel": 720.0,
   "defaultMaxAngAccel": 540.0,
   "maxModuleSpeed": 5.243
 }

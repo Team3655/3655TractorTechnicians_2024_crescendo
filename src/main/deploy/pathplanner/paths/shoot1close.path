@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.6291130339613615,
-        "y": 6.85858947774881
+        "x": 2.6099751643947733,
+        "y": 6.789059633674823
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.263892462068012,
-        "y": 6.4911122584193715
+        "x": 2.244754592501424,
+        "y": 6.421582414345385
       },
       "isLocked": false,
       "linkedName": "Pickup1End"
     },
     {
       "anchor": {
-        "x": 1.7253455309606698,
-        "y": 5.787513342030361
+        "x": 1.9670205034854518,
+        "y": 5.6458509722575005
       },
       "prevControl": {
-        "x": 1.9646689301037914,
-        "y": 6.194937180009164
+        "x": 2.0376285289607616,
+        "y": 6.0308398950131235
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,14 +32,14 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 5.0,
-    "maxAcceleration": 2.0,
-    "maxAngularVelocity": 540.0,
+    "maxVelocity": 5.24,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 720.0,
     "maxAngularAcceleration": 540.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 7.090992334700089,
+    "rotation": 4.743429163514498,
     "rotateFast": false
   },
   "reversed": false,

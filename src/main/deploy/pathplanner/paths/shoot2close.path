@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.288161319582443,
-        "y": 5.384523618311943
+        "x": 2.374872411781861,
+        "y": 5.335092522036897
       },
       "isLocked": false,
       "linkedName": "Pickup2End"
     },
     {
       "anchor": {
-        "x": 1.6758972388961932,
-        "y": 5.271612065895701
+        "x": 2.0286614878785314,
+        "y": 5.133245021119673
       },
       "prevControl": {
-        "x": 1.952118803134665,
-        "y": 5.278619550039346
+        "x": 2.3048830521170025,
+        "y": 5.140252505263318
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,9 +32,9 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 5.0,
-    "maxAcceleration": 2.0,
-    "maxAngularVelocity": 540.0,
+    "maxVelocity": 5.24,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 720.0,
     "maxAngularAcceleration": 540.0
   },
   "goalEndState": {

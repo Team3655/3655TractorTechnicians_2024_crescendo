@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -12,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.IntakeCommands;
 import frc.robot.commands.PathfindingCommands;
 import frc.robot.commands.ShooterOrbit;
 import frc.robot.commands.ShootingCommands;
@@ -36,7 +38,6 @@ import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.subsystems.vision.VisionSubsystem;
 import frc.robot.util.CommandNXT;
-
 import java.io.IOException;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
@@ -90,25 +91,25 @@ public class RobotContainer {
                     portConfig.frontLeftTurnMotorID,
                     portConfig.frontLeftAbsoluteEncoderID,
                     portConfig.driveCANBus,
-                    characterizationConfig.frontLeftOffset.getRotations()),
+                    characterizationConfig.frontLeftOffset),
                 new ModuleIOTalonFXPro(
                     portConfig.frontRightDriveMotorID,
                     portConfig.frontRightTurnMotorID,
                     portConfig.frontRightAbsoluteEncoderID,
                     portConfig.driveCANBus,
-                    characterizationConfig.frontRightOffset.getRotations()),
+                    characterizationConfig.frontRightOffset),
                 new ModuleIOTalonFXPro(
                     portConfig.backLeftDriveMotorID,
                     portConfig.backLeftTurnMotorID,
                     portConfig.backLeftAbsoluteEncoderID,
                     portConfig.driveCANBus,
-                    characterizationConfig.backLeftOffset.getRotations()),
+                    characterizationConfig.backLeftOffset),
                 new ModuleIOTalonFXPro(
                     portConfig.backRightDriveMotorID,
                     portConfig.backRightTurnMotorID,
                     portConfig.backRightAbsoluteEncoderID,
                     portConfig.driveCANBus,
-                    characterizationConfig.backRightOffset.getRotations()),
+                    characterizationConfig.backRightOffset),
                 vision);
 
         shooter =
@@ -166,6 +167,14 @@ public class RobotContainer {
     }
 
     // Set up named commands for PathPlanner
+    NamedCommands.registerCommand("SetShooter5000", ShootingCommands.setSpeed(shooter, 5000));
+    NamedCommands.registerCommand("SetShooter6000", ShootingCommands.setSpeed(shooter, 6000));
+    NamedCommands.registerCommand(
+        "AdjustShooter", ShootingCommands.adjustShooter(shooter, () -> drive.getPose()));
+    NamedCommands.registerCommand("StopShooter", ShootingCommands.stopShooter(shooter));
+    NamedCommands.registerCommand(
+        "RunKicker", ShootingCommands.runKicker(shooter).withTimeout(1.0));
+    NamedCommands.registerCommand("DeployIntake", IntakeCommands.deploy(intake));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -195,8 +204,7 @@ public class RobotContainer {
             // the robots zoomieness
             () -> -driveJoystick.getY() - controller.getLeftY(),
             () -> -driveJoystick.getX() - controller.getLeftX(),
-            () -> turnJoystick.getX() + controller.getRightX()));
-    // () -> -controller.getRawAxis(2))); // MacOS
+            () -> -turnJoystick.getX() - controller.getRightX()));
 
     controller
         .rightBumper()
@@ -207,10 +215,7 @@ public class RobotContainer {
                 shooter,
                 () -> -driveJoystick.getY() - controller.getLeftY(),
                 () -> -driveJoystick.getX() - controller.getLeftX(),
-                () -> driveJoystick.fireStage2().getAsBoolean(),
-                new Translation2d(0.0, 5.5))); // 0.0, 5.5
-
-    // driveJoystick.d1().whileTrue(Commands.run(drive::stopWithX, drive));
+                () -> driveJoystick.fireStage2().getAsBoolean())); // 0.0, 5.5
 
     driveJoystick.b1().or(controller.back()).onTrue(DriveCommands.zeroDrive(drive));
 

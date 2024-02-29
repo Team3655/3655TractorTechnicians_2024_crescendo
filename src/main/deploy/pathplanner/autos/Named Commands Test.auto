@@ -2,31 +2,25 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.478260176251295,
-      "y": 4.224290421675014
+      "x": 1.88,
+      "y": 7.4
     },
-    "rotation": 0.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "pickup1flat"
+            "name": "SetShooter5000"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "shoot1flat"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "pickup2flat"
+            "pathName": "Amp"
           }
         }
       ]

@@ -4,7 +4,6 @@
 
 package frc.robot.config;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.RobotVersion;
 
@@ -86,10 +85,10 @@ public class RobotConfigurations {
 
     public final PortConfiguration portConfig = new PortConfiguration();
 
-    private static final Rotation2d FRONT_LEFT_OFFSET = Rotation2d.fromDegrees(-0.626221);
-    private static final Rotation2d FRONT_RIGHT_OFFSET = Rotation2d.fromDegrees(-0.357910);
-    private static final Rotation2d BACK_LEFT_OFFSET = Rotation2d.fromDegrees(-0.424805);
-    private static final Rotation2d BACK_RIGHT_OFFSET = Rotation2d.fromDegrees(-0.589844);
+    private static final double FRONT_LEFT_OFFSET = -0.626221;
+    private static final double FRONT_RIGHT_OFFSET = -0.357910;
+    private static final double BACK_LEFT_OFFSET = -0.424805;
+    private static final double BACK_RIGHT_OFFSET = -0.589844;
 
     private static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.85);
 
@@ -187,10 +186,10 @@ public class RobotConfigurations {
 
     public final PortConfiguration portConfig = new PortConfiguration();
 
-    private static final Rotation2d FRONT_LEFT_OFFSET = Rotation2d.fromDegrees(-0.626221);
-    private static final Rotation2d FRONT_RIGHT_OFFSET = Rotation2d.fromDegrees(-0.357910);
-    private static final Rotation2d BACK_LEFT_OFFSET = Rotation2d.fromDegrees(-0.424805);
-    private static final Rotation2d BACK_RIGHT_OFFSET = Rotation2d.fromDegrees(-0.589844);
+    private static final double FRONT_LEFT_OFFSET = -0.626221;
+    private static final double FRONT_RIGHT_OFFSET = -0.357910;
+    private static final double BACK_LEFT_OFFSET = -0.424805;
+    private static final double BACK_RIGHT_OFFSET = -0.589844;
 
     private static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.85);
 
