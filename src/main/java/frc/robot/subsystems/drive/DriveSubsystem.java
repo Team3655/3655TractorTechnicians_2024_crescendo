@@ -36,9 +36,9 @@ public class DriveSubsystem extends SubsystemBase {
   /** Vertical distance between the module centers */
   private static final double TRACK_METERS = Units.inchesToMeters(20.75);
 
-  /** 
-   * Multiply the distance to the vision target by this number in order to trust 
-   * further measurements less 
+  /**
+   * Multiply the distance to the vision target by this number in order to trust further
+   * measurements less
    */
   private static final double ESTIMATION_COEFFICIENT = 0.8;
 
@@ -76,10 +76,11 @@ public class DriveSubsystem extends SubsystemBase {
 
   /**
    * Allows us to track the robot's position using the swerve module positions on the robot and the
-   * current values of each module.
+   * current values of each module
    */
   private final SwerveDriveOdometry odometry;
 
+  /** Same as odometry but with vision measurements */
   private final SwerveDrivePoseEstimator estimator;
 
   private final SwerveModulePosition[] swerveModulePositions;
@@ -87,7 +88,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /**
    * The target speed of the entire robot (not just individual modules). We use this object to
-   * calculate the target speeds for each individual module.
+   * calculate the target speeds for each individual module
    */
   private ChassisSpeeds targetVelocity = new ChassisSpeeds();
 
@@ -278,6 +279,9 @@ public class DriveSubsystem extends SubsystemBase {
             },
             new Pose2d(),
             VecBuilder.fill(0.1, 0.1, 0.1),
+            // the standard deviations of the vision measurements
+            // increase to trust measuremnets less (not used, only a
+            // fallback for if the estimation coefficient fails)
             VecBuilder.fill(0.5, 0.5, 0.5));
 
     odometryUpdateThread = new OdometryUpdateThread();
@@ -296,10 +300,9 @@ public class DriveSubsystem extends SubsystemBase {
     // drive module states.
     swerveModuleStates = kinematics.toSwerveModuleStates(targetVelocity);
 
-    SwerveDriveKinematics.desaturateWheelSpeeds(
-        swerveModuleStates,
-        maxVelocityMetersPerSec); // Making sure that one module isn't going faster than it's
+    // Making sure that one module isn't going faster than it's
     // allowed max speed.
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, maxVelocityMetersPerSec);
 
     // Making sure that the swerve module wheel can get to the desired state in the fastest way
     // possible.
@@ -448,7 +451,7 @@ public class DriveSubsystem extends SubsystemBase {
     }
   }
 
-  public Pose2d getProjectedPose(double latency) {
+  public Pose2d getProjectedPose(double latency, boolean visionAngle) {
     ChassisSpeeds currentVelocity = getChassisSpeeds();
 
     double xSinceLastPose = currentVelocity.vxMetersPerSecond * latency;
@@ -456,7 +459,7 @@ public class DriveSubsystem extends SubsystemBase {
     double angleSinceLastPose = currentVelocity.omegaRadiansPerSecond * latency;
 
     Twist2d poseDelta = new Twist2d(xSinceLastPose, ySinceLastPose, angleSinceLastPose);
-    return getPose().exp(poseDelta);
+    return getPose(visionAngle).exp(poseDelta);
   }
 
   public ChassisSpeeds getChassisSpeeds() {

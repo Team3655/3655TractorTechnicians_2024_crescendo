@@ -62,18 +62,18 @@ public class ShooterOrbit extends Command {
 
     Translation2d reletiveTarget =
         drive
-            .getPose(true)
+            .getProjectedPose(0.35, true)
             // get the drive position reletive to the target position
             .relativeTo(new Pose2d(target, new Rotation2d()))
             // get as a vector
             .getTranslation();
 
     // adjust offset to ensure robot shoots into target center
-    Rotation2d rotationTarget = reletiveTarget.getAngle().plus(Rotation2d.fromDegrees(0.0));
+    Rotation2d rotationTarget = reletiveTarget.getAngle().plus(Rotation2d.fromDegrees(4.0));
 
     // calculate pid output based on the delta to target rotation
     turnFeedback.setGoal(rotationTarget.getRotations());
-    double omega = turnFeedback.calculate(drive.getPose().getRotation().getRotations());
+    double omega = turnFeedback.calculate(drive.getPose(true).getRotation().getRotations());
 
     // send speeds to drive function
     drive.setTargetVelocity(

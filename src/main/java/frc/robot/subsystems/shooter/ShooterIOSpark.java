@@ -90,7 +90,7 @@ public class ShooterIOSpark implements ShooterIO {
     pivotAbsolute = pivot.getAbsoluteEncoder(Type.kDutyCycle);
 
     pivotPID = pivot.getPIDController();
-    pivotPID.setOutputRange(-0.3, 0.2, 0);
+    pivotPID.setOutputRange(-0.5, 0.4, 0);
   }
 
   @Override
