@@ -36,12 +36,18 @@ public class DriveSubsystem extends SubsystemBase {
   /** Vertical distance between the module centers */
   private static final double TRACK_METERS = Units.inchesToMeters(20.75);
 
-  private static final double ESTIMATION_COEFFICIENT = 1.0;
+  /** 
+   * Multiply the distance to the vision target by this number in order to trust 
+   * further measurements less 
+   */
+  private static final double ESTIMATION_COEFFICIENT = 0.8;
 
   /** Max transitional velocity of the drivetrain */
   private final double maxVelocityMetersPerSec;
 
+  /** The radius from the center of the drivetrain the the wheels */
   private final double diveBaseRadius;
+
   /** Max angular velocity of the drivetrain */
   private final double maxAngularVelocityRadPerSec;
 
@@ -58,7 +64,7 @@ public class DriveSubsystem extends SubsystemBase {
   /**
    * Holds our swerve modules. Contains the speed and angle logic for each module.
    *
-   * <p>[0 = front left, 1 = front right, 2 = back left, 3 = back right]
+   * <p>[front left, front right, back left, back right]
    */
   private final Module[] swerveModules;
 
