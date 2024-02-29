@@ -95,8 +95,8 @@ public class ShooterOrbit extends Command {
     Logger.recordOutput("Drive/Orbit/Error", turnFeedback.getPositionError());
     Logger.recordOutput("Drive/Orbit/Projected Pose", projectedPose);
     Logger.recordOutput(
-      "Drive/Orbit/Target Rotation",
-      new Pose2d(drive.getPose().getTranslation(), rotationTarget));
+        "Drive/Orbit/Target Rotation",
+        new Pose2d(drive.getPose().getTranslation(), rotationTarget));
     Logger.recordOutput("Drive/Orbit/Target", target);
   }
 

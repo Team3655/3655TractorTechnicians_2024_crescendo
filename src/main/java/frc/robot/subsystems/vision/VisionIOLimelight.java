@@ -44,6 +44,7 @@ public class VisionIOLimelight implements VisionIO {
                       + LimelightHelpers.getLatency_Pipeline(name));
     } else {
       inputs.hasValidTarget = false;
+      inputs.robotPose = new Pose2d[] {};
     }
   }
 }

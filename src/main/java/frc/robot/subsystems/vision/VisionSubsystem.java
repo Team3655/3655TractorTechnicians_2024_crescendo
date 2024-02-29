@@ -48,10 +48,12 @@ public class VisionSubsystem extends SubsystemBase {
     for (int i = 0; i < llInputs.robotPose.length; i++) {
       if (llInputs.hasValidTarget && llInputs.distanceToCamera <= 6.4) {
         acceptedMeasurements.add(
-            new visionMeasurement(llInputs.robotPose[i], llInputs.distanceToCamera, llInputs.timestamp));
+            new visionMeasurement(
+                llInputs.robotPose[i], llInputs.distanceToCamera, llInputs.timestamp));
       } else {
         rejectedMeasurements.add(
-            new visionMeasurement(llInputs.robotPose[i], llInputs.distanceToCamera, llInputs.timestamp));
+            new visionMeasurement(
+                llInputs.robotPose[i], llInputs.distanceToCamera, llInputs.timestamp));
       }
     }
   }
