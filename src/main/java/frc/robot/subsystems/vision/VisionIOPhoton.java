@@ -101,7 +101,7 @@ public class VisionIOPhoton implements VisionIO {
     if (EstimatedRobotPose.isPresent() && checkInvalidIDs(result.getTargets())) {
       // Basic inputs
       inputs.hasValidTarget = true;
-      inputs.robotPose = EstimatedRobotPose.get().estimatedPose.toPose2d();
+      inputs.robotPose = new Pose2d[] {EstimatedRobotPose.get().estimatedPose.toPose2d()};
       inputs.timestamp = EstimatedRobotPose.get().timestampSeconds;
       // List inputs
       inputs.ambiguity = new double[result.targets.size()];

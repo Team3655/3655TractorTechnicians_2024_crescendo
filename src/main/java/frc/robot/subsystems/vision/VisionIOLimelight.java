@@ -7,6 +7,7 @@ package frc.robot.subsystems.vision;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.MathSharedStore;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.util.Units;
 import frc.robot.util.LimelightHelpers;
@@ -28,7 +29,7 @@ public class VisionIOLimelight implements VisionIO {
   public void updateInputs(VisionIOInputs inputs) {
     if (LimelightHelpers.getTV(name)) {
       inputs.hasValidTarget = true;
-      inputs.robotPose = LimelightHelpers.getBotPose2d_wpiBlue(name);
+      inputs.robotPose = new Pose2d[] {LimelightHelpers.getBotPose2d_wpiBlue(name)};
       inputs.distanceToCamera =
           LimelightHelpers.getCameraPose3d_TargetSpace(name).getTranslation().getNorm();
       Optional<Pose3d> targetPose =

@@ -1,5 +1,10 @@
 package frc.robot.subsystems.drive;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.littletonrobotics.junction.Logger;
+
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.Utils;
@@ -7,6 +12,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.LinearFilter;
@@ -23,10 +29,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.vision.VisionSubsystem;
-import java.util.ArrayList;
-import java.util.Arrays;
-import org.littletonrobotics.junction.AutoLogOutput;
-import org.littletonrobotics.junction.Logger;
 
 /** Coordinator for the drivetrain. Speaks to the Gyro and the Swerve Modules */
 public class DriveSubsystem extends SubsystemBase {
@@ -335,26 +337,26 @@ public class DriveSubsystem extends SubsystemBase {
     if (shouldUseVisionData) {
       synchronized (estimator) {
         for (int i = 0; i < vision.getMeasurements().size(); i++) {
-          Logger.recordOutput("Drive/VisionMeasurement", vision.getMeasurements().get(i).getPose());
           estimator.addVisionMeasurement(
               vision.getMeasurements().get(i).getPose(),
               vision.getMeasurements().get(i).getTimestamp(),
               VecBuilder.fill(
                   vision.getMeasurements().get(i).getDistance() * ESTIMATION_COEFFICIENT,
                   vision.getMeasurements().get(i).getDistance() * ESTIMATION_COEFFICIENT,
-                  5.0));
+                  3.0));
         }
       }
     }
 
-    // synchronized (estimator) {
-    //   Logger.recordOutput("Drive/EstimatedPose", estimator.getEstimatedPosition());
-    // }
-    // synchronized (odometry) {
-    //   Logger.recordOutput("Drive/OdometryPose", odometry.getPoseMeters());
-    // }
+    synchronized (estimator) {
+      Logger.recordOutput("Drive/EstimatedPose", estimator.getEstimatedPosition());
+    }
+    synchronized (odometry) {
+      Logger.recordOutput("Drive/OdometryPose", odometry.getPoseMeters());
+    }
     Logger.recordOutput(
-        "Drive/OdometryThread/Average Loop Time", odometryUpdateThread.getAverageLoopTime());
+        "Drive/OdometryThread/Average Loop Time", 
+        odometryUpdateThread.getAverageLoopTime());
     Logger.recordOutput(
         "Drive/OdometryThread/Successful Data Acquisitions",
         odometryUpdateThread.getSuccessfulDataAcquisitions());
@@ -392,12 +394,10 @@ public class DriveSubsystem extends SubsystemBase {
     }
   }
 
-  @AutoLogOutput(key = "Drive/Pose")
   public Pose2d getPose() {
     return getPose(false);
   }
 
-  @AutoLogOutput(key = "Drive/EstimatedPose")
   public Pose2d getPose(boolean visionAngle) {
     synchronized (estimator) {
       synchronized (odometry) {

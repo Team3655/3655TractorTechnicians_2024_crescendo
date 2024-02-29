@@ -19,7 +19,7 @@ public interface VisionIO {
 
     public Pose3d[] targetPoses = new Pose3d[] {};
 
-    public Pose2d robotPose = new Pose2d();
+    public Pose2d[] robotPose = new Pose2d[] {};
     public double timestamp = 0.0;
     public double distanceToCamera = 0.0;
   }
