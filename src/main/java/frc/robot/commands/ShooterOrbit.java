@@ -19,6 +19,9 @@ import org.littletonrobotics.junction.Logger;
 
 public class ShooterOrbit extends Command {
 
+  private static final double KP = 3.0;
+  private static final double KI = 0.0012;
+
   public static Translation2d target = new Translation2d(0.0, 5.5);
 
   private DriveSubsystem drive;
@@ -44,7 +47,7 @@ public class ShooterOrbit extends Command {
     this.ySupplier = ySupplier;
     this.kickSupplier = kickRequest;
 
-    turnFeedback = new ProfiledPIDController(3.0, 0.0012, 0.0, new Constraints(0.0, 0.0));
+    turnFeedback = new ProfiledPIDController(KP, KI, 0.0, new Constraints(0.0, 0.0));
     turnFeedback.enableContinuousInput(-0.5, 0.5);
 
     addRequirements(drive, shooter);
@@ -60,9 +63,10 @@ public class ShooterOrbit extends Command {
     // gets a x and y control inputs from the joystick
     Translation2d linearVelocity = DriveCommands.getDriveTranslation(xSupplier, ySupplier);
 
+    Pose2d projectedPose = drive.getProjectedPose(0.35, true);
+
     Translation2d reletiveTarget =
-        drive
-            .getProjectedPose(0.35, true)
+        projectedPose
             // get the drive position reletive to the target position
             .relativeTo(new Pose2d(target, new Rotation2d()))
             // get as a vector
@@ -89,7 +93,7 @@ public class ShooterOrbit extends Command {
 
     Logger.recordOutput("Drive/Orbit/Distance To Target", reletiveTarget.getNorm());
     Logger.recordOutput("Drive/Orbit/Error", turnFeedback.getPositionError());
-    Logger.recordOutput("Drive/Orbit/Robot Rotation", drive.getPose().getRotation());
+    Logger.recordOutput("Drive/Orbit/Projected Pose", projectedPose);
     Logger.recordOutput(
         "Drive/Orbit/Target Rotation",
         new Pose2d(drive.getPose().getTranslation(), rotationTarget));
