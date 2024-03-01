@@ -15,8 +15,7 @@ public class ModuleIOSim implements ModuleIO {
   /** Wheel radius of a Swerve Module */
   private static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(2.0);
   /** Simulated drive motor using the accurate gearing ratios and moment of inertia */
-  private final DCMotorSim driveSim = 
-      new DCMotorSim(DCMotor.getKrakenX60(1), 6.12, 0.025);
+  private final DCMotorSim driveSim = new DCMotorSim(DCMotor.getKrakenX60(1), 6.12, 0.025);
   /** Simulated steer motor using the accurate gearing ratios and moment of inertia */
   private final DCMotorSim steerSim =
       new DCMotorSim(DCMotor.getKrakenX60(1), 150.0 / 7.0, 0.004096955);

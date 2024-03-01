@@ -22,6 +22,8 @@ public class ShooterOrbit extends Command {
   private static final double KP = 3.0;
   private static final double KI = 0.0012;
 
+  private static final double LATANCY_SEC = 0.15;
+
   public static Translation2d target = new Translation2d(0.0, 5.5);
 
   private DriveSubsystem drive;
@@ -63,7 +65,7 @@ public class ShooterOrbit extends Command {
     // gets a x and y control inputs from the joystick
     Translation2d linearVelocity = DriveCommands.getDriveTranslation(xSupplier, ySupplier);
 
-    Pose2d projectedPose = drive.getProjectedPose(0.35, true);
+    Pose2d projectedPose = drive.getProjectedPose(LATANCY_SEC, true);
 
     Translation2d reletiveTarget =
         projectedPose
@@ -73,7 +75,7 @@ public class ShooterOrbit extends Command {
             .getTranslation();
 
     // adjust offset to ensure robot shoots into target center
-    Rotation2d rotationTarget = reletiveTarget.getAngle().plus(Rotation2d.fromDegrees(4.0));
+    Rotation2d rotationTarget = reletiveTarget.getAngle().plus(Rotation2d.fromDegrees(5.5));
 
     // calculate pid output based on the delta to target rotation
     turnFeedback.setGoal(rotationTarget.getRotations());
