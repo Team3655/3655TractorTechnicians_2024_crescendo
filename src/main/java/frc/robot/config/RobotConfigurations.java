@@ -90,7 +90,9 @@ public class RobotConfigurations {
     private static final double BACK_LEFT_OFFSET = -0.424805;
     private static final double BACK_RIGHT_OFFSET = -0.589844;
 
+    private static final double DRIVE_GEAR_RATIO = (50.0 / 16.0) * (16.0 / 28.0) * (45.0 / 15.0);
     private static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.85);
+    private static final double MAX_VELOCITY = Units.feetToMeters(19.5);
 
     public final CharacterizationConfiguration characterizationConfig =
         new CharacterizationConfiguration();
@@ -140,7 +142,9 @@ public class RobotConfigurations {
       characterizationConfig.backLeftOffset = BACK_LEFT_OFFSET;
       characterizationConfig.backRightOffset = BACK_RIGHT_OFFSET;
 
+      characterizationConfig.driveGearRatio = DRIVE_GEAR_RATIO;
       characterizationConfig.wheelRadiusMeters = WHEEL_RADIUS_METERS;
+      characterizationConfig.maxVelocity = MAX_VELOCITY;
     }
   }
 
@@ -191,7 +195,9 @@ public class RobotConfigurations {
     private static final double BACK_LEFT_OFFSET = -0.424805;
     private static final double BACK_RIGHT_OFFSET = -0.589844;
 
+    private static final double DRIVE_GEAR_RATIO = (50.0 / 14.0) * (17.0 / 27.0) * (45.0 / 15.0);
     private static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.85);
+    private static final double MAX_VELOCITY = Units.feetToMeters(15.5);
 
     public final CharacterizationConfiguration characterizationConfig =
         new CharacterizationConfiguration();
@@ -241,7 +247,9 @@ public class RobotConfigurations {
       characterizationConfig.backLeftOffset = BACK_LEFT_OFFSET;
       characterizationConfig.backRightOffset = BACK_RIGHT_OFFSET;
 
+      characterizationConfig.driveGearRatio = DRIVE_GEAR_RATIO;
       characterizationConfig.wheelRadiusMeters = WHEEL_RADIUS_METERS;
+      characterizationConfig.maxVelocity = MAX_VELOCITY;
     }
   }
 }

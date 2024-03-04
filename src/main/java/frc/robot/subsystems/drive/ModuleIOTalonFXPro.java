@@ -33,26 +33,19 @@ public class ModuleIOTalonFXPro implements ModuleIO {
   public static final double TURN_kS = 0.05;
   public static final double TURN_kV = 0.1;
 
-  // Constants specific to the hardware
-  /** Radius of the wheel. Can be used to figure out distance data */
-  private static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.85);
-  /** From motor rotations to the wheel revolutions */
-  private static final double DRIVE_GEAR_RATIO = (50.0 / 14.0) * (16.0 / 28.0) * (45.0 / 15.0);
-
   /**
    * Conversion constant: From motor encoder ticks to position data (m)
    *
    * <p>rotations -> meters
    */
-  private static final double DRIVE_SENSOR_POSITION_COEFFICIENT =
-      (2 * Math.PI * WHEEL_RADIUS_METERS) / DRIVE_GEAR_RATIO;
+  private double drivePositionCoefficient;
 
   /**
    * Conversion constant: From motor encoder ticks to velocity data (m/s)
    *
    * <p>rotations / second -> meters per second
    */
-  private static final double DRIVE_SENSOR_VELOCITY_COEFFICIENT = DRIVE_SENSOR_POSITION_COEFFICIENT;
+  private double driveVelocityCoefficient;
 
   /**
    * From motor rotations to the wheel rotations (150 / 7 motor rotations : 1 full rotation of the
@@ -60,7 +53,7 @@ public class ModuleIOTalonFXPro implements ModuleIO {
    */
   private static final double STEER_GEAR_RATIO = 150.0 / 7;
 
-  private static final double MAX_VELOCITY = Units.feetToMeters(17.1);
+  private static final double MAX_VELOCITY = Units.feetToMeters(19.5);
 
   // Hardware object initialization
   /** TalonFX swerve module drive motor */
@@ -100,7 +93,14 @@ public class ModuleIOTalonFXPro implements ModuleIO {
       int steerMotorId,
       int steerEncoderId,
       String canBus,
-      double absoluteOffsetRotations) {
+      double absoluteOffsetRotations,
+      double wheelRadiusMeters,
+      double driveGearRatio,
+      double maxVelocity) {
+
+    this.drivePositionCoefficient = (2 * Math.PI * wheelRadiusMeters) / driveGearRatio;
+
+    this.driveVelocityCoefficient = drivePositionCoefficient;
 
     driveMotor = new TalonFX(driveMotorId, canBus);
     steerMotor = new TalonFX(steerMotorId, canBus);
@@ -180,10 +180,10 @@ public class ModuleIOTalonFXPro implements ModuleIO {
     inputs.drivePositionMeters =
         BaseStatusSignal.getLatencyCompensatedValue(
                 primaryDrivePositionSignal, primaryDriveVelocitySignal)
-            * (DRIVE_SENSOR_POSITION_COEFFICIENT);
+            * (drivePositionCoefficient);
 
     inputs.driveVelocityMetersPerSec =
-        primaryDriveVelocitySignal.getValue() * (DRIVE_SENSOR_VELOCITY_COEFFICIENT);
+        primaryDriveVelocitySignal.getValue() * (driveVelocityCoefficient);
 
     inputs.driveCurrentDrawAmps = driveMotor.getSupplyCurrent().getValue();
     inputs.driveAppliedVolts = driveAppliedVolts;
@@ -228,7 +228,7 @@ public class ModuleIOTalonFXPro implements ModuleIO {
     driveMotor.setControl(
         targetDriveVelocityMetersPerSec != 0.0
             ? velocityControl.withVelocity(
-                targetDriveVelocityMetersPerSec / DRIVE_SENSOR_VELOCITY_COEFFICIENT)
+                targetDriveVelocityMetersPerSec / driveVelocityCoefficient)
             // if the vel is 0 let the robot coast to a stop (this is gentler on the robot)
             : voltageControl.withOutput(0.0));
 

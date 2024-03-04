@@ -12,5 +12,7 @@ public class CharacterizationConfiguration {
   public double backLeftOffset;
   public double backRightOffset;
 
+  public double driveGearRatio;
   public double wheelRadiusMeters;
+  public double maxVelocity;
 }
