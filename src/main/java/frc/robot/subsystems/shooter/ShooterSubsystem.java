@@ -76,8 +76,7 @@ public class ShooterSubsystem extends SubsystemBase {
         break;
     }
 
-    // subtract ks from kg for quicker tuning
-    // pivotFFKg -= pivotFFKs;
+    io.setAngle(Rotation2d.fromDegrees(10), 0);
 
     // log gear ratios so that they can be inspected retroactivly
     Logger.recordOutput("Shooter/PIVOT_TRACK_RATIO ", PIVOT_TRACK_RATIO);
