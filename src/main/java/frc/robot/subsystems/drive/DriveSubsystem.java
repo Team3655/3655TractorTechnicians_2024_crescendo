@@ -367,11 +367,6 @@ public class DriveSubsystem extends SubsystemBase {
    * @param targetVelocity The target chassis speed
    */
   public void setTargetVelocity(ChassisSpeeds targetVelocity) {
-    targetVelocity =
-        new ChassisSpeeds(
-            targetVelocity.vxMetersPerSecond,
-            targetVelocity.vyMetersPerSecond,
-            -targetVelocity.omegaRadiansPerSecond);
     this.targetVelocity = targetVelocity;
   }
 

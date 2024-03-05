@@ -4,33 +4,44 @@
 
 package frc.robot.subsystems.intake;
 
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticHub;
-import edu.wpi.first.wpilibj.Solenoid;
 
 /** Add your docs here. */
-public class IntakeIOHardware implements IntakeIO {
+public class IntakeIODouble implements IntakeIO {
 
   private final PneumaticHub pneumaticHub;
   private final Compressor compressor;
-  private final Solenoid extension;
-  private final CANSparkMax intakeMotor;
+  private final DoubleSolenoid stageOne;
+  private final DoubleSolenoid stageTwo;
+  private final CANSparkFlex intakeMotor;
   private final RelativeEncoder intakeEncoder;
   private final DigitalInput proximity;
 
-  public IntakeIOHardware(
-      int pneumaticHubID, int intakeMotorID, int deploySolenoidPort, int intakeBeamBreakPort) {
+  public IntakeIODouble(
+      int pneumaticHubID,
+      int intakeMotorID,
+      int stageOneForwardPort,
+      int stageOneReversePort,
+      int stageTwoForwardPort,
+      int stageTwoReversePort,
+      int intakeBeamBreakPort) {
 
     pneumaticHub = new PneumaticHub(pneumaticHubID);
     compressor = pneumaticHub.makeCompressor();
-    extension = pneumaticHub.makeSolenoid(deploySolenoidPort);
 
-    intakeMotor = new CANSparkMax(intakeMotorID, MotorType.kBrushless);
+    stageOne = pneumaticHub.makeDoubleSolenoid(stageOneForwardPort, stageOneReversePort);
+
+    stageTwo = pneumaticHub.makeDoubleSolenoid(stageTwoForwardPort, stageTwoReversePort);
+
+    intakeMotor = new CANSparkFlex(intakeMotorID, MotorType.kBrushless);
     intakeEncoder = intakeMotor.getEncoder();
 
     proximity = new DigitalInput(intakeBeamBreakPort);
@@ -39,9 +50,7 @@ public class IntakeIOHardware implements IntakeIO {
     intakeMotor.setCANTimeout(250);
     intakeMotor.enableVoltageCompensation(12.0);
     intakeMotor.setSmartCurrentLimit(30);
-    intakeMotor.burnFlash();
 
-    extension.set(false);
     pneumaticHub.enableCompressorAnalog(80, 120);
   }
 
@@ -68,22 +77,29 @@ public class IntakeIOHardware implements IntakeIO {
   }
 
   @Override
-  public void setLinear(Boolean value) {
-    extension.set(value);
+  public void setDeployed(Boolean value) {
+    if (value) {
+      stageOne.set(Value.kForward);
+      stageTwo.set(Value.kForward);
+    } else {
+      stageOne.set(Value.kReverse);
+      stageTwo.set(Value.kReverse);
+    }
+  }
+
+  @Override
+  public void setStageOneValue(Value value) {
+    stageOne.set(value);
+  }
+
+  @Override
+  public void setStageTwoValue(Value value) {
+    stageTwo.set(value);
   }
 
   @Override
   public boolean getProximity() {
     return !proximity.get();
-  }
-
-  @Override
-  public void toggleLinear() {
-    if (extension.get()) {
-      extension.set(false);
-    } else {
-      extension.set(true);
-    }
   }
 
   @Override

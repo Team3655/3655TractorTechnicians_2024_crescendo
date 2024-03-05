@@ -38,7 +38,10 @@ public class PortConfiguration {
 
   // region: intake
   public int intakeMotorID;
-  public int deploySolenoidPort;
+  public int stageOneForwardPort;
+  public int stageOneReversePort;
+  public int stageTwoForwardPort;
+  public int stageTwoReversePort;
   public int intakeBeamBreakPort;
   // endregion
 

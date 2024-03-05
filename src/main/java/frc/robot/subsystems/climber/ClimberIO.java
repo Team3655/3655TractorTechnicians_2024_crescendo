@@ -13,14 +13,12 @@ public interface ClimberIO {
   @AutoLog
   public static class ClimberIOInputs {
 
-    public Rotation2d leftAbsolutePosition = new Rotation2d();
     public double leftPositionRotations = 0.0;
     public double leftVelocityRPM = 0.0;
     public double leftAppliedVolts = 0.0;
     public double[] leftCurrentAmps = new double[] {};
     public double leftMotorTemp = 0.0;
 
-    public Rotation2d rightAbsolutePosition = new Rotation2d();
     public double rightPositionRotations = 0.0;
     public double rightVelocityRPM = 0.0;
     public double rightAppliedVolts = 0.0;
@@ -28,10 +26,9 @@ public interface ClimberIO {
     public double rightMotorTemp = 0.0;
   }
 
-  // camel case starts lower case
   public default void updateInputs(ClimberIOInputs inputs) {}
 
   public default void setVoltage(double volts) {}
 
-  // TODO: add set position method
+  public default void setAngle(Rotation2d angle) {}
 }

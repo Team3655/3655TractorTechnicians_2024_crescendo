@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.intake;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import org.littletonrobotics.junction.AutoLog;
 
 /** Add your docs here. */
@@ -32,7 +33,11 @@ public interface IntakeIO {
 
   public default void stop() {}
 
-  public default void setLinear(Boolean value) {}
+  public default void setDeployed(Boolean deployed) {}
+
+  public default void setStageOneValue(Value value) {}
+
+  public default void setStageTwoValue(Value value) {}
 
   public default boolean getProximity() {
     return true;

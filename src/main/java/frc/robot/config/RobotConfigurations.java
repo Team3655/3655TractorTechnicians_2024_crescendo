@@ -70,7 +70,10 @@ public class RobotConfigurations {
     private static final int FLYWHEEL_BEAMBREAK_PORT = 2;
 
     private static final int INTAKE_MOTOR_ID = 40;
-    private static final int DEPLOY_SOLENOID_PORT = 1;
+    private static final int STAGE_ONE_FORWARD_PORT = 11;
+    private static final int STAGE_ONE_REVERSE_PORT = 10;
+    private static final int STAGE_TWO_FORWARD_PORT = 9;
+    private static final int STAGE_TWO_REVERSE_PORT = 8;
     private static final int INTAKE_BEAMBREAK_PORT = 0;
 
     private static final int RIGHT_CLIMER_ID = 41;
@@ -85,10 +88,10 @@ public class RobotConfigurations {
 
     public final PortConfiguration portConfig = new PortConfiguration();
 
-    private static final double FRONT_LEFT_OFFSET = -0.626221;
-    private static final double FRONT_RIGHT_OFFSET = -0.357910;
-    private static final double BACK_LEFT_OFFSET = -0.424805;
-    private static final double BACK_RIGHT_OFFSET = -0.589844;
+    private static final double FRONT_LEFT_OFFSET = -0.302246;
+    private static final double FRONT_RIGHT_OFFSET = -0.419922;
+    private static final double BACK_LEFT_OFFSET = -0.969238;
+    private static final double BACK_RIGHT_OFFSET = -0.282959;
 
     private static final double DRIVE_GEAR_RATIO = (50.0 / 16.0) * (16.0 / 28.0) * (45.0 / 15.0);
     private static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.85);
@@ -124,7 +127,10 @@ public class RobotConfigurations {
       portConfig.flyWheelBeamBreakport = FLYWHEEL_BEAMBREAK_PORT;
 
       portConfig.intakeMotorID = INTAKE_MOTOR_ID;
-      portConfig.deploySolenoidPort = DEPLOY_SOLENOID_PORT;
+      portConfig.stageOneForwardPort = STAGE_ONE_FORWARD_PORT;
+      portConfig.stageOneReversePort = STAGE_ONE_REVERSE_PORT;
+      portConfig.stageTwoForwardPort = STAGE_TWO_FORWARD_PORT;
+      portConfig.stageTwoReversePort = STAGE_TWO_REVERSE_PORT;
       portConfig.intakeBeamBreakPort = INTAKE_BEAMBREAK_PORT;
 
       portConfig.rightClimberMotorID = RIGHT_CLIMER_ID;
@@ -175,7 +181,10 @@ public class RobotConfigurations {
     private static final int FLYWHEEL_BEAMBREAK_PORT = 2;
 
     private static final int INTAKE_MOTOR_ID = 40;
-    private static final int DEPLOY_SOLENOID_PORT = 1;
+    private static final int STAGE_ONE_FORWARD_PORT = 10;
+    private static final int STAGE_ONE_REVERSE_PORT = 11;
+    private static final int STAGE_TWO_FORWARD_PORT = 8;
+    private static final int STAGE_TWO_REVERSE_PORT = 9;
     private static final int INTAKE_BEAMBREAK_PORT = 0;
 
     private static final int RIGHT_CLIMER_ID = 41;
@@ -229,7 +238,10 @@ public class RobotConfigurations {
       portConfig.flyWheelBeamBreakport = FLYWHEEL_BEAMBREAK_PORT;
 
       portConfig.intakeMotorID = INTAKE_MOTOR_ID;
-      portConfig.deploySolenoidPort = DEPLOY_SOLENOID_PORT;
+      portConfig.stageOneForwardPort = STAGE_ONE_FORWARD_PORT;
+      portConfig.stageOneReversePort = STAGE_ONE_REVERSE_PORT;
+      portConfig.stageTwoForwardPort = STAGE_TWO_FORWARD_PORT;
+      portConfig.stageTwoReversePort = STAGE_TWO_REVERSE_PORT;
       portConfig.intakeBeamBreakPort = INTAKE_BEAMBREAK_PORT;
 
       portConfig.rightClimberMotorID = RIGHT_CLIMER_ID;

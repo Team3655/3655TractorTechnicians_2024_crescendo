@@ -2,7 +2,6 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
@@ -10,16 +9,20 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.ClimbingCommands;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.IntakeCommands;
-import frc.robot.commands.PathfindingCommands;
 import frc.robot.commands.ShooterOrbit;
 import frc.robot.commands.ShootingCommands;
 import frc.robot.config.CharacterizationConfiguration;
 import frc.robot.config.PortConfiguration;
 import frc.robot.config.RobotConfigurations;
+import frc.robot.subsystems.climber.ClimberIO;
+import frc.robot.subsystems.climber.ClimberIOSpark;
+import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -27,7 +30,7 @@ import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFXPro;
 import frc.robot.subsystems.intake.IntakeIO;
-import frc.robot.subsystems.intake.IntakeIOHardware;
+import frc.robot.subsystems.intake.IntakeIODouble;
 import frc.robot.subsystems.intake.IntakeIOSim;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.ShooterIO;
@@ -54,11 +57,13 @@ public class RobotContainer {
   private final VisionSubsystem vision;
   private final ShooterSubsystem shooter;
   private final IntakeSubsystem intake;
+  private final ClimberSubsystem climber;
 
   // Controller
   private final CommandNXT driveJoystick = new CommandNXT(0);
   private final CommandJoystick turnJoystick = new CommandJoystick(1);
-  private final CommandXboxController controller = new CommandXboxController(2);
+  private final CommandGenericHID tractorController = new CommandGenericHID(2);
+  private final CommandXboxController controller = new CommandXboxController(3);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -134,11 +139,18 @@ public class RobotContainer {
 
         intake =
             new IntakeSubsystem(
-                new IntakeIOHardware(
+                new IntakeIODouble(
                     portConfig.pneumaticHubID,
                     portConfig.intakeMotorID,
-                    portConfig.deploySolenoidPort,
+                    portConfig.stageOneForwardPort,
+                    portConfig.stageOneReversePort,
+                    portConfig.stageTwoForwardPort,
+                    portConfig.stageTwoReversePort,
                     portConfig.intakeBeamBreakPort));
+
+        climber =
+            new ClimberSubsystem(
+                new ClimberIOSpark(portConfig.rightClimberMotorID, portConfig.leftClimberMotorID));
         break;
 
       case SIM:
@@ -157,6 +169,8 @@ public class RobotContainer {
         shooter = new ShooterSubsystem(new ShooterIOSim());
 
         intake = new IntakeSubsystem(new IntakeIOSim());
+
+        climber = new ClimberSubsystem(new ClimberIO() {});
         break;
 
       default:
@@ -175,6 +189,8 @@ public class RobotContainer {
         intake = new IntakeSubsystem(new IntakeIO() {});
 
         shooter = new ShooterSubsystem(new ShooterIO() {});
+
+        climber = new ClimberSubsystem(new ClimberIO() {});
         break;
     }
 
@@ -238,12 +254,27 @@ public class RobotContainer {
             DriveCommands.zeroOdometry(
                 drive, new Translation2d(Units.inchesToMeters(36 + (32.0 / 2.0)), 5.55)));
 
+    // controller
+    //     .leftBumper()
+    //     .whileTrue(
+    //         PathfindingCommands.pathfindToPose(
+    //             new Pose2d(1.88, 7.70, Rotation2d.fromDegrees(90)), 0, 0));
+    // controller.button(1).onTrue(DriveCommands.zeroDrive(drive)); // MacOS
+
     controller
         .leftBumper()
-        .whileTrue(
-            PathfindingCommands.pathfindToPose(
-                new Pose2d(1.88, 7.70, Rotation2d.fromDegrees(90)), 0, 0));
-    // controller.button(1).onTrue(DriveCommands.zeroDrive(drive)); // MacOS
+        .whileTrue(ShootingCommands.ampShoot(shooter, climber, intake))
+        .onFalse(
+            Commands.run(
+                () -> {
+                  shooter.stopFlywheel();
+                  shooter.setKicker(0.0);
+                  climber.setAngle(new Rotation2d());
+                  intake.setVoltage(0.0);
+                },
+                intake,
+                shooter,
+                climber));
 
     controller
         .a()
@@ -283,16 +314,11 @@ public class RobotContainer {
                 },
                 shooter));
 
-    controller.y().whileTrue(ShootingCommands.holdShoot(shooter, flywheelSpeedInput::get));
-
     driveJoystick
         .firePaddleUp()
         .or(controller.povLeft())
-        .whileTrue(
-            Commands.startEnd(
-                () -> intake.setState(IntakeSubsystem.INTAKE_STATE),
-                () -> intake.setState(IntakeSubsystem.TUCKED_STATE),
-                intake));
+        .onTrue(IntakeCommands.deploy(intake))
+        .onFalse(IntakeCommands.retract(intake));
 
     controller
         .x()
@@ -303,28 +329,11 @@ public class RobotContainer {
 
     driveJoystick.a2().whileTrue(ShootingCommands.holdShoot(shooter, flywheelSpeedInput::get));
 
-    // shooter intake
-    // driveJoystick
-    // .fireStage1()
-    // .whileTrue(
-    // Commands.startEnd(
-    // () -> {
-    // shooter.runVelocity(-1000);
-    // shooter.setKicker(-12.0);
-    // },
-    // () -> {
-    // shooter.stopFlywheel();
-    // shooter.setKicker(0.0);
-    // },
-    // shooter));
-
-    // driveJoystick
-    // .button(CommandNXT.A2)
-    // .whileTrue(
-    // Commands.startEnd(
-    // () -> shooter.runVelocity(flywheelSpeedInput.get()),
-    // shooter::stopFlywheel,
-    // shooter));
+    tractorController
+        .button(1)
+        .or(controller.y())
+        .onTrue(ClimbingCommands.prepClimb(climber, shooter))
+        .onFalse(ClimbingCommands.climb(climber, shooter));
   }
 
   /**

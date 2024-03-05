@@ -9,6 +9,9 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.subsystems.climber.ClimberSubsystem;
+import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
@@ -53,6 +56,26 @@ public class ShootingCommands {
 
   public static Command setSpeed(ShooterSubsystem shooter, double rpm) {
     return Commands.runOnce(() -> shooter.runVelocity(rpm), shooter);
+  }
+
+  public static Command ampShoot(
+      ShooterSubsystem shooter, ClimberSubsystem climber, IntakeSubsystem intake) {
+    return Commands.runOnce(
+            () -> {
+              shooter.setAngle(Rotation2d.fromDegrees(30));
+              climber.setAngle(Rotation2d.fromDegrees(100));
+              shooter.runVelocity(3000);
+            },
+            shooter,
+            climber)
+        .andThen(new WaitCommand(1.0))
+        .andThen(
+            Commands.run(
+                () -> {
+                  shooter.setKicker(12.0);
+                  intake.setVoltage(12.0);
+                },
+                shooter));
   }
 
   public static Command holdShoot(ShooterSubsystem shooter, DoubleSupplier rpm) {

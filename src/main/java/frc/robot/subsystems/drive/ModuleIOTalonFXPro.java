@@ -225,12 +225,15 @@ public class ModuleIOTalonFXPro implements ModuleIO {
   @Override
   public void setTargetDriveVelocity(double targetDriveVelocityMetersPerSec) {
 
+    // driveMotor.setControl(
+    //     targetDriveVelocityMetersPerSec != 0.0
+    //         ? velocityControl.withVelocity(
+    //             targetDriveVelocityMetersPerSec / driveVelocityCoefficient)
+    //         // if the vel is 0 let the robot coast to a stop (this is gentler on the robot)
+    //         : voltageControl.withOutput(0.0));
+
     driveMotor.setControl(
-        targetDriveVelocityMetersPerSec != 0.0
-            ? velocityControl.withVelocity(
-                targetDriveVelocityMetersPerSec / driveVelocityCoefficient)
-            // if the vel is 0 let the robot coast to a stop (this is gentler on the robot)
-            : voltageControl.withOutput(0.0));
+        voltageControl.withOutput((targetDriveVelocityMetersPerSec / MAX_VELOCITY) * 12.0));
 
     this.targetVelocityMetersPerSeconds = targetDriveVelocityMetersPerSec;
   }

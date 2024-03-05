@@ -4,36 +4,60 @@
 
 package frc.robot.subsystems.climber;
 
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
 
 /** Add your docs here. */
 public class ClimberIOSpark implements ClimberIO {
 
   private final CANSparkMax rightMotor;
   private final RelativeEncoder rightEncoder;
-  // most likely will not involve abs encoder
-  // private final AbsoluteEncoder rightAbsolute;
 
   private final CANSparkMax leftMotor;
   private final RelativeEncoder leftEncoder;
-  // private final AbsoluteEncoder leftAbsolute;
 
-  public ClimberIOSpark() {
+  private final SparkPIDController pid;
 
-    rightMotor = new CANSparkMax(34, MotorType.kBrushless);
+  public ClimberIOSpark(int rightID, int leftID) {
+
+    rightMotor = new CANSparkMax(rightID, MotorType.kBrushless);
+    rightMotor.restoreFactoryDefaults();
+    rightMotor.setCANTimeout(250);
+    rightMotor.enableVoltageCompensation(12.0);
+    rightMotor.setSmartCurrentLimit(30);
     rightEncoder = rightMotor.getEncoder();
-    // rightAbsolute = rightMotor.getAbsoluteEncoder(Type.kDutyCycle);
 
-    leftMotor = new CANSparkMax(34, MotorType.kBrushless);
+    leftMotor = new CANSparkMax(leftID, MotorType.kBrushless);
+    rightMotor.restoreFactoryDefaults();
+    rightMotor.setCANTimeout(250);
+    rightMotor.enableVoltageCompensation(12.0);
+    rightMotor.setSmartCurrentLimit(30);
     leftEncoder = rightMotor.getEncoder();
-    // leftAbsolute = rightMotor.getAbsoluteEncoder(Type.kDutyCycle);
+
+    pid = rightMotor.getPIDController();
+    pid.setOutputRange(-1.0, 1.0);
+    pid.setP(0.03);
+
+    leftMotor.follow(rightMotor, true);
   }
 
   @Override
   public void updateInputs(ClimberIOInputs inputs) {
-    // will do this later
+    inputs.leftPositionRotations = leftEncoder.getPosition() / ClimberSubsystem.CLIMER_GEAR_RATIO;
+    inputs.leftVelocityRPM = leftEncoder.getVelocity() / ClimberSubsystem.CLIMER_GEAR_RATIO;
+    inputs.leftAppliedVolts = leftMotor.getAppliedOutput() * leftMotor.getBusVoltage();
+    inputs.leftCurrentAmps = new double[] {leftMotor.getOutputCurrent()};
+    inputs.leftMotorTemp = leftMotor.getMotorTemperature();
+
+    inputs.rightPositionRotations = rightEncoder.getPosition() / ClimberSubsystem.CLIMER_GEAR_RATIO;
+    inputs.rightVelocityRPM = rightEncoder.getVelocity() / ClimberSubsystem.CLIMER_GEAR_RATIO;
+    inputs.rightAppliedVolts = rightMotor.getAppliedOutput() * rightMotor.getBusVoltage();
+    inputs.rightCurrentAmps = new double[] {rightMotor.getOutputCurrent()};
+    inputs.rightMotorTemp = rightMotor.getMotorTemperature();
   }
 
   @Override
@@ -42,5 +66,9 @@ public class ClimberIOSpark implements ClimberIO {
     leftMotor.setVoltage(volts);
   }
 
-  // TODO: add set position method
+  @Override
+  public void setAngle(Rotation2d angle) {
+    pid.setReference(
+        angle.getRotations() * ClimberSubsystem.CLIMER_GEAR_RATIO, ControlType.kPosition);
+  }
 }
