@@ -10,6 +10,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
@@ -24,7 +26,8 @@ public class ShooterOrbit extends Command {
 
   private static final double LATANCY_SEC = 0.15;
 
-  public static Translation2d target = new Translation2d(0.0, 5.5);
+  public static Translation2d blueTarget = new Translation2d(0.0, 5.55);
+  public static Translation2d redTarget = new Translation2d(16.535, 5.55);
 
   private DriveSubsystem drive;
   private ShooterSubsystem shooter;
@@ -70,7 +73,7 @@ public class ShooterOrbit extends Command {
     Translation2d reletiveTarget =
         projectedPose
             // get the drive position reletive to the target position
-            .relativeTo(new Pose2d(target, new Rotation2d()))
+            .relativeTo(new Pose2d(getMirroredTarget(), new Rotation2d()))
             // get as a vector
             .getTranslation();
 
@@ -99,7 +102,7 @@ public class ShooterOrbit extends Command {
     Logger.recordOutput(
         "Drive/Orbit/Target Rotation",
         new Pose2d(drive.getPose().getTranslation(), rotationTarget));
-    Logger.recordOutput("Drive/Orbit/Target", target);
+    Logger.recordOutput("Drive/Orbit/Target", getMirroredTarget());
   }
 
   // Called once the command ends or is interrupted.
@@ -113,5 +116,13 @@ public class ShooterOrbit extends Command {
   @Override
   public boolean isFinished() {
     return false;
+  }
+
+  public Translation2d getMirroredTarget() {
+    var alliance = DriverStation.getAlliance();
+    if (alliance.isPresent() && alliance.get() == Alliance.Red) {
+      return redTarget;
+    }
+    return blueTarget;
   }
 }

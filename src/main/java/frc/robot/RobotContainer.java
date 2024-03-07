@@ -201,8 +201,9 @@ public class RobotContainer {
         "AdjustShooter", ShootingCommands.adjustShooter(shooter, () -> drive.getPose()));
     NamedCommands.registerCommand("StopShooter", ShootingCommands.stopShooter(shooter));
     NamedCommands.registerCommand(
-        "RunKicker", ShootingCommands.runKicker(shooter).withTimeout(1.0));
+        "RunKicker", ShootingCommands.runKicker(shooter, intake).withTimeout(1.0));
     NamedCommands.registerCommand("DeployIntake", IntakeCommands.deploy(intake));
+    NamedCommands.registerCommand("RetractIntake", IntakeCommands.retract(intake));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -261,8 +262,8 @@ public class RobotContainer {
     //             new Pose2d(1.88, 7.70, Rotation2d.fromDegrees(90)), 0, 0));
     // controller.button(1).onTrue(DriveCommands.zeroDrive(drive)); // MacOS
 
-    controller
-        .leftBumper()
+    tractorController
+        .button(5)
         .whileTrue(ShootingCommands.ampShoot(shooter, climber, intake))
         .onFalse(
             Commands.run(
@@ -320,6 +321,20 @@ public class RobotContainer {
         .onTrue(IntakeCommands.deploy(intake))
         .onFalse(IntakeCommands.retract(intake));
 
+    driveJoystick
+        .a2()
+        .whileTrue(
+            Commands.startEnd(
+                () -> {
+                  intake.setVoltage(-5.0);
+                  shooter.setKicker(-8.0);
+                },
+                () -> {
+                  intake.setVoltage(0.0);
+                  shooter.setKicker(0.0);
+                },
+                intake));
+
     controller
         .x()
         .or(driveJoystick.fireStage2())
@@ -327,7 +342,7 @@ public class RobotContainer {
         .whileTrue(
             Commands.startEnd(() -> intake.setVoltage(10), () -> intake.setVoltage(0), intake));
 
-    driveJoystick.a2().whileTrue(ShootingCommands.holdShoot(shooter, flywheelSpeedInput::get));
+    // driveJoystick.a2().whileTrue(ShootingCommands.holdShoot(shooter, flywheelSpeedInput::get));
 
     tractorController
         .button(1)

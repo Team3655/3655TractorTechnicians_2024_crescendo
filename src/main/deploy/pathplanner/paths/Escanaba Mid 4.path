@@ -1,0 +1,68 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.9829992417337774,
+        "y": 4.270531591001908
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.9446477719548576,
+        "y": 2.892432633057669
+      },
+      "isLocked": false,
+      "linkedName": "EscanabaStart-End"
+    },
+    {
+      "anchor": {
+        "x": 5.479694239106616,
+        "y": 1.5425219729115942
+      },
+      "prevControl": {
+        "x": 4.402174998567152,
+        "y": 1.568047818647371
+      },
+      "nextControl": {
+        "x": 6.1548673158620835,
+        "y": 1.52652748932949
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.943557336256829,
+        "y": 2.258868967799211
+      },
+      "prevControl": {
+        "x": 7.225072464850812,
+        "y": 1.8080541545580646
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.24,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 720.0,
+    "maxAngularAcceleration": 540.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 30.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "New Folder",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

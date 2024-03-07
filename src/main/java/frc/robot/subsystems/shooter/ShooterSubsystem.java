@@ -14,6 +14,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public static final double KICKER_GEAR_RATIO = 5.0 / 1.0;
 
+  private static final Rotation2d SHOOTER_OFFSET = Rotation2d.fromDegrees(6.0);
+
   // add one to account for the coin paradox
   public static final double PIVOT_TRACK_RATIO = (130.0 / 17.0); // + 1.0;
   public static final double PIVOT_GEARBOX_RATIO = 25.0 / 1.0;
@@ -22,21 +24,17 @@ public class ShooterSubsystem extends SubsystemBase {
   private static final HashMap<Double, Rotation2d> DISTANCE_TO_ANGLE =
       new HashMap<>() {
         {
-          // put(4.5604, Rotation2d.fromRotations(0.1626));
-          // put(3.9529, Rotation2d.fromRotations(0.1567));
-          // put(3.7741, Rotation2d.fromRotations(0.1557));
-          // put(3.1782, Rotation2d.fromRotations(0.1539));
-          // put(3.0634, Rotation2d.fromRotations(0.1452));
-          // put(2.2614, Rotation2d.fromRotations(0.1289));
-          // put(1.3632, Rotation2d.fromRotations(0.0805));
-          put(4.5866, Rotation2d.fromDegrees(62));
-          put(4.3000, Rotation2d.fromDegrees(61));
-          put(4.0225, Rotation2d.fromDegrees(60));
-          put(3.4130, Rotation2d.fromDegrees(57));
-          put(2.7768, Rotation2d.fromDegrees(54));
-          put(2.1333, Rotation2d.fromDegrees(45));
-          put(1.6488, Rotation2d.fromDegrees(40));
-          put(1.3854, Rotation2d.fromDegrees(36));
+          put(5.1436, Rotation2d.fromDegrees(63.7));
+          put(4.9348, Rotation2d.fromDegrees(63.7));
+          put(4.6436, Rotation2d.fromDegrees(62.0));
+          put(4.5866, Rotation2d.fromDegrees(62.0));
+          put(4.3000, Rotation2d.fromDegrees(62.0));
+          put(4.0225, Rotation2d.fromDegrees(61.0));
+          put(3.4130, Rotation2d.fromDegrees(57.0));
+          put(2.7768, Rotation2d.fromDegrees(54.0));
+          put(2.1333, Rotation2d.fromDegrees(45.0));
+          put(1.6488, Rotation2d.fromDegrees(40.0));
+          put(1.3854, Rotation2d.fromDegrees(36.0));
         }
       };
 
@@ -118,7 +116,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setShooterAngleFromDist(double distance) {
     Rotation2d angle = getRotationFromDistance(distance);
-    setAngle(angle);
+    setAngle(angle.minus(SHOOTER_OFFSET));
   }
 
   public void jogAngle(double degrees) {

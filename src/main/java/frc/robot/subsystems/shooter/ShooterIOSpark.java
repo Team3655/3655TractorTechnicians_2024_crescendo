@@ -57,8 +57,6 @@ public class ShooterIOSpark implements ShooterIO {
     bottom.setCANTimeout(250);
     bottom.enableVoltageCompensation(12.0);
     bottom.setSmartCurrentLimit(40);
-    // invert bottom
-    bottom.setInverted(true);
     bottom.burnFlash();
 
     bottomEncoder = bottom.getEncoder();
@@ -84,7 +82,7 @@ public class ShooterIOSpark implements ShooterIO {
     pivot.enableVoltageCompensation(12.0);
     pivot.setSmartCurrentLimit(20);
     pivot.setInverted(true);
-    pivot.setIdleMode(IdleMode.kCoast);
+    pivot.setIdleMode(IdleMode.kBrake);
 
     pivotEncoder = pivot.getEncoder();
     pivotAbsolute = pivot.getAbsoluteEncoder(Type.kDutyCycle);
@@ -128,7 +126,7 @@ public class ShooterIOSpark implements ShooterIO {
   @Override
   public void setVoltage(double volts) {
     top.setVoltage(volts);
-    bottom.setVoltage(volts);
+    bottom.setVoltage(-volts);
   }
 
   @Override
@@ -139,7 +137,7 @@ public class ShooterIOSpark implements ShooterIO {
   @Override
   public void setVelocity(double velocityRPM, double ffVolts) {
     topPID.setReference(velocityRPM, ControlType.kVelocity, 0, ffVolts, ArbFFUnits.kVoltage);
-    bottomPID.setReference(velocityRPM, ControlType.kVelocity, 0, ffVolts, ArbFFUnits.kVoltage);
+    bottomPID.setReference(-velocityRPM, ControlType.kVelocity, 0, ffVolts, ArbFFUnits.kVoltage);
   }
 
   @Override

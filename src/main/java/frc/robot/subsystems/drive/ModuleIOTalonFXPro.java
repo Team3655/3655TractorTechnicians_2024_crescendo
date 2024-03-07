@@ -9,7 +9,6 @@ import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
-import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -68,7 +67,7 @@ public class ModuleIOTalonFXPro implements ModuleIO {
   private double targetSteerAngleRadians = 0;
   private ArmFeedforward turnFFController;
 
-  private final VelocityVoltage velocityControl = new VelocityVoltage(0.0);
+  // private final VelocityVoltage velocityControl = new VelocityVoltage(0.0);
   private final VoltageOut voltageControl = new VoltageOut(0.0);
   private final PositionVoltage steerPositionControl = new PositionVoltage(0.0);
 

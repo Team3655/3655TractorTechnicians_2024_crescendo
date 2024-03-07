@@ -31,7 +31,7 @@ public class ShootingCommands {
           Translation2d reletiveTarget =
               pose.get()
                   // get the drive position reletive to the target position
-                  .relativeTo(new Pose2d(ShooterOrbit.target, new Rotation2d()))
+                  .relativeTo(new Pose2d(ShooterOrbit.blueTarget, new Rotation2d()))
                   // get as a vector
                   .getTranslation();
           shooter.setShooterAngleFromDist(reletiveTarget.getNorm());
@@ -43,13 +43,15 @@ public class ShootingCommands {
     return Commands.runOnce(() -> shooter.stopFlywheel(), shooter);
   }
 
-  public static Command runKicker(ShooterSubsystem shooter) {
+  public static Command runKicker(ShooterSubsystem shooter, IntakeSubsystem intake) {
     return Commands.startEnd(
         () -> {
           shooter.setKicker(12.0);
+          intake.setVoltage(12.0);
         },
         () -> {
           shooter.setKicker(0.0);
+          intake.setVoltage(0.0);
         },
         shooter);
   }
@@ -63,17 +65,17 @@ public class ShootingCommands {
     return Commands.runOnce(
             () -> {
               shooter.setAngle(Rotation2d.fromDegrees(30));
-              climber.setAngle(Rotation2d.fromDegrees(100));
-              shooter.runVelocity(3000);
+              climber.setAngle(Rotation2d.fromDegrees(107.5));
+              shooter.runVelocity(1300);
             },
             shooter,
             climber)
-        .andThen(new WaitCommand(1.0))
+        .andThen(new WaitCommand(1.25))
         .andThen(
             Commands.run(
                 () -> {
-                  shooter.setKicker(12.0);
-                  intake.setVoltage(12.0);
+                  shooter.setKicker(8.0);
+                  intake.setVoltage(7.0);
                 },
                 shooter));
   }

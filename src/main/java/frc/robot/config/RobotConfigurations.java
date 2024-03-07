@@ -90,7 +90,7 @@ public class RobotConfigurations {
 
     private static final double FRONT_LEFT_OFFSET = -0.302246;
     private static final double FRONT_RIGHT_OFFSET = -0.419922;
-    private static final double BACK_LEFT_OFFSET = -0.969238;
+    private static final double BACK_LEFT_OFFSET = -0.749000;
     private static final double BACK_RIGHT_OFFSET = -0.282959;
 
     private static final double DRIVE_GEAR_RATIO = (50.0 / 16.0) * (16.0 / 28.0) * (45.0 / 15.0);

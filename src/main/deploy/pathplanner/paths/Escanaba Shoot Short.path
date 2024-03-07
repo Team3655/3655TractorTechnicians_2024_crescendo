@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.4166714525218267,
+        "y": 3.9677053412011243
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.223808894896789,
+        "y": 3.9400303722866927
+      },
+      "isLocked": false,
+      "linkedName": "EscanabaShort3-End"
+    },
+    {
+      "anchor": {
+        "x": 1.9829992417337774,
+        "y": 4.270531591001908
+      },
+      "prevControl": {
+        "x": 2.098165100104297,
+        "y": 4.123634374911365
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "EscanabaStart-End"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.24,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 720.0,
+    "maxAngularAcceleration": 540.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -26.480000000000018,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "New Folder",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

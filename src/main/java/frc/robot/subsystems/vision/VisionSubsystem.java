@@ -46,7 +46,7 @@ public class VisionSubsystem extends SubsystemBase {
     Logger.processInputs("Vision/limelight", llInputs);
 
     for (int i = 0; i < llInputs.robotPose.length; i++) {
-      if (llInputs.hasValidTarget && llInputs.distanceToCamera <= 6.4) {
+      if (llInputs.hasValidTarget && llInputs.distanceToCamera <= 5.0) {
         acceptedMeasurements.add(
             new visionMeasurement(
                 llInputs.robotPose[i], llInputs.distanceToCamera, llInputs.timestamp));

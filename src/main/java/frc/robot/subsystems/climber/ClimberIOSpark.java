@@ -5,6 +5,7 @@
 package frc.robot.subsystems.climber;
 
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -29,6 +30,7 @@ public class ClimberIOSpark implements ClimberIO {
     rightMotor.setCANTimeout(250);
     rightMotor.enableVoltageCompensation(12.0);
     rightMotor.setSmartCurrentLimit(30);
+    rightMotor.setIdleMode(IdleMode.kBrake);
     rightEncoder = rightMotor.getEncoder();
 
     leftMotor = new CANSparkMax(leftID, MotorType.kBrushless);
@@ -36,11 +38,12 @@ public class ClimberIOSpark implements ClimberIO {
     rightMotor.setCANTimeout(250);
     rightMotor.enableVoltageCompensation(12.0);
     rightMotor.setSmartCurrentLimit(30);
+    leftMotor.setIdleMode(IdleMode.kBrake);
     leftEncoder = rightMotor.getEncoder();
 
     pid = rightMotor.getPIDController();
     pid.setOutputRange(-1.0, 1.0);
-    pid.setP(0.03);
+    pid.setP(0.06);
 
     leftMotor.follow(rightMotor, true);
   }
