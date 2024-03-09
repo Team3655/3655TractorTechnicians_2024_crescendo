@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
+
+import java.util.Optional;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.Logger;
@@ -37,19 +39,23 @@ public class ShooterOrbit extends Command {
   private DoubleSupplier ySupplier;
   private BooleanSupplier kickSupplier;
 
+  private Optional<Rotation2d> angle;
+
   /** Creates a new OrbitAndShootCommand. */
   public ShooterOrbit(
       DriveSubsystem drive,
       ShooterSubsystem shooter,
       DoubleSupplier xSupplier,
       DoubleSupplier ySupplier,
-      BooleanSupplier kickRequest) {
+      BooleanSupplier kickRequest,
+      Optional<Rotation2d> angle) {
 
     this.drive = drive;
     this.shooter = shooter;
     this.xSupplier = xSupplier;
     this.ySupplier = ySupplier;
     this.kickSupplier = kickRequest;
+    this.angle = angle;
 
     turnFeedback = new ProfiledPIDController(KP, KI, 0.0, new Constraints(0.0, 0.0));
     turnFeedback.enableContinuousInput(-0.5, 0.5);
@@ -91,7 +97,12 @@ public class ShooterOrbit extends Command {
             omega * drive.getMaxAngularVelocityRadPerSec(),
             drive.getPose().getRotation()));
 
-    shooter.setShooterAngleFromDist(reletiveTarget.getNorm());
+    if (angle.isEmpty()) {
+      shooter.setShooterAngleFromDist(reletiveTarget.getNorm());
+    } else {
+      shooter.setAngle(angle.get());
+    }
+    
     shooter.setKicker(kickSupplier.getAsBoolean() ? 12.0 : 0.0);
     shooter.runVelocity(5000);
 

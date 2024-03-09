@@ -42,6 +42,8 @@ import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.subsystems.vision.VisionSubsystem;
 import frc.robot.util.CommandNXT;
 import java.io.IOException;
+import java.util.Optional;
+
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
@@ -244,7 +246,19 @@ public class RobotContainer {
                 shooter,
                 () -> -driveJoystick.getY() - controller.getLeftY(),
                 () -> -driveJoystick.getX() - controller.getLeftX(),
-                () -> driveJoystick.fireStage2().getAsBoolean())); // 0.0, 5.5
+                () -> driveJoystick.fireStage2().getAsBoolean(),
+                Optional.empty()));
+
+    tractorController
+        .button(6)
+        .whileTrue(
+            new ShooterOrbit(
+                drive,
+                shooter,
+                () -> -driveJoystick.getY() - controller.getLeftY(),
+                () -> -driveJoystick.getX() - controller.getLeftX(),
+                () -> turnJoystick.button(1).getAsBoolean(),
+                Optional.of(Rotation2d.fromDegrees(36.0))));
 
     driveJoystick.b1().or(controller.back()).onTrue(DriveCommands.zeroDrive(drive));
 
@@ -254,13 +268,6 @@ public class RobotContainer {
         .onTrue(
             DriveCommands.zeroOdometry(
                 drive, new Translation2d(Units.inchesToMeters(36 + (32.0 / 2.0)), 5.55)));
-
-    // controller
-    //     .leftBumper()
-    //     .whileTrue(
-    //         PathfindingCommands.pathfindToPose(
-    //             new Pose2d(1.88, 7.70, Rotation2d.fromDegrees(90)), 0, 0));
-    // controller.button(1).onTrue(DriveCommands.zeroDrive(drive)); // MacOS
 
     tractorController
         .button(5)
