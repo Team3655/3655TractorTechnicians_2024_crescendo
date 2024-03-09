@@ -14,7 +14,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public static final double KICKER_GEAR_RATIO = 5.0 / 1.0;
 
-  private static final Rotation2d SHOOTER_OFFSET = Rotation2d.fromDegrees(6.0);
+  private static final Rotation2d SHOOTER_OFFSET = Rotation2d.fromDegrees(4.5);
 
   // add one to account for the coin paradox
   public static final double PIVOT_TRACK_RATIO = (130.0 / 17.0); // + 1.0;
@@ -124,13 +124,17 @@ public class ShooterSubsystem extends SubsystemBase {
     setAngle(pivotTarget);
   }
 
+  public void jogZero(Rotation2d angle) {
+    io.jogZero(angle);
+  }
+
   /**
    * Uses a distance input to the target to calculate a shooter angle
    *
    * @param distance the delta from target to robot
    * @return a Rotation2d represent the optimal shooter angle
    */
-  public Rotation2d getRotationFromDistance(double distance) {
+  private Rotation2d getRotationFromDistance(double distance) {
 
     // Use max/min value to ensure variable gets a value on first loop cycle
     double minimum = Double.MAX_VALUE;

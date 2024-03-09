@@ -95,6 +95,10 @@ public class Robot extends LoggedRobot {
     // This must be called from the robot's periodic block in order for anything in
     // the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    var alliance = DriverStation.getAlliance();
+    boolean isBlue = (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue);
+    Logger.recordOutput("isBlue", isBlue);
   }
 
   /** This function is called once when the robot is disabled. */

@@ -130,6 +130,7 @@ public class DriveSubsystem extends SubsystemBase {
           successfulDataAcquisitions++;
         } else {
           failedDataAcquisitions++;
+          continue;
         }
 
         synchronized (swerveModules) {

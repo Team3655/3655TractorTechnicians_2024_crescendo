@@ -31,7 +31,7 @@ public class IntakeCommands {
               intake.setVoltage(0.0);
             },
             intake)
-        .andThen(new WaitCommand(0.1))
+        .andThen(new WaitCommand(0.25))
         .andThen(Commands.runOnce(() -> intake.setStageOne(Value.kReverse), intake));
   }
 }

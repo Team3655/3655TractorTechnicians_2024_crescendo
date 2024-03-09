@@ -170,4 +170,10 @@ public class ShooterIOSpark implements ShooterIO {
     pivotPID.setI(kI, 0);
     pivotPID.setD(kD, 0);
   }
+
+  @Override
+  public void jogZero(Rotation2d angle) {
+    pivotEncoder.setPosition(
+        pivotEncoder.getPosition() - (angle.getRotations() * ShooterSubsystem.PIVOT_GEAR_RATIO));
+  }
 }

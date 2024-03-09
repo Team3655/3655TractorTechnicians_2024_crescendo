@@ -61,4 +61,6 @@ public interface ShooterIO {
 
   /** Set position PID constants. */
   public default void configurePivotPID(double kP, double kI, double kD) {}
+
+  public default void jogZero(Rotation2d angle) {}
 }

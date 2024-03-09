@@ -349,6 +349,14 @@ public class RobotContainer {
         .or(controller.y())
         .onTrue(ClimbingCommands.prepClimb(climber, shooter))
         .onFalse(ClimbingCommands.climb(climber, shooter));
+
+    tractorController
+        .button(22)
+        .onTrue(ShootingCommands.jogZero(shooter, Rotation2d.fromDegrees(-1.0)));
+
+    tractorController
+        .button(23)
+        .onTrue(ShootingCommands.jogZero(shooter, Rotation2d.fromDegrees(1.0)));
   }
 
   /**

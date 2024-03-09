@@ -92,4 +92,8 @@ public class ShootingCommands {
         },
         shooter);
   }
+
+  public static Command jogZero(ShooterSubsystem shooter, Rotation2d angle) {
+    return Commands.runOnce(() -> shooter.jogZero(angle), shooter);
+  }
 }
