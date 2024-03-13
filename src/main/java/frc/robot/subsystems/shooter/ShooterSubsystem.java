@@ -100,10 +100,6 @@ public class ShooterSubsystem extends SubsystemBase {
     Logger.recordOutput("Shooter/Target RPM", rpm);
   }
 
-  public void setKicker(double volts) {
-    io.setKickerVoltage(volts);
-  }
-
   public void stopFlywheel() {
     io.stopFlywheel();
   }

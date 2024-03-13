@@ -13,6 +13,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drive.DriveSubsystem;
+import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 
 import java.util.Optional;
@@ -32,6 +33,7 @@ public class ShooterOrbit extends Command {
 
   private DriveSubsystem drive;
   private ShooterSubsystem shooter;
+  private IntakeSubsystem intake;
 
   private ProfiledPIDController turnFeedback;
 
@@ -45,6 +47,7 @@ public class ShooterOrbit extends Command {
   public ShooterOrbit(
       DriveSubsystem drive,
       ShooterSubsystem shooter,
+      IntakeSubsystem intake,
       DoubleSupplier xSupplier,
       DoubleSupplier ySupplier,
       BooleanSupplier kickRequest,
@@ -52,6 +55,7 @@ public class ShooterOrbit extends Command {
 
     this.drive = drive;
     this.shooter = shooter;
+    this.intake = intake;
     this.xSupplier = xSupplier;
     this.ySupplier = ySupplier;
     this.kickSupplier = kickRequest;
@@ -103,7 +107,7 @@ public class ShooterOrbit extends Command {
       shooter.setAngle(angle.get());
     }
     
-    shooter.setKicker(kickSupplier.getAsBoolean() ? 12.0 : 0.0);
+    intake.setFeederVoltage(kickSupplier.getAsBoolean() ? 12.0 : 0.0);
     shooter.runVelocity(5000);
 
     Logger.recordOutput("Drive/Orbit/Distance To Target", reletiveTarget.getNorm());

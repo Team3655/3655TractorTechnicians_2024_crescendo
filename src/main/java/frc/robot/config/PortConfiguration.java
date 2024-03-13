@@ -30,9 +30,9 @@ public class PortConfiguration {
   // region: shooter
   public int topFlywheelMoterID;
   public int bottomFlywheelMotorID;
-  public int kickerMotorID;
+  public int feedMotorID;
   public int pivotMotorID;
-  public int kickerBeamBreakPort;
+  public int indexDistanceID;
   public int flyWheelBeamBreakport;
   // endregion
 

@@ -4,8 +4,14 @@
 
 package frc.robot.subsystems.intake;
 
-import com.revrobotics.CANSparkFlex;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import au.grapplerobotics.ConfigurationFailedException;
+import au.grapplerobotics.LaserCan;
+import au.grapplerobotics.LaserCan.RangingMode;
+import au.grapplerobotics.LaserCan.TimingBudget;
+
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Compressor;
@@ -21,13 +27,22 @@ public class IntakeIODouble implements IntakeIO {
   private final Compressor compressor;
   private final DoubleSolenoid stageOne;
   private final DoubleSolenoid stageTwo;
-  private final CANSparkFlex intakeMotor;
+
+  private final CANSparkMax intakeMotor;
   private final RelativeEncoder intakeEncoder;
+
+  private final CANSparkMax feedMotor;
+  private final RelativeEncoder feedEncoder;
+
   private final DigitalInput proximity;
+
+  private final LaserCan indexDistance;
 
   public IntakeIODouble(
       int pneumaticHubID,
       int intakeMotorID,
+      int indexMotorID,
+      int indexDistanceID,
       int stageOneForwardPort,
       int stageOneReversePort,
       int stageTwoForwardPort,
@@ -41,28 +56,54 @@ public class IntakeIODouble implements IntakeIO {
 
     stageTwo = pneumaticHub.makeDoubleSolenoid(stageTwoForwardPort, stageTwoReversePort);
 
-    intakeMotor = new CANSparkFlex(intakeMotorID, MotorType.kBrushless);
-    intakeEncoder = intakeMotor.getEncoder();
+    pneumaticHub.enableCompressorAnalog(80, 120);
 
-    proximity = new DigitalInput(intakeBeamBreakPort);
+    intakeMotor = new CANSparkMax(intakeMotorID, MotorType.kBrushless);
+    intakeEncoder = intakeMotor.getEncoder();
 
     intakeMotor.restoreFactoryDefaults();
     intakeMotor.setCANTimeout(250);
     intakeMotor.enableVoltageCompensation(12.0);
-    intakeMotor.setSmartCurrentLimit(30);
+    intakeMotor.setSmartCurrentLimit(20);
 
-    pneumaticHub.enableCompressorAnalog(80, 120);
+    feedMotor = new CANSparkMax(indexMotorID, MotorType.kBrushless);
+    feedEncoder = feedMotor.getEncoder();
+
+    feedMotor.restoreFactoryDefaults();
+    feedMotor.setCANTimeout(250);
+    feedMotor.enableVoltageCompensation(12.0);
+    feedMotor.setSmartCurrentLimit(20);
+
+    proximity = new DigitalInput(intakeBeamBreakPort);
+
+    indexDistance = new LaserCan(indexDistanceID);
+    try {
+      indexDistance.setRangingMode(RangingMode.SHORT);
+      indexDistance.setRegionOfInterest(new LaserCan.RegionOfInterest(8, 8, 14, 14));
+      indexDistance.setTimingBudget(TimingBudget.TIMING_BUDGET_33MS);
+    } catch (ConfigurationFailedException e) {
+      System.out.println("LaserCAN Configuration failed! " + e.getMessage());
+    }
   }
 
   @Override
   public void updateInputs(IntakeIOInputs inputs) {
     inputs.intakeVelRadsPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(
-            intakeEncoder.getVelocity() / IntakeSubsystem.SUCKER_GEAR_RATIO);
+            intakeEncoder.getVelocity() / IntakeSubsystem.INTAKE_GEAR_RATIO);
     inputs.intakeAppliedVolts = intakeMotor.getAppliedOutput() * intakeMotor.getBusVoltage();
     inputs.intakeCurrentAmps = new double[] {intakeMotor.getOutputCurrent()};
     inputs.intakeMotorTemp = intakeMotor.getMotorTemperature();
 
+    inputs.feedVelRadsPerSec = 
+        Units.rotationsPerMinuteToRadiansPerSecond(
+            feedEncoder.getVelocity() / IntakeSubsystem.FEEDER_GEAR_RATIO);
+    inputs.feedAppliedVolts = feedMotor.getAppliedOutput() * feedMotor.getBusVoltage();
+    inputs.feedCurrentAmps = new double[] {feedMotor.getOutputCurrent()};
+    inputs.feedMotorTemp = feedMotor.getMotorTemperature();
+
+    inputs.indexDistanceMM = indexDistance.getMeasurement().distance_mm;
+    
     inputs.hasPiece = !proximity.get();
 
     inputs.compressorPressure = compressor.getPressure();
@@ -72,8 +113,13 @@ public class IntakeIODouble implements IntakeIO {
   }
 
   @Override
-  public void setVoltage(double volts) {
+  public void setIntakeVoltage(double volts) {
     intakeMotor.setVoltage(volts);
+  }
+
+  @Override
+  public void setFeederVoltage(double volts) {
+    feedMotor.setVoltage(volts);
   }
 
   @Override

@@ -45,7 +45,6 @@ import java.io.IOException;
 import java.util.Optional;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
-import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -69,8 +68,6 @@ public class RobotContainer {
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
-  private final LoggedDashboardNumber flywheelSpeedInput =
-      new LoggedDashboardNumber("Flywheel Speed", 5000);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -136,7 +133,7 @@ public class RobotContainer {
                 new ShooterIOSpark(
                     portConfig.topFlywheelMoterID,
                     portConfig.bottomFlywheelMotorID,
-                    portConfig.kickerMotorID,
+                    portConfig.feedMotorID,
                     portConfig.pivotMotorID));
 
         intake =
@@ -144,6 +141,8 @@ public class RobotContainer {
                 new IntakeIODouble(
                     portConfig.pneumaticHubID,
                     portConfig.intakeMotorID,
+                    portConfig.feedMotorID,
+                    portConfig.indexDistanceID,
                     portConfig.stageOneForwardPort,
                     portConfig.stageOneReversePort,
                     portConfig.stageTwoForwardPort,
@@ -244,6 +243,7 @@ public class RobotContainer {
             new ShooterOrbit(
                 drive,
                 shooter,
+                intake,
                 () -> -driveJoystick.getY() - controller.getLeftY(),
                 () -> -driveJoystick.getX() - controller.getLeftX(),
                 () -> driveJoystick.fireStage2().getAsBoolean(),
@@ -255,6 +255,7 @@ public class RobotContainer {
             new ShooterOrbit(
                 drive,
                 shooter,
+                intake,
                 () -> -driveJoystick.getY() - controller.getLeftY(),
                 () -> -driveJoystick.getX() - controller.getLeftX(),
                 () -> turnJoystick.button(1).getAsBoolean(),
@@ -276,9 +277,9 @@ public class RobotContainer {
             Commands.run(
                 () -> {
                   shooter.stopFlywheel();
-                  shooter.setKicker(0.0);
                   climber.setAngle(new Rotation2d());
-                  intake.setVoltage(0.0);
+                  intake.setIntakeVoltage(0.0);
+                  intake.setFeederVoltage(0.0);
                 },
                 intake,
                 shooter,
@@ -333,12 +334,12 @@ public class RobotContainer {
         .whileTrue(
             Commands.startEnd(
                 () -> {
-                  intake.setVoltage(-5.0);
-                  shooter.setKicker(-8.0);
+                  intake.setIntakeVoltage(-5.0);
+                  intake.setFeederVoltage(-8.0);
                 },
                 () -> {
-                  intake.setVoltage(0.0);
-                  shooter.setKicker(0.0);
+                  intake.setIntakeVoltage(0.0);
+                  intake.setFeederVoltage(0.0);
                 },
                 intake));
 
@@ -347,9 +348,7 @@ public class RobotContainer {
         .or(driveJoystick.fireStage2())
         .or(driveJoystick.firePaddleDown())
         .whileTrue(
-            Commands.startEnd(() -> intake.setVoltage(10), () -> intake.setVoltage(0), intake));
-
-    // driveJoystick.a2().whileTrue(ShootingCommands.holdShoot(shooter, flywheelSpeedInput::get));
+            Commands.startEnd(() -> intake.setIntakeVoltage(10), () -> intake.setIntakeVoltage(0), intake));
 
     tractorController
         .button(1)

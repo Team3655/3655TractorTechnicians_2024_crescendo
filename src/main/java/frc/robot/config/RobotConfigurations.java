@@ -66,7 +66,7 @@ public class RobotConfigurations {
     private static final int BOTTOM_FLYWHEEL_ID = 31;
     private static final int KICKER_ID = 32;
     private static final int PIVOT_ID = 33;
-    private static final int KICKER_BEAMBREAK_PORT = 1;
+    private static final int INDEX_DISTANE_ID = 34;
     private static final int FLYWHEEL_BEAMBREAK_PORT = 2;
 
     private static final int INTAKE_MOTOR_ID = 40;
@@ -121,9 +121,9 @@ public class RobotConfigurations {
 
       portConfig.topFlywheelMoterID = TOP_FLYWHEEL_ID;
       portConfig.bottomFlywheelMotorID = BOTTOM_FLYWHEEL_ID;
-      portConfig.kickerMotorID = KICKER_ID;
+      portConfig.feedMotorID = KICKER_ID;
       portConfig.pivotMotorID = PIVOT_ID;
-      portConfig.kickerBeamBreakPort = KICKER_BEAMBREAK_PORT;
+      portConfig.indexDistanceID = INDEX_DISTANE_ID;
       portConfig.flyWheelBeamBreakport = FLYWHEEL_BEAMBREAK_PORT;
 
       portConfig.intakeMotorID = INTAKE_MOTOR_ID;
@@ -177,7 +177,7 @@ public class RobotConfigurations {
     private static final int BOTTOM_FLYWHEEL_ID = 31;
     private static final int KICKER_ID = 32;
     private static final int PIVOT_ID = 33;
-    private static final int KICKER_BEAMBREAK_PORT = 1;
+    private static final int INDEX_DISTANE_ID = 34;
     private static final int FLYWHEEL_BEAMBREAK_PORT = 2;
 
     private static final int INTAKE_MOTOR_ID = 40;
@@ -232,9 +232,9 @@ public class RobotConfigurations {
 
       portConfig.topFlywheelMoterID = TOP_FLYWHEEL_ID;
       portConfig.bottomFlywheelMotorID = BOTTOM_FLYWHEEL_ID;
-      portConfig.kickerMotorID = KICKER_ID;
+      portConfig.feedMotorID = KICKER_ID;
       portConfig.pivotMotorID = PIVOT_ID;
-      portConfig.kickerBeamBreakPort = KICKER_BEAMBREAK_PORT;
+      portConfig.indexDistanceID = INDEX_DISTANE_ID;
       portConfig.flyWheelBeamBreakport = FLYWHEEL_BEAMBREAK_PORT;
 
       portConfig.intakeMotorID = INTAKE_MOTOR_ID;

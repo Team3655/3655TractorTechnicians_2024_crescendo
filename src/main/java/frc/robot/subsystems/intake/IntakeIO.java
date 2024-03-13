@@ -17,7 +17,12 @@ public interface IntakeIO {
     public double[] intakeCurrentAmps = new double[] {};
     public double intakeMotorTemp = 0.0;
 
-    public boolean deploySolenoidState = false;
+    public double feedVelRadsPerSec = 0.0;
+    public double feedAppliedVolts = 0.0;
+    public double[] feedCurrentAmps = new double[] {};
+    public double feedMotorTemp = 0.0;
+
+    public double indexDistanceMM = 0.0;
 
     public boolean hasPiece = false;
 
@@ -29,9 +34,9 @@ public interface IntakeIO {
 
   public default void updateInputs(IntakeIOInputs inputs) {}
 
-  public default void setVoltage(double volts) {}
+  public default void setIntakeVoltage(double volts) {}
 
-  public default void stop() {}
+  public default void setFeederVoltage(double volts) {}
 
   public default void setDeployed(Boolean deployed) {}
 
@@ -42,8 +47,6 @@ public interface IntakeIO {
   public default boolean getProximity() {
     return true;
   }
-
-  public default void toggleLinear() {}
 
   public default double getPressure() {
     return 0;

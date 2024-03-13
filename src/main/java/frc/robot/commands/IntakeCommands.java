@@ -17,7 +17,7 @@ public class IntakeCommands {
     return Commands.runOnce(
             () -> {
               intake.setStageOne(Value.kForward);
-              intake.setVoltage(10.0);
+              intake.setIntakeVoltage(10.0);
             },
             intake)
         .andThen(new WaitCommand(0.1))
@@ -28,7 +28,7 @@ public class IntakeCommands {
     return Commands.runOnce(
             () -> {
               intake.setStageTwo(Value.kReverse);
-              intake.setVoltage(0.0);
+              intake.setIntakeVoltage(0.0);
             },
             intake)
         .andThen(new WaitCommand(0.25))

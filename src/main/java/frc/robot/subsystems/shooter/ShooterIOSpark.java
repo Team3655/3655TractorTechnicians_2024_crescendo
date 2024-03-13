@@ -27,9 +27,6 @@ public class ShooterIOSpark implements ShooterIO {
   private final RelativeEncoder bottomEncoder;
   private final SparkPIDController bottomPID;
 
-  private final CANSparkMax kicker;
-  private final RelativeEncoder kickerEncoder;
-
   private final CANSparkMax pivot;
   private final RelativeEncoder pivotEncoder;
   private final AbsoluteEncoder pivotAbsolute;
@@ -63,18 +60,7 @@ public class ShooterIOSpark implements ShooterIO {
     bottomPID = bottom.getPIDController();
     bottomPID.setOutputRange(0.0, 1.0);
 
-    // kicker
-    kicker = new CANSparkMax(kickerID, MotorType.kBrushless);
-
-    kicker.restoreFactoryDefaults();
-    kicker.setCANTimeout(250);
-    kicker.enableVoltageCompensation(12.0);
-    kicker.setSmartCurrentLimit(20);
-    kicker.setInverted(true);
-    kicker.burnFlash();
-
-    kickerEncoder = kicker.getEncoder();
-
+    // pivot
     pivot = new CANSparkMax(pivotID, MotorType.kBrushless);
 
     pivot.restoreFactoryDefaults();
@@ -107,13 +93,6 @@ public class ShooterIOSpark implements ShooterIO {
     inputs.bottomCurrentAmps = new double[] {bottom.getOutputCurrent()};
     inputs.bottomMotorTemp = bottom.getMotorTemperature();
     // endregion
-    // region: update kicker inputs
-    inputs.kickerPositionRad = kickerEncoder.getPosition() / ShooterSubsystem.KICKER_GEAR_RATIO;
-    inputs.kickerVelocityRPM = kickerEncoder.getVelocity() / ShooterSubsystem.KICKER_GEAR_RATIO;
-    inputs.kickerAppliedVolts = kicker.getAppliedOutput() * kicker.getBusVoltage();
-    inputs.kickerCurrentAmps = new double[] {kicker.getOutputCurrent()};
-    inputs.kickerMotorTemp = kicker.getMotorTemperature();
-    // endregion
     // region: update pivot inputs
     inputs.pivotAbsolutePosition = Rotation2d.fromRotations(pivotAbsolute.getPosition());
     inputs.pivotPositionRotations = pivotEncoder.getPosition() / ShooterSubsystem.PIVOT_GEAR_RATIO;
@@ -127,11 +106,6 @@ public class ShooterIOSpark implements ShooterIO {
   public void setVoltage(double volts) {
     top.setVoltage(volts);
     bottom.setVoltage(-volts);
-  }
-
-  @Override
-  public void setKickerVoltage(double volts) {
-    kicker.setVoltage(volts);
   }
 
   @Override

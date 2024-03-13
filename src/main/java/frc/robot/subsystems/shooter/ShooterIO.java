@@ -24,12 +24,6 @@ public interface ShooterIO {
     public double[] bottomCurrentAmps = new double[] {};
     public double bottomMotorTemp = 0.0;
 
-    public double kickerPositionRad = 0.0;
-    public double kickerVelocityRPM = 0.0;
-    public double kickerAppliedVolts = 0.0;
-    public double[] kickerCurrentAmps = new double[] {};
-    public double kickerMotorTemp = 0.0;
-
     public Rotation2d pivotAbsolutePosition = new Rotation2d();
     public double pivotPositionRotations = 0.0;
     public double pivotVelocityRPM = 0.0;
@@ -49,9 +43,6 @@ public interface ShooterIO {
 
   /** Run closed loop at the specified angle. */
   public default void setAngle(Rotation2d angle, double ffVolts) {}
-
-  /** Run open loop at the specified voltage. */
-  public default void setKickerVoltage(double volts) {}
 
   /** Stop in open loop. */
   public default void stopFlywheel() {}

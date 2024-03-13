@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
-import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 /** Add your docs here. */
@@ -46,12 +45,12 @@ public class ShootingCommands {
   public static Command runKicker(ShooterSubsystem shooter, IntakeSubsystem intake) {
     return Commands.startEnd(
         () -> {
-          shooter.setKicker(12.0);
-          intake.setVoltage(12.0);
+          intake.setIntakeVoltage(12.0);
+          intake.setIntakeVoltage(12.0);
         },
         () -> {
-          shooter.setKicker(0.0);
-          intake.setVoltage(0.0);
+          intake.setIntakeVoltage(0.0);
+          intake.setIntakeVoltage(0.0);
         },
         shooter);
   }
@@ -74,23 +73,10 @@ public class ShootingCommands {
         .andThen(
             Commands.run(
                 () -> {
-                  shooter.setKicker(8.0);
-                  intake.setVoltage(7.0);
+                  intake.setFeederVoltage(8.0);
+                  intake.setIntakeVoltage(7.0);
                 },
                 shooter));
-  }
-
-  public static Command holdShoot(ShooterSubsystem shooter, DoubleSupplier rpm) {
-    return Commands.startEnd(
-        () -> {
-          shooter.runVelocity(rpm.getAsDouble());
-          shooter.setKicker(12.0);
-        },
-        () -> {
-          shooter.stopFlywheel();
-          shooter.setKicker(0.0);
-        },
-        shooter);
   }
 
   public static Command jogZero(ShooterSubsystem shooter, Rotation2d angle) {

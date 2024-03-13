@@ -6,13 +6,12 @@ package frc.robot.subsystems.intake;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.IntakeCommands;
 import org.littletonrobotics.junction.Logger;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-  public static final double SUCKER_GEAR_RATIO = 3.0;
+  public static final double INTAKE_GEAR_RATIO = 3.0;
+  public static final double FEEDER_GEAR_RATIO = 5.0;
 
   private final IntakeIO io;
   private final IntakeIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
@@ -20,9 +19,6 @@ public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new intake. */
   public IntakeSubsystem(IntakeIO io) {
     this.io = io;
-    // tell the intake to tuck when the proxy sensor is tripped
-    Trigger photoEye = new Trigger(() -> io.getProximity());
-    photoEye.onTrue(IntakeCommands.retract(this));
   }
 
   @Override
@@ -30,8 +26,6 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     io.updateInputs(inputs);
     Logger.processInputs("Intake", inputs);
-    Logger.recordOutput("Proximity", io.getProximity());
-    Logger.recordOutput("Pressure", io.getPressure());
   }
 
   /**
@@ -39,8 +33,17 @@ public class IntakeSubsystem extends SubsystemBase {
    *
    * @param volts the voltage requested
    */
-  public void setVoltage(double volts) {
-    io.setVoltage(volts);
+  public void setIntakeVoltage(double volts) {
+    io.setIntakeVoltage(volts);
+  }
+
+  /**
+   * Sets the voltage of the feeder motor
+   *
+   * @param volts the voltage requested
+   */
+  public void setFeederVoltage(double volts) {
+    io.setIntakeVoltage(volts);
   }
 
   public void setStageOne(Value value) {
