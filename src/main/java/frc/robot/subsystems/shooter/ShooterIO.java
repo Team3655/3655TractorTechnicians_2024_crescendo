@@ -24,7 +24,8 @@ public interface ShooterIO {
     public double[] bottomCurrentAmps = new double[] {};
     public double bottomMotorTemp = 0.0;
 
-    public Rotation2d pivotAbsolutePosition = new Rotation2d();
+    public Rotation2d pivotAbsoluteAdjusted = new Rotation2d();
+    public Rotation2d pivotAbsoluteReal = new Rotation2d();
     public double pivotPositionRotations = 0.0;
     public double pivotVelocityRPM = 0.0;
     public double pivotAppliedVolts = 0.0;

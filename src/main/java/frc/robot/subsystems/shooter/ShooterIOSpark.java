@@ -15,9 +15,13 @@ import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
 import edu.wpi.first.math.geometry.Rotation2d;
+import org.littletonrobotics.junction.Logger;
 
 /** Add your docs here. */
 public class ShooterIOSpark implements ShooterIO {
+
+  private static final Rotation2d PIVOT_OFFSET = Rotation2d.fromRotations(0.4408);
+  private static final Rotation2d PIVOT_START = Rotation2d.fromDegrees(88.75);
 
   private final CANSparkFlex top;
   private final RelativeEncoder topEncoder;
@@ -45,7 +49,7 @@ public class ShooterIOSpark implements ShooterIO {
 
     topEncoder = top.getEncoder();
     topPID = top.getPIDController();
-    topPID.setOutputRange(0.0, 1.0);
+    topPID.setOutputRange(-1.0, 1.0);
 
     // bottom flywheel
     bottom = new CANSparkFlex(bottomFlywheelID, MotorType.kBrushless);
@@ -58,7 +62,7 @@ public class ShooterIOSpark implements ShooterIO {
 
     bottomEncoder = bottom.getEncoder();
     bottomPID = bottom.getPIDController();
-    bottomPID.setOutputRange(0.0, 1.0);
+    bottomPID.setOutputRange(-1.0, 1.0);
 
     // pivot
     pivot = new CANSparkMax(pivotID, MotorType.kBrushless);
@@ -67,14 +71,18 @@ public class ShooterIOSpark implements ShooterIO {
     pivot.setCANTimeout(250);
     pivot.enableVoltageCompensation(12.0);
     pivot.setSmartCurrentLimit(20);
-    pivot.setInverted(true);
-    pivot.setIdleMode(IdleMode.kBrake);
+    pivot.setInverted(false);
+    pivot.setIdleMode(IdleMode.kCoast);
 
     pivotEncoder = pivot.getEncoder();
+
     pivotAbsolute = pivot.getAbsoluteEncoder(Type.kDutyCycle);
+    pivotAbsolute.setZeroOffset(0.0);
 
     pivotPID = pivot.getPIDController();
-    pivotPID.setOutputRange(-0.5, 0.4, 0);
+    pivotPID.setOutputRange(-0.5, 0.5, 0);
+
+    pivotPID.setFeedbackDevice(pivotAbsolute);
   }
 
   @Override
@@ -94,8 +102,10 @@ public class ShooterIOSpark implements ShooterIO {
     inputs.bottomMotorTemp = bottom.getMotorTemperature();
     // endregion
     // region: update pivot inputs
-    inputs.pivotAbsolutePosition = Rotation2d.fromRotations(pivotAbsolute.getPosition());
-    inputs.pivotPositionRotations = pivotEncoder.getPosition() / ShooterSubsystem.PIVOT_GEAR_RATIO;
+    inputs.pivotAbsoluteAdjusted =
+        Rotation2d.fromRotations(pivotAbsolute.getPosition()).minus(PIVOT_OFFSET).plus(PIVOT_START);
+    inputs.pivotAbsoluteReal = Rotation2d.fromRotations(pivotAbsolute.getPosition());
+    inputs.pivotPositionRotations = pivotEncoder.getPosition() / ShooterConstants.PIVOT_GEAR_RATIO;
     inputs.pivotAppliedVolts = pivot.getAppliedOutput() * pivot.getBusVoltage();
     inputs.pivotCurrentAmps = new double[] {pivot.getOutputCurrent()};
     inputs.pivotMotorTemp = pivot.getMotorTemperature();
@@ -116,8 +126,9 @@ public class ShooterIOSpark implements ShooterIO {
 
   @Override
   public void setAngle(Rotation2d angle, double ffVolts) {
-    double rotations = angle.getRotations() * ShooterSubsystem.PIVOT_GEAR_RATIO;
-    pivotPID.setReference(rotations, ControlType.kPosition, 0);
+    angle = angle.plus(PIVOT_OFFSET).minus(PIVOT_START);
+    Logger.recordOutput("Shooter/Pivot Target Real", angle.getRotations());
+    pivotPID.setReference(angle.getRotations(), ControlType.kPosition, 0);
   }
 
   @Override
@@ -148,6 +159,6 @@ public class ShooterIOSpark implements ShooterIO {
   @Override
   public void jogZero(Rotation2d angle) {
     pivotEncoder.setPosition(
-        pivotEncoder.getPosition() - (angle.getRotations() * ShooterSubsystem.PIVOT_GEAR_RATIO));
+        pivotEncoder.getPosition() - (angle.getRotations() * ShooterConstants.PIVOT_GEAR_RATIO));
   }
 }

@@ -4,14 +4,12 @@
 
 package frc.robot.subsystems.intake;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-
 import au.grapplerobotics.ConfigurationFailedException;
 import au.grapplerobotics.LaserCan;
 import au.grapplerobotics.LaserCan.RangingMode;
 import au.grapplerobotics.LaserCan.TimingBudget;
-
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Compressor;
@@ -73,6 +71,7 @@ public class IntakeIODouble implements IntakeIO {
     feedMotor.setCANTimeout(250);
     feedMotor.enableVoltageCompensation(12.0);
     feedMotor.setSmartCurrentLimit(20);
+    feedMotor.setInverted(true);
 
     proximity = new DigitalInput(intakeBeamBreakPort);
 
@@ -95,7 +94,7 @@ public class IntakeIODouble implements IntakeIO {
     inputs.intakeCurrentAmps = new double[] {intakeMotor.getOutputCurrent()};
     inputs.intakeMotorTemp = intakeMotor.getMotorTemperature();
 
-    inputs.feedVelRadsPerSec = 
+    inputs.feedVelRadsPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(
             feedEncoder.getVelocity() / IntakeSubsystem.FEEDER_GEAR_RATIO);
     inputs.feedAppliedVolts = feedMotor.getAppliedOutput() * feedMotor.getBusVoltage();
@@ -103,7 +102,8 @@ public class IntakeIODouble implements IntakeIO {
     inputs.feedMotorTemp = feedMotor.getMotorTemperature();
 
     inputs.indexDistanceMM = indexDistance.getMeasurement().distance_mm;
-    
+    inputs.indexDistanceAmbient = indexDistance.getMeasurement().ambient;
+
     inputs.hasPiece = !proximity.get();
 
     inputs.compressorPressure = compressor.getPressure();

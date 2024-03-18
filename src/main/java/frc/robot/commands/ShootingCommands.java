@@ -12,6 +12,9 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.intake.IntakeSubsystem.IntakeState;
+import frc.robot.subsystems.shooter.ShooterConstants.ShooterState;
+import frc.robot.subsystems.shooter.ShooterConstants.ShooterTargets;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 import java.util.function.Supplier;
 
@@ -38,34 +41,27 @@ public class ShootingCommands {
         shooter);
   }
 
-  public static Command stopShooter(ShooterSubsystem shooter) {
-    return Commands.runOnce(() -> shooter.stopFlywheel(), shooter);
-  }
-
-  public static Command runKicker(ShooterSubsystem shooter, IntakeSubsystem intake) {
+  public static Command runKicker(IntakeSubsystem intake) {
     return Commands.startEnd(
         () -> {
-          intake.setIntakeVoltage(12.0);
-          intake.setIntakeVoltage(12.0);
+          intake.setState(IntakeState.FORWARD_FEED);
         },
         () -> {
-          intake.setIntakeVoltage(0.0);
-          intake.setIntakeVoltage(0.0);
+          intake.setState(IntakeState.IDLE);
         },
-        shooter);
+        intake);
   }
 
-  public static Command setSpeed(ShooterSubsystem shooter, double rpm) {
-    return Commands.runOnce(() -> shooter.runVelocity(rpm), shooter);
+  public static Command requestState(ShooterSubsystem shooter, ShooterState state) {
+    return Commands.runOnce(() -> shooter.requestState(state), shooter);
   }
 
   public static Command ampShoot(
       ShooterSubsystem shooter, ClimberSubsystem climber, IntakeSubsystem intake) {
     return Commands.runOnce(
             () -> {
-              shooter.setAngle(Rotation2d.fromDegrees(30));
+              shooter.requestState(ShooterTargets.AMP);
               climber.setAngle(Rotation2d.fromDegrees(107.5));
-              shooter.runVelocity(1300);
             },
             shooter,
             climber)
@@ -73,13 +69,12 @@ public class ShootingCommands {
         .andThen(
             Commands.run(
                 () -> {
-                  intake.setFeederVoltage(8.0);
-                  intake.setIntakeVoltage(7.0);
+                  intake.setState(IntakeState.FORWARD_FEED);
                 },
                 shooter));
   }
 
-  public static Command jogZero(ShooterSubsystem shooter, Rotation2d angle) {
-    return Commands.runOnce(() -> shooter.jogZero(angle), shooter);
-  }
+  // public static Command jogZero(ShooterSubsystem shooter, Rotation2d angle) {
+  //   return Commands.runOnce(() -> shooter.jogZero(angle), shooter);
+  // }
 }

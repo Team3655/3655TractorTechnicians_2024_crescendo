@@ -14,7 +14,7 @@ public class ShooterIOSim implements ShooterIO {
   private FlywheelSim flywheelSim2 = new FlywheelSim(DCMotor.getNeoVortex(1), 1, 0.004);
 
   private DCMotorSim pivotSim =
-      new DCMotorSim(DCMotor.getNEO(1), ShooterSubsystem.PIVOT_GEAR_RATIO, 0.125);
+      new DCMotorSim(DCMotor.getNEO(1), ShooterConstants.PIVOT_GEAR_RATIO, 0.125);
 
   private PIDController flywheelPID = new PIDController(0.0, 0.0, 0.0);
   private PIDController pivotPID = new PIDController(0.0, 0.0, 0.0);
@@ -64,7 +64,7 @@ public class ShooterIOSim implements ShooterIO {
     inputs.bottomCurrentAmps = new double[] {flywheelSim2.getCurrentDrawAmps()};
 
     // pivot inputs
-    inputs.pivotAbsolutePosition = Rotation2d.fromRadians(pivotSim.getAngularPositionRad());
+    inputs.pivotAbsoluteAdjusted = Rotation2d.fromRadians(pivotSim.getAngularPositionRad());
     inputs.pivotPositionRotations = Units.radiansToRotations(pivotSim.getAngularPositionRad());
     inputs.pivotVelocityRPM =
         Units.radiansPerSecondToRotationsPerMinute(pivotSim.getAngularVelocityRadPerSec());

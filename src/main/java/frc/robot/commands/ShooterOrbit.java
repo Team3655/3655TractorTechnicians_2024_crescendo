@@ -14,8 +14,10 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.intake.IntakeSubsystem.IntakeState;
+import frc.robot.subsystems.shooter.ShooterConstants.ShooterState;
+import frc.robot.subsystems.shooter.ShooterConstants.ShooterTargets;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
-
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -87,7 +89,11 @@ public class ShooterOrbit extends Command {
             .getTranslation();
 
     // adjust offset to ensure robot shoots into target center
-    Rotation2d rotationTarget = reletiveTarget.getAngle().plus(Rotation2d.fromDegrees(5.5));
+    Rotation2d rotationTarget =
+        reletiveTarget
+            .getAngle()
+            .plus(Rotation2d.fromDegrees(180))
+            .plus(Rotation2d.fromDegrees(5.5));
 
     // calculate pid output based on the delta to target rotation
     turnFeedback.setGoal(rotationTarget.getRotations());
@@ -104,11 +110,14 @@ public class ShooterOrbit extends Command {
     if (angle.isEmpty()) {
       shooter.setShooterAngleFromDist(reletiveTarget.getNorm());
     } else {
-      shooter.setAngle(angle.get());
+      shooter.requestState(new ShooterState(angle.get(), Optional.of(ShooterTargets.SPEAKER_RPM)));
     }
-    
-    intake.setFeederVoltage(kickSupplier.getAsBoolean() ? 12.0 : 0.0);
-    shooter.runVelocity(5000);
+
+    if (kickSupplier.getAsBoolean()) {
+      intake.setState(IntakeState.FORWARD_FEED);
+    } else {
+      intake.setState(IntakeState.IDLE);
+    }
 
     Logger.recordOutput("Drive/Orbit/Distance To Target", reletiveTarget.getNorm());
     Logger.recordOutput("Drive/Orbit/Error", turnFeedback.getPositionError());
@@ -122,8 +131,7 @@ public class ShooterOrbit extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.stopFlywheel();
-    shooter.setAngle(Rotation2d.fromDegrees(35));
+    shooter.requestState(ShooterTargets.IDLE);
   }
 
   // Returns true when the command should end.

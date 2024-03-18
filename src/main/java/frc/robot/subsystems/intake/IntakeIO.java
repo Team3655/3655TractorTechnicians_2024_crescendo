@@ -23,6 +23,7 @@ public interface IntakeIO {
     public double feedMotorTemp = 0.0;
 
     public double indexDistanceMM = 0.0;
+    public double indexDistanceAmbient = 0.0;
 
     public boolean hasPiece = false;
 

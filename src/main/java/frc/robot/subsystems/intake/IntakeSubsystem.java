@@ -4,17 +4,33 @@
 
 package frc.robot.subsystems.intake;
 
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
 public class IntakeSubsystem extends SubsystemBase {
 
+  public enum IntakeState {
+    IDLE,
+    STAGE_ONE,
+    FULL_DEPLOY,
+    FORWARD_FEED,
+    REVERSE_FEED,
+    INDEX
+  }
+
   public static final double INTAKE_GEAR_RATIO = 3.0;
   public static final double FEEDER_GEAR_RATIO = 5.0;
 
   private final IntakeIO io;
   private final IntakeIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
+
+  private final LinearFilter lowpass = LinearFilter.movingAverage(35);
+
+  private IntakeState currentState = IntakeState.IDLE;
+
+  private double indexDistanceAverage;
 
   /** Creates a new intake. */
   public IntakeSubsystem(IntakeIO io) {
@@ -26,31 +42,63 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     io.updateInputs(inputs);
     Logger.processInputs("Intake", inputs);
+
+    indexDistanceAverage = lowpass.calculate(inputs.indexDistanceMM);
+    Logger.recordOutput("Intake/Index Distance Average", indexDistanceAverage);
+
+    switch (currentState) {
+      case IDLE -> {
+        io.setStageOneValue(Value.kReverse);
+        io.setStageTwoValue(Value.kReverse);
+        io.setFeederVoltage(0.0);
+        io.setIntakeVoltage(0.0);
+      }
+      case STAGE_ONE -> {
+        io.setStageOneValue(Value.kForward);
+        io.setStageTwoValue(Value.kReverse);
+        io.setFeederVoltage(0.0);
+        io.setIntakeVoltage(0.0);
+      }
+      case FULL_DEPLOY -> {
+        io.setStageOneValue(Value.kForward);
+        io.setStageTwoValue(Value.kForward);
+        io.setFeederVoltage(0.0);
+        io.setIntakeVoltage(10.0);
+      }
+      case FORWARD_FEED -> {
+        io.setStageOneValue(Value.kReverse);
+        io.setStageTwoValue(Value.kReverse);
+        io.setFeederVoltage(12.0);
+        io.setIntakeVoltage(12.0);
+      }
+      case REVERSE_FEED -> {
+        io.setStageOneValue(Value.kReverse);
+        io.setStageTwoValue(Value.kReverse);
+        io.setFeederVoltage(-12.0);
+        io.setIntakeVoltage(-10.0);
+      }
+      case INDEX -> {
+        io.setStageOneValue(Value.kReverse);
+        io.setStageTwoValue(Value.kReverse);
+        io.setFeederVoltage(5.0);
+        io.setIntakeVoltage(5.0);
+      }
+    }
   }
 
-  /**
-   * Sets the voltage of the intake motor
-   *
-   * @param volts the voltage requested
-   */
-  public void setIntakeVoltage(double volts) {
-    io.setIntakeVoltage(volts);
+  public void setState(IntakeState state) {
+    currentState = state;
   }
 
-  /**
-   * Sets the voltage of the feeder motor
-   *
-   * @param volts the voltage requested
-   */
-  public void setFeederVoltage(double volts) {
-    io.setIntakeVoltage(volts);
+  public IntakeState getState() {
+    return currentState;
   }
 
-  public void setStageOne(Value value) {
-    io.setStageOneValue(value);
+  public boolean getProximity() {
+    return inputs.hasPiece;
   }
 
-  public void setStageTwo(Value value) {
-    io.setStageTwoValue(value);
+  public double getIndexDistanceMM() {
+    return indexDistanceAverage;
   }
 }
