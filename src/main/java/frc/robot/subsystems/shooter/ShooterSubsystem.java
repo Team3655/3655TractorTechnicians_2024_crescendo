@@ -74,10 +74,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
     if (targetState.rpm().isPresent()) {
       io.setVelocity(targetState.rpm().get(), 0.0);
-      Logger.recordOutput("Shooter/Pivot Target", targetState.rpm().get());
+      Logger.recordOutput("Shooter/Target RPM", targetState.rpm().get());
     } else {
       io.stopFlywheel();
-      Logger.recordOutput("Shooter/Pivot Target", 0.0);
+      Logger.recordOutput("Shooter/Target RPM", 0.0);
     }
   }
 

@@ -44,7 +44,7 @@ public class ShooterConstants {
         new ShooterState(Rotation2d.fromDegrees(65.0), Optional.of(0));
 
     public static final ShooterState SUBWOFER =
-        new ShooterState(Rotation2d.fromDegrees(90.0), Optional.of(SPEAKER_RPM));
+        new ShooterState(Rotation2d.fromDegrees(60.0), Optional.of(SPEAKER_RPM));
 
     public static final ShooterState AMP =
         new ShooterState(Rotation2d.fromDegrees(60), Optional.of(2200));
@@ -54,6 +54,12 @@ public class ShooterConstants {
 
     public static final ShooterState INDEX =
         new ShooterState(Rotation2d.fromDegrees(45), Optional.empty());
+
+    public static final ShooterState LEAVE_LINE =
+        new ShooterState(Rotation2d.fromDegrees(42), Optional.of(SPEAKER_RPM));
+
+    public static final ShooterState BEHIND_PODIUM =
+        new ShooterState(Rotation2d.fromDegrees(33.5), Optional.of(SPEAKER_RPM));
 
     public static final ShooterState PREP_CLIMB =
         new ShooterState(Rotation2d.fromDegrees(0.0), Optional.empty());

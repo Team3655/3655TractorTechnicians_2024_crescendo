@@ -8,6 +8,7 @@ import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.LoggedDashboardBoolean;
 
 public class IntakeSubsystem extends SubsystemBase {
 
@@ -28,6 +29,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
   private final LinearFilter lowpass = LinearFilter.movingAverage(35);
 
+  private final LoggedDashboardBoolean hasPiece;
+
   private IntakeState currentState = IntakeState.IDLE;
 
   private double indexDistanceAverage;
@@ -35,6 +38,9 @@ public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new intake. */
   public IntakeSubsystem(IntakeIO io) {
     this.io = io;
+
+    hasPiece = new LoggedDashboardBoolean("ShooterIntake: Has Piece?");
+    hasPiece.setDefault(true);
   }
 
   @Override
@@ -45,6 +51,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     indexDistanceAverage = lowpass.calculate(inputs.indexDistanceMM);
     Logger.recordOutput("Intake/Index Distance Average", indexDistanceAverage);
+
+    hasPiece.set(getProximity() || (getIndexDistanceMM() <= 335));
 
     switch (currentState) {
       case IDLE -> {

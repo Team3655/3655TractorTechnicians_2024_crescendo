@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.DeadReckoningCommand;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.IndexCommand;
 import frc.robot.commands.IntakeCommands;
@@ -327,6 +328,33 @@ public class RobotContainer {
                   intake.setState(IntakeState.IDLE);
                 },
                 intake));
+
+    tractorController
+        .button(11)
+        .whileTrue(
+            new DeadReckoningCommand(
+                shooter,
+                intake,
+                ShooterTargets.SUBWOFER,
+                () -> driveJoystick.c1Up().getAsBoolean()));
+
+    tractorController
+        .button(13)
+        .whileTrue(
+            new DeadReckoningCommand(
+                shooter,
+                intake,
+                ShooterTargets.LEAVE_LINE,
+                () -> driveJoystick.c1Up().getAsBoolean()));
+
+    tractorController
+        .button(15)
+        .whileTrue(
+            new DeadReckoningCommand(
+                shooter,
+                intake,
+                ShooterTargets.BEHIND_PODIUM,
+                () -> driveJoystick.c1Up().getAsBoolean()));
 
     // controller
     //     .x()
