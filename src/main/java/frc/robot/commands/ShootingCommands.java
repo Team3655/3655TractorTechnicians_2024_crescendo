@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem.IntakeState;
-import frc.robot.subsystems.shooter.ShooterConstants.ShooterState;
+import frc.robot.subsystems.shooter.ShooterConstants.ShooterTarget;
 import frc.robot.subsystems.shooter.ShooterConstants.ShooterTargets;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 import java.util.function.Supplier;
@@ -52,7 +52,7 @@ public class ShootingCommands {
         intake);
   }
 
-  public static Command requestState(ShooterSubsystem shooter, ShooterState state) {
+  public static Command requestState(ShooterSubsystem shooter, ShooterTarget state) {
     return Commands.runOnce(() -> shooter.requestState(state), shooter);
   }
 

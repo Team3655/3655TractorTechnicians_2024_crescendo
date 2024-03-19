@@ -7,7 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem.IntakeState;
-import frc.robot.subsystems.shooter.ShooterConstants.ShooterState;
+import frc.robot.subsystems.shooter.ShooterConstants.ShooterTarget;
 import frc.robot.subsystems.shooter.ShooterConstants.ShooterTargets;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 import java.util.function.BooleanSupplier;
@@ -16,14 +16,14 @@ public class DeadReckoningCommand extends Command {
 
   private ShooterSubsystem shooter;
   private IntakeSubsystem intake;
-  private ShooterState state;
+  private ShooterTarget state;
   private BooleanSupplier kickerRequest;
 
   /** Creates a new DeadReckoningCommand. */
   public DeadReckoningCommand(
       ShooterSubsystem shooter,
       IntakeSubsystem intake,
-      ShooterState state,
+      ShooterTarget state,
       BooleanSupplier kickerRequest) {
 
     this.shooter = shooter;

@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem.IntakeState;
-import frc.robot.subsystems.shooter.ShooterConstants.ShooterState;
+import frc.robot.subsystems.shooter.ShooterConstants.ShooterTarget;
 import frc.robot.subsystems.shooter.ShooterConstants.ShooterTargets;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 import java.util.Optional;
@@ -110,7 +110,7 @@ public class ShooterOrbit extends Command {
     if (angle.isEmpty()) {
       shooter.setShooterAngleFromDist(reletiveTarget.getNorm());
     } else {
-      shooter.requestState(new ShooterState(angle.get(), Optional.of(ShooterTargets.SPEAKER_RPM)));
+      shooter.requestState(new ShooterTarget(angle.get(), Optional.of(ShooterTargets.SPEAKER_RPM)));
     }
 
     if (kickSupplier.getAsBoolean()) {
