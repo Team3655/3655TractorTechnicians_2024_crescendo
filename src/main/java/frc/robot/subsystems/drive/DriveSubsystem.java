@@ -198,7 +198,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     // Configure AutoBuilder last
     AutoBuilder.configureHolonomic(
-        this::getPose, // Robot pose supplier
+        this::getOdomPose, // Robot pose supplier
         this::resetPose, // Method to reset odometry (will be called if your auto has a starting
         // pose)
         this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
@@ -383,6 +383,12 @@ public class DriveSubsystem extends SubsystemBase {
   public SwerveDrivePoseEstimator getOdometry() {
     synchronized (estimator) {
       return estimator;
+    }
+  }
+
+  public Pose2d getOdomPose() {
+    synchronized (odometry) {
+      return odometry.getPoseMeters();
     }
   }
 

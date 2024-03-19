@@ -14,6 +14,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public enum IntakeState {
     IDLE,
+    OFF,
     STAGE_ONE,
     FULL_DEPLOY,
     FORWARD_FEED,
@@ -58,6 +59,12 @@ public class IntakeSubsystem extends SubsystemBase {
       case IDLE -> {
         io.setStageOneValue(Value.kReverse);
         io.setStageTwoValue(Value.kReverse);
+        io.setFeederVoltage(0.0);
+        io.setIntakeVoltage(0.0);
+      }
+      case OFF -> {
+        io.setStageOneValue(Value.kOff);
+        io.setStageTwoValue(Value.kOff);
         io.setFeederVoltage(0.0);
         io.setIntakeVoltage(0.0);
       }

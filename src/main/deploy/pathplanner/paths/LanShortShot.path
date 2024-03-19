@@ -1,0 +1,70 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.6251692596625285,
+        "y": 5.5302719463247785
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.6251692596625285,
+        "y": 5.5302719463247785
+      },
+      "isLocked": false,
+      "linkedName": "LanStart-End"
+    },
+    {
+      "anchor": {
+        "x": 2.3764027015233515,
+        "y": 5.5302719463247785
+      },
+      "prevControl": {
+        "x": 2.377423035183968,
+        "y": 5.524739780041881
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "LanShortShot-End"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "ShooterLeaveLine"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 5.24,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 720.0,
+    "maxAngularAcceleration": 540.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 3.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Lansing",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

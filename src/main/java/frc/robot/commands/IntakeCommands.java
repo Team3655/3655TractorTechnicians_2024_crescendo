@@ -17,7 +17,7 @@ import frc.robot.subsystems.shooter.ShooterSubsystem;
 public class IntakeCommands {
 
   public static Command ShooterIntakeSequence(ShooterSubsystem shooter, IntakeSubsystem intake) {
-    return new ShooterIntake(shooter, intake)
+    return new BabyBirdCommand(shooter, intake)
         .andThen(new WaitCommand(0.33))
         .andThen(
             Commands.runOnce(
@@ -44,7 +44,7 @@ public class IntakeCommands {
               intake.setState(IntakeState.STAGE_ONE);
             },
             intake)
-        .andThen(new WaitCommand(0.5))
+        .andThen(new WaitCommand(0.3))
         .andThen(Commands.runOnce(() -> intake.setState(IntakeState.IDLE), intake));
   }
 

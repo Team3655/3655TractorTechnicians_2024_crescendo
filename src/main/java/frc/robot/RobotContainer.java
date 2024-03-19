@@ -12,13 +12,14 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.BabyBirdCommand;
 import frc.robot.commands.DeadReckoningCommand;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.IndexCommand;
 import frc.robot.commands.IntakeCommands;
-import frc.robot.commands.ShooterIntake;
 import frc.robot.commands.ShooterOrbit;
 import frc.robot.commands.ShootingCommands;
+import frc.robot.commands.TrapCommand;
 import frc.robot.config.CharacterizationConfiguration;
 import frc.robot.config.PortConfiguration;
 import frc.robot.config.RobotConfigurations;
@@ -199,13 +200,26 @@ public class RobotContainer {
     }
 
     // Set up named commands for PathPlanner
-    // NamedCommands.registerCommand("SetShooter5000", ShootingCommands.setSpeed(shooter, 5000));
-    // NamedCommands.registerCommand("SetShooter6000", ShootingCommands.setSpeed(shooter, 6000));
-    // NamedCommands.registerCommand(
-    //     "AdjustShooter", ShootingCommands.adjustShooter(shooter, () -> drive.getPose()));
-    // NamedCommands.registerCommand("StopShooter", ShootingCommands.stopShooter(shooter));
+    NamedCommands.registerCommand(
+        "ShooterLeaveLine",
+        new DeadReckoningCommand(shooter, intake, ShooterTargets.LEAVE_LINE, () -> false));
+    NamedCommands.registerCommand(
+        "ShooterLeaveLineShoot",
+        new DeadReckoningCommand(shooter, intake, ShooterTargets.LEAVE_LINE, () -> true));
+    NamedCommands.registerCommand(
+        "ShooterSubwofer",
+        new DeadReckoningCommand(shooter, intake, ShooterTargets.SUBWOFER, () -> false));
+    NamedCommands.registerCommand(
+        "ShooterSubwoferShoot",
+        new DeadReckoningCommand(shooter, intake, ShooterTargets.SUBWOFER, () -> true));
+    NamedCommands.registerCommand(
+        "ShooterPodium",
+        new DeadReckoningCommand(shooter, intake, ShooterTargets.BEHIND_PODIUM, () -> false));
+    NamedCommands.registerCommand(
+        "ShooterPodiumShoot",
+        new DeadReckoningCommand(shooter, intake, ShooterTargets.BEHIND_PODIUM, () -> true));
     NamedCommands.registerCommand("RunKicker", ShootingCommands.runKicker(intake).withTimeout(1.0));
-    NamedCommands.registerCommand("DeployIntake", IntakeCommands.deploy(intake));
+    NamedCommands.registerCommand("DeployIntake", IntakeCommands.intakeSearch(intake));
     NamedCommands.registerCommand("RetractIntake", IntakeCommands.retract(intake));
 
     // Set up auto routines
@@ -286,7 +300,7 @@ public class RobotContainer {
                 shooter,
                 climber));
 
-    tractorController.button(18).whileTrue(new ShooterIntake(shooter, intake));
+    tractorController.button(18).whileTrue(new BabyBirdCommand(shooter, intake));
 
     controller
         .povUp()
@@ -333,10 +347,7 @@ public class RobotContainer {
         .button(11)
         .whileTrue(
             new DeadReckoningCommand(
-                shooter,
-                intake,
-                ShooterTargets.SUBWOFER,
-                () -> driveJoystick.c1Up().getAsBoolean()));
+                shooter, intake, ShooterTargets.SUBWOFER, () -> driveJoystick.d1().getAsBoolean()));
 
     tractorController
         .button(13)
@@ -345,7 +356,7 @@ public class RobotContainer {
                 shooter,
                 intake,
                 ShooterTargets.LEAVE_LINE,
-                () -> driveJoystick.c1Up().getAsBoolean()));
+                () -> driveJoystick.d1().getAsBoolean()));
 
     tractorController
         .button(15)
@@ -354,7 +365,16 @@ public class RobotContainer {
                 shooter,
                 intake,
                 ShooterTargets.BEHIND_PODIUM,
-                () -> driveJoystick.c1Up().getAsBoolean()));
+                () -> driveJoystick.d1().getAsBoolean()));
+
+    tractorController
+        .button(24)
+        .onTrue(Commands.runOnce(() -> intake.setState(IntakeState.OFF), intake));
+
+    tractorController
+        .button(9)
+        .whileTrue(
+            new TrapCommand(shooter, climber, intake, () -> driveJoystick.d1().getAsBoolean()));
 
     // controller
     //     .x()

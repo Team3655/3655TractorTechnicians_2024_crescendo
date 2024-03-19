@@ -47,10 +47,10 @@ public class ShooterConstants {
         new ShooterState(Rotation2d.fromDegrees(60.0), Optional.of(SPEAKER_RPM));
 
     public static final ShooterState AMP =
-        new ShooterState(Rotation2d.fromDegrees(60), Optional.of(2200));
+        new ShooterState(Rotation2d.fromDegrees(52), Optional.of(2000));
 
-    public static final ShooterState SOURCE =
-        new ShooterState(Rotation2d.fromDegrees(70), Optional.of(-2500));
+    public static final ShooterState BABY_BIRD =
+        new ShooterState(Rotation2d.fromDegrees(70), Optional.of(-1500));
 
     public static final ShooterState INDEX =
         new ShooterState(Rotation2d.fromDegrees(45), Optional.empty());
@@ -69,7 +69,13 @@ public class ShooterConstants {
 
     public static final ShooterState CLIMBE_STAGE_TWO =
         new ShooterState(Rotation2d.fromDegrees(0.0), Optional.empty());
+
+    public static final ShooterState TRAP =
+        new ShooterState(Rotation2d.fromDegrees(60), Optional.of(SPEAKER_RPM));
   }
 
+  /**
+   * @param angle A Rotation2d, use Rotation2d.fromdegrees(88.75 - 24.5)
+   */
   public record ShooterState(Rotation2d angle, Optional<Integer> rpm) {}
 }

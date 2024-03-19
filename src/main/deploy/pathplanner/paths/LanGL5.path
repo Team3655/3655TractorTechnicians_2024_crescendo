@@ -1,0 +1,103 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.0128208088584008,
+        "y": 4.353414767435595
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.1850438106470618,
+        "y": 1.9327247978505269
+      },
+      "isLocked": false,
+      "linkedName": "LanGS3-End"
+    },
+    {
+      "anchor": {
+        "x": 7.9066746478481305,
+        "y": 1.0429059552757796
+      },
+      "prevControl": {
+        "x": 7.143319583502268,
+        "y": 1.310080227796829
+      },
+      "nextControl": {
+        "x": 8.289392429600706,
+        "y": 0.9089547316623776
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.7208487051006736,
+        "y": 3.32007675670363
+      },
+      "prevControl": {
+        "x": 5.0458592292475934,
+        "y": 1.5787108497293907
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "DeployIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 1.45,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "ShooterPodium"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 5.24,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 720.0,
+    "maxAngularAcceleration": 540.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -33.69006752597987,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Lansing",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
