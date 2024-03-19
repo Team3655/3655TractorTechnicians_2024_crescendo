@@ -35,12 +35,6 @@ public class DriveSubsystem extends SubsystemBase {
   /** Vertical distance between the module centers */
   private static final double TRACK_METERS = Units.inchesToMeters(20.75);
 
-  /**
-   * Multiply the distance to the vision target by this number in order to trust further
-   * measurements less
-   */
-  private static final double ESTIMATION_COEFFICIENT = 0.8;
-
   /** Max transitional velocity of the drivetrain */
   private final double maxVelocityMetersPerSec;
 
@@ -336,12 +330,9 @@ public class DriveSubsystem extends SubsystemBase {
       synchronized (estimator) {
         for (int i = 0; i < vision.getMeasurements().size(); i++) {
           estimator.addVisionMeasurement(
-              vision.getMeasurements().get(i).getPose(),
-              vision.getMeasurements().get(i).getTimestamp(),
-              VecBuilder.fill(
-                  vision.getMeasurements().get(i).getDistance() * ESTIMATION_COEFFICIENT,
-                  vision.getMeasurements().get(i).getDistance() * ESTIMATION_COEFFICIENT,
-                  3.0));
+              vision.getMeasurements().get(i).pose(),
+              vision.getMeasurements().get(i).timestamp(),
+              vision.getMeasurements().get(i).stdDevs());
         }
       }
     }

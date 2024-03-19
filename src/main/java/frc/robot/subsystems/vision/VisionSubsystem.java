@@ -4,12 +4,22 @@
 
 package frc.robot.subsystems.vision;
 
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.ArrayList;
 import org.littletonrobotics.junction.Logger;
 
 public class VisionSubsystem extends SubsystemBase {
+
+  /**
+   * Multiply the distance to the vision target by this number in order to trust further
+   * measurements less
+   */
+  private static final double ESTIMATION_COEFFICIENT = 0.8;
 
   private final VisionIO limelight;
   private final VisionIOInputsAutoLogged llInputs = new VisionIOInputsAutoLogged();
@@ -46,14 +56,23 @@ public class VisionSubsystem extends SubsystemBase {
     Logger.processInputs("Vision/limelight", llInputs);
 
     for (int i = 0; i < llInputs.robotPose.length; i++) {
-      if (llInputs.hasValidTarget && llInputs.distanceToCamera <= 5.0) {
+
+      double xyStdDev = Math.pow(llInputs.distanceToCamera * ESTIMATION_COEFFICIENT, 1.5);
+
+      double thetaStdDev = Math.pow(llInputs.distanceToCamera * ESTIMATION_COEFFICIENT, 1.5);
+
+      if (llInputs.hasValidTarget && llInputs.distanceToCamera <= 6.0) {
         acceptedMeasurements.add(
             new visionMeasurement(
-                llInputs.robotPose[i], llInputs.distanceToCamera, llInputs.timestamp));
+                llInputs.robotPose[i],
+                llInputs.timestamp,
+                VecBuilder.fill(xyStdDev, xyStdDev, thetaStdDev)));
       } else {
         rejectedMeasurements.add(
             new visionMeasurement(
-                llInputs.robotPose[i], llInputs.distanceToCamera, llInputs.timestamp));
+                llInputs.robotPose[i],
+                llInputs.timestamp,
+                VecBuilder.fill(xyStdDev, xyStdDev, thetaStdDev)));
       }
     }
   }
@@ -66,43 +85,12 @@ public class VisionSubsystem extends SubsystemBase {
     this.robotPose = robotPose;
   }
 
-  public class visionMeasurement {
-    private final Pose2d pose;
-    private final double timestamp;
-    private final double distance;
-
-    /**
-     * A class holding the data relevent to adding vision data to poseEstimation
-     *
-     * @param pose the Pose2d reported by the camera
-     * @param distance the distance to the closest target
-     * @param timestamp the timestamp of when the measurement was taken
-     */
-    public visionMeasurement(Pose2d pose, double distance, double timestamp) {
-      this.pose = pose;
-      this.timestamp = timestamp;
-      this.distance = distance;
-    }
-
-    /**
-     * @return the Pose2d reported by the camera
-     */
-    public Pose2d getPose() {
-      return pose;
-    }
-
-    /**
-     * @return the distance to the closest target
-     */
-    public double getDistance() {
-      return distance;
-    }
-
-    /**
-     * @return the timestamp of when the measurement was taken
-     */
-    public double getTimestamp() {
-      return timestamp;
-    }
-  }
+  /**
+   * A class holding the data relevent to adding vision data to poseEstimation
+   *
+   * @param pose the Pose2d reported by the camera
+   * @param distance the distance to the closest target
+   * @param timestamp the timestamp of when the measurement was taken
+   */
+  public record visionMeasurement(Pose2d pose, double timestamp, Matrix<N3, N1> stdDevs) {}
 }
