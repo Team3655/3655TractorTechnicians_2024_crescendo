@@ -17,14 +17,17 @@ import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveDriveWheelPositions;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.vision.VisionSubsystem;
+import frc.robot.util.TestPoseEstimator;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 import org.littletonrobotics.junction.Logger;
 
 /** Coordinator for the drivetrain. Speaks to the Gyro and the Swerve Modules */
@@ -75,6 +78,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Same as odometry but with vision measurements */
   private final SwerveDrivePoseEstimator estimator;
+
+  private final TestPoseEstimator testEstimator;
 
   private final SwerveModulePosition[] swerveModulePositions;
   private final OdometryUpdateThread odometryUpdateThread;
@@ -144,17 +149,19 @@ public class DriveSubsystem extends SubsystemBase {
           }
         }
         synchronized (odometry) {
-          synchronized (swerveModulePositions) {
-            synchronized (gyroInputs) {
-              odometry.update(Rotation2d.fromRadians(gyroInputs.yaw), swerveModulePositions);
-            }
-          }
-        }
-
-        synchronized (estimator) {
-          synchronized (swerveModulePositions) {
-            synchronized (gyroInputs) {
-              estimator.update(Rotation2d.fromRadians(gyroInputs.yaw), swerveModulePositions);
+          synchronized (estimator) {
+            synchronized (testEstimator) {
+              synchronized (swerveModulePositions) {
+                synchronized (gyroInputs) {
+                  estimator.update(Rotation2d.fromRadians(gyroInputs.yaw), swerveModulePositions);
+                  odometry.update(Rotation2d.fromRadians(gyroInputs.yaw), swerveModulePositions);
+                  testEstimator.update(
+                      gyroInputs.connected
+                          ? Optional.of(Rotation2d.fromRadians(gyroInputs.yaw))
+                          : Optional.empty(),
+                      new SwerveDriveWheelPositions(swerveModulePositions));
+                }
+              }
             }
           }
         }
@@ -278,6 +285,11 @@ public class DriveSubsystem extends SubsystemBase {
             // fallback for if the estimation coefficient fails)
             VecBuilder.fill(0.5, 0.5, 0.5));
 
+    testEstimator =
+        new TestPoseEstimator(
+            kinematics, VecBuilder.fill(0.1, 0.1, 0.1), VecBuilder.fill(0.5, 0.5, 0.5));
+    testEstimator.resetPosition(new Pose2d(), new SwerveDriveWheelPositions(swerveModulePositions));
+
     odometryUpdateThread = new OdometryUpdateThread();
     odometryUpdateThread.start();
   }
@@ -343,8 +355,13 @@ public class DriveSubsystem extends SubsystemBase {
     synchronized (odometry) {
       Logger.recordOutput("Drive/OdometryPose", odometry.getPoseMeters());
     }
+    synchronized (testEstimator) {
+      Logger.recordOutput("Drive/TestEstimatedPose", testEstimator.getEstimatedPosition());
+      Logger.recordOutput("Drive/TestOdometryPose", testEstimator.getOdometryPosition());
+    }
     Logger.recordOutput(
-        "Drive/OdometryThread/Average Loop Time", odometryUpdateThread.getAverageLoopTime());
+        "Drive/OdometryThread/Average Loop Time", 
+        odometryUpdateThread.getAverageLoopTime());
     Logger.recordOutput(
         "Drive/OdometryThread/Successful Data Acquisitions",
         odometryUpdateThread.getSuccessfulDataAcquisitions());
@@ -418,17 +435,13 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void resetPose(Pose2d poseMeters) {
     synchronized (odometry) {
-      synchronized (swerveModulePositions) {
-        synchronized (gyroInputs) {
-          odometry.resetPosition(new Rotation2d(gyroInputs.yaw), swerveModulePositions, poseMeters);
-        }
-      }
-    }
-    synchronized (estimator) {
-      synchronized (swerveModulePositions) {
-        synchronized (gyroInputs) {
-          estimator.resetPosition(
-              new Rotation2d(gyroInputs.yaw), swerveModulePositions, poseMeters);
+      synchronized (estimator) {
+        synchronized (swerveModulePositions) {
+          synchronized (gyroInputs) {
+            odometry.resetPosition(new Rotation2d(gyroInputs.yaw), swerveModulePositions, poseMeters);
+            estimator.resetPosition(new Rotation2d(gyroInputs.yaw), swerveModulePositions, poseMeters);
+            testEstimator.resetPosition(poseMeters, new SwerveDriveWheelPositions(swerveModulePositions));
+          }
         }
       }
     }
