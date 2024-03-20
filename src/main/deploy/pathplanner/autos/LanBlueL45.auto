@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.285657023528499,
-      "y": 5.5302719463247785
+      "x": 0.7307162399872582,
+      "y": 4.487365991048999
     },
-    "rotation": 0
+    "rotation": -61.8583987677383
   },
   "command": {
     "type": "sequential",
@@ -52,13 +52,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LanStart2GS2"
+            "pathName": "LanStart3GL4"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "LanShortShot"
+            "pathName": "LanBlueShootL45"
           }
         },
         {
@@ -68,7 +68,26 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShooterLeaveLine"
+                  "name": "ShooterPodium"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.75
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShooterPodiumShoot"
                 }
               },
               {
@@ -81,28 +100,15 @@
           }
         },
         {
-          "type": "race",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShooterLeaveLineShoot"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.75
-                }
-              }
-            ]
+            "pathName": "LanBlueGL5(2)"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "LanBlueGS3"
+            "pathName": "LanBlueShootL45"
           }
         },
         {
@@ -112,7 +118,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShooterLeaveLine"
+                  "name": "ShooterPodium"
                 }
               },
               {
@@ -131,22 +137,16 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShooterLeaveLineShoot"
+                  "name": "ShooterPodiumShoot"
                 }
               },
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.75
+                  "waitTime": 1.0
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "LanRedGL5"
           }
         }
       ]
