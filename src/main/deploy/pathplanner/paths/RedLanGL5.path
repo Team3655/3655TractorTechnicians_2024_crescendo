@@ -1,0 +1,109 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.0128208088584008,
+        "y": 4.353414767435595
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.1180681988403602,
+        "y": 0.7941393971366036
+      },
+      "isLocked": false,
+      "linkedName": "LanGS3-End"
+    },
+    {
+      "anchor": {
+        "x": 7.791859313322356,
+        "y": 1.090745677994852
+      },
+      "prevControl": {
+        "x": 5.734751236402239,
+        "y": 1.186425123432997
+      },
+      "nextControl": {
+        "x": 8.196903647478399,
+        "y": 1.071906406638757
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.5964654260310844,
+        "y": 3.1000140321958964
+      },
+      "prevControl": {
+        "x": 4.9214759501780065,
+        "y": 1.3586481252216573
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "DeployIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 1.8,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "ShooterPodium"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 5.24,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 720.0,
+    "maxAngularAcceleration": 540.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -53.3929251873924,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Lansing",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

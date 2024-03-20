@@ -44,7 +44,21 @@ public class IntakeCommands {
               intake.setState(IntakeState.STAGE_ONE);
             },
             intake)
-        .andThen(new WaitCommand(0.3))
+        .andThen(new WaitCommand(0.25))
+        .andThen(Commands.runOnce(() -> intake.setState(IntakeState.IDLE), intake));
+  }
+
+  public static Command popRetract(IntakeSubsystem intake) {
+    return retract(intake).andThen(intakePop(intake));
+  }
+
+  public static Command intakePop(IntakeSubsystem intake) {
+    return Commands.runOnce(
+            () -> {
+              intake.setState(IntakeState.STAGE_ONE);
+            },
+            intake)
+        .andThen(new WaitCommand(0.25))
         .andThen(Commands.runOnce(() -> intake.setState(IntakeState.IDLE), intake));
   }
 

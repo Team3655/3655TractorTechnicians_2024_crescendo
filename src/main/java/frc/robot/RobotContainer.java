@@ -219,7 +219,9 @@ public class RobotContainer {
         "ShooterPodiumShoot",
         new DeadReckoningCommand(shooter, intake, ShooterTargets.BEHIND_PODIUM, () -> true));
     NamedCommands.registerCommand("RunKicker", ShootingCommands.runKicker(intake).withTimeout(1.0));
-    NamedCommands.registerCommand("DeployIntake", IntakeCommands.intakeSearch(intake));
+    NamedCommands.registerCommand(
+        "DeployIntake",
+        IntakeCommands.intakeSearch(intake).andThen(IntakeCommands.intakePop(intake)));
     NamedCommands.registerCommand("RetractIntake", IntakeCommands.retract(intake));
 
     // Set up auto routines

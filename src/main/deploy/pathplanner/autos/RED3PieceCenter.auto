@@ -68,6 +68,25 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "ShooterLeaveLine"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.5
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
                   "name": "ShooterLeaveLineShoot"
                 }
               },
@@ -83,7 +102,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LanGS3"
+            "pathName": "RedLanGS3"
           }
         },
         {
@@ -127,7 +146,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LanGL5"
+            "pathName": "RedLanGL5"
           }
         },
         {
