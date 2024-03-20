@@ -169,6 +169,9 @@ public class ModuleIOTalonFXPro implements ModuleIO {
     signals[1] = primaryDriveVelocitySignal;
     signals[2] = steerPositionSignal;
     signals[3] = steerVelocitySignal;
+
+    steerMotor.optimizeBusUtilization(1.0);
+    driveMotor.optimizeBusUtilization(1.0);
   }
 
   @Override
