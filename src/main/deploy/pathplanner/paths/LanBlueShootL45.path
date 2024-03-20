@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 6.213148463592964,
+        "y": 1.4447596261159885
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.0267233401599665,
+        "y": 1.3777840143092883
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.3572668124357223,
+        "y": 3.061742254020638
+      },
+      "prevControl": {
+        "x": 2.826096095082633,
+        "y": 1.990132465113414
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "LanBlueShootL45-End"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.24,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 720.0,
+    "maxAngularAcceleration": 540.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -44.02897806892084,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Lansing",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

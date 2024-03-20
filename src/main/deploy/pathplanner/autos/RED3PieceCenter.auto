@@ -52,7 +52,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LanStartGS2"
+            "pathName": "LanStart2GS2"
           }
         },
         {
@@ -102,7 +102,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RedLanGS3"
+            "pathName": "LanRedGS3"
           }
         },
         {
@@ -146,26 +146,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RedLanGL5"
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShooterPodiumShoot"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.0
-                }
-              }
-            ]
+            "pathName": "LanRedGL5"
           }
         }
       ]
