@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.BabyBirdCommand;
+import frc.robot.commands.ClimbingCommands;
 import frc.robot.commands.DeadReckoningCommand;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.IndexCommand;
@@ -100,7 +101,6 @@ public class RobotContainer {
                     portConfig.frontLeftAbsoluteEncoderID,
                     portConfig.driveCANBus,
                     characterizationConfig.frontLeftOffset,
-                    characterizationConfig.wheelRadiusMeters,
                     characterizationConfig.driveGearRatio,
                     characterizationConfig.maxVelocity),
                 new ModuleIOTalonFXPro(
@@ -109,7 +109,6 @@ public class RobotContainer {
                     portConfig.frontRightAbsoluteEncoderID,
                     portConfig.driveCANBus,
                     characterizationConfig.frontRightOffset,
-                    characterizationConfig.wheelRadiusMeters,
                     characterizationConfig.driveGearRatio,
                     characterizationConfig.maxVelocity),
                 new ModuleIOTalonFXPro(
@@ -118,7 +117,6 @@ public class RobotContainer {
                     portConfig.backLeftAbsoluteEncoderID,
                     portConfig.driveCANBus,
                     characterizationConfig.backLeftOffset,
-                    characterizationConfig.wheelRadiusMeters,
                     characterizationConfig.driveGearRatio,
                     characterizationConfig.maxVelocity),
                 new ModuleIOTalonFXPro(
@@ -127,7 +125,6 @@ public class RobotContainer {
                     portConfig.backRightAbsoluteEncoderID,
                     portConfig.driveCANBus,
                     characterizationConfig.backRightOffset,
-                    characterizationConfig.wheelRadiusMeters,
                     characterizationConfig.driveGearRatio,
                     characterizationConfig.maxVelocity),
                 vision);
@@ -310,7 +307,7 @@ public class RobotContainer {
         .onTrue(
             Commands.runOnce(
                 () -> {
-                  shooter.jogAngle(-1.0);
+                  shooter.jogAngleOffset(-0.5);
                 },
                 shooter));
 
@@ -320,7 +317,7 @@ public class RobotContainer {
         .onTrue(
             Commands.runOnce(
                 () -> {
-                  shooter.jogAngle(1.0);
+                  shooter.jogAngleOffset(0.5);
                 },
                 shooter));
 
@@ -378,19 +375,11 @@ public class RobotContainer {
         .whileTrue(
             new TrapCommand(shooter, climber, intake, () -> driveJoystick.d1().getAsBoolean()));
 
-    // controller
-    //     .x()
-    //     .or(driveJoystick.fireStage2())
-    //     .or(driveJoystick.firePaddleDown())
-    //     .whileTrue(
-    //         Commands.startEnd(
-    //             () -> intake.setIntakeVoltage(10), () -> intake.setIntakeVoltage(0), intake));
-
-    // tractorController
-    //     .button(1)
-    //     .or(controller.y())
-    //     .onTrue(ClimbingCommands.prepClimb(climber, shooter))
-    //     .onFalse(ClimbingCommands.climb(climber, shooter));
+    tractorController
+        .button(1)
+        .or(controller.y())
+        .onTrue(ClimbingCommands.prepClimb(climber, shooter))
+        .onFalse(ClimbingCommands.climb(climber, shooter));
 
     // tractorController
     //     .button(22)

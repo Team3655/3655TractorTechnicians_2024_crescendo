@@ -24,7 +24,7 @@ import edu.wpi.first.math.util.Units;
  * software to the motors. For use with the SDS MK4i modules only.
  */
 public class ModuleIOTalonFXPro implements ModuleIO {
-  private static final int DRIVE_CURRENT_LIMIT = 20;
+  private static final int DRIVE_CURRENT_LIMIT = 25;
   private static final int STEER_CURRENT_LIMIT = 15;
 
   // Used to calculate feed forward for turn speed in 2nd order dynamics calc.
@@ -93,11 +93,11 @@ public class ModuleIOTalonFXPro implements ModuleIO {
       int steerEncoderId,
       String canBus,
       double absoluteOffsetRotations,
-      double wheelRadiusMeters,
       double driveGearRatio,
       double maxVelocity) {
 
-    this.drivePositionCoefficient = (2 * Math.PI * wheelRadiusMeters) / driveGearRatio;
+    this.drivePositionCoefficient =
+        (2 * Math.PI * DriveConstants.WHEEL_RADIUS_METERS) / driveGearRatio;
 
     this.driveVelocityCoefficient = drivePositionCoefficient;
 
@@ -173,9 +173,6 @@ public class ModuleIOTalonFXPro implements ModuleIO {
 
   @Override
   public void updateInputs(SwerveModuleIOInputs inputs) {
-    double driveAppliedVolts = driveMotor.getMotorVoltage().getValue();
-    double steerAppliedVolts = steerMotor.getMotorVoltage().getValue();
-
     inputs.drivePositionMeters =
         BaseStatusSignal.getLatencyCompensatedValue(
                 primaryDrivePositionSignal, primaryDriveVelocitySignal)
@@ -185,16 +182,15 @@ public class ModuleIOTalonFXPro implements ModuleIO {
         primaryDriveVelocitySignal.getValue() * (driveVelocityCoefficient);
 
     inputs.driveCurrentDrawAmps = driveMotor.getSupplyCurrent().getValue();
-    inputs.driveAppliedVolts = driveAppliedVolts;
+    inputs.driveAppliedVolts = driveMotor.getMotorVoltage().getValue();
     inputs.targetDriveVelocityMetersPerSec = targetVelocityMetersPerSeconds;
 
     inputs.steerPositionRad =
         Units.rotationsToRadians(
             BaseStatusSignal.getLatencyCompensatedValue(steerPositionSignal, steerVelocitySignal));
-    inputs.steerPositionDeg = Math.toDegrees(inputs.steerPositionRad);
     inputs.steerVelocityRadPerSec = Units.rotationsToRadians(steerVelocitySignal.getValue());
     inputs.steerCurrentDrawAmps = steerMotor.getSupplyCurrent().getValue();
-    inputs.steerAppliedVolts = steerAppliedVolts;
+    inputs.steerAppliedVolts = steerMotor.getMotorVoltage().getValue();
     inputs.targetSteerPositionRad = targetSteerAngleRadians;
 
     inputs.steerAbsolutePosition =

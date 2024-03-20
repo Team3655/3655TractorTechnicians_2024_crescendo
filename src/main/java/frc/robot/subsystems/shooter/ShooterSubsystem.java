@@ -91,5 +91,7 @@ public class ShooterSubsystem extends SubsystemBase {
     requestState(state);
   }
 
-  public void jogAngle(double degrees) {}
+  public void jogAngleOffset(double degrees) {
+    pivotOffset.plus(Rotation2d.fromDegrees(degrees));
+  }
 }

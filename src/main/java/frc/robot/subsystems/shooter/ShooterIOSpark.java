@@ -72,7 +72,7 @@ public class ShooterIOSpark implements ShooterIO {
     pivot.enableVoltageCompensation(12.0);
     pivot.setSmartCurrentLimit(20);
     pivot.setInverted(false);
-    pivot.setIdleMode(IdleMode.kCoast);
+    pivot.setIdleMode(IdleMode.kBrake);
 
     pivotEncoder = pivot.getEncoder();
 
