@@ -70,13 +70,13 @@ public class ShooterConstants {
         new ShooterTarget(Rotation2d.fromDegrees(33.5), Optional.of(SPEAKER_RPM));
 
     public static final ShooterTarget PREP_CLIMB =
-        new ShooterTarget(Rotation2d.fromDegrees(0.0), Optional.empty());
+        new ShooterTarget(Rotation2d.fromDegrees(88.75), Optional.empty());
 
     public static final ShooterTarget CLIMB_STAGE_ONE =
-        new ShooterTarget(Rotation2d.fromDegrees(0.0), Optional.empty());
+        new ShooterTarget(Rotation2d.fromDegrees(45.0), Optional.empty());
 
     public static final ShooterTarget CLIMBE_STAGE_TWO =
-        new ShooterTarget(Rotation2d.fromDegrees(0.0), Optional.empty());
+        new ShooterTarget(Rotation2d.fromDegrees(80.0), Optional.empty());
 
     public static final ShooterTarget TRAP =
         new ShooterTarget(Rotation2d.fromDegrees(60), Optional.of(SPEAKER_RPM));
