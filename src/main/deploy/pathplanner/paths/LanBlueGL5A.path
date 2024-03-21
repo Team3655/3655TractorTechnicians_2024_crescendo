@@ -1,0 +1,70 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.634737204206343,
+        "y": 2.822543640425277
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.45758043497439,
+        "y": 0.6219163953479426
+      },
+      "isLocked": false,
+      "linkedName": "LanStart3-End"
+    },
+    {
+      "anchor": {
+        "x": 7.543092755183181,
+        "y": 0.6984599516984574
+      },
+      "prevControl": {
+        "x": 6.543092755183181,
+        "y": 0.6984599516984574
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "DeployIntake"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 5.24,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 720.0,
+    "maxAngularAcceleration": 540.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": true
+  },
+  "reversed": false,
+  "folder": "Lansing",
+  "previewStartingState": {
+    "rotation": -49.236394799058885,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

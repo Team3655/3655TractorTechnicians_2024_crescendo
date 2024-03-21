@@ -1,0 +1,86 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.5199218696805694,
+        "y": 5.5302719463247785
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.9267093079640705,
+        "y": 5.5302719463247785
+      },
+      "isLocked": false,
+      "linkedName": "LanShortShot-End"
+    },
+    {
+      "anchor": {
+        "x": 2.3764027015233515,
+        "y": 4.353414767435595
+      },
+      "prevControl": {
+        "x": 1.867626748222186,
+        "y": 4.55692514875606
+      },
+      "nextControl": {
+        "x": 2.472082146961496,
+        "y": 4.3151429892603375
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.0128208088584008,
+        "y": 4.353414767435595
+      },
+      "prevControl": {
+        "x": 2.405106535154791,
+        "y": 4.343846822891781
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "LanGS3-End"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "DeployIntake"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 2.0,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 720.0,
+    "maxAngularAcceleration": 540.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -43.21008939175386,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Lansing",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

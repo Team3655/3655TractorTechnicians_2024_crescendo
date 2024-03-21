@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.753887125489869,
+        "y": 1.3395122361340301
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.567462002056871,
+        "y": 1.27253662432733
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.634737204206343,
+        "y": 2.822543640425277
+      },
+      "prevControl": {
+        "x": 3.1035664868532535,
+        "y": 1.7509338515180528
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "LanBlueStart3-End"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.24,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 720.0,
+    "maxAngularAcceleration": 540.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -44.02897806892084,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Lansing",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

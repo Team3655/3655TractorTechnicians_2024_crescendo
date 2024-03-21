@@ -52,13 +52,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LanStartGS2"
+            "pathName": "LanStart2GS2"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "LanShortShot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "DeployIntake"
           }
         },
         {
@@ -102,7 +108,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RedLanGS3"
+            "pathName": "LanBlueGS3"
           }
         },
         {
@@ -146,26 +152,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RedLanGL5"
+            "pathName": "LanRedGL5"
           }
         },
         {
-          "type": "race",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShooterPodiumShoot"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.0
-                }
-              }
-            ]
+            "pathName": "LanBlueShootL45"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "RetractIntake"
           }
         }
       ]
