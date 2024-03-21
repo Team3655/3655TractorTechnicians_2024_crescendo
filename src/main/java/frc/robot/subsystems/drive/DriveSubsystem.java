@@ -149,19 +149,27 @@ public class DriveSubsystem extends SubsystemBase {
           }
         }
         synchronized (odometry) {
-          synchronized (estimator) {
-            synchronized (testEstimator) {
-              synchronized (swerveModulePositions) {
-                synchronized (gyroInputs) {
-                  estimator.update(Rotation2d.fromRadians(gyroInputs.yaw), swerveModulePositions);
-                  odometry.update(Rotation2d.fromRadians(gyroInputs.yaw), swerveModulePositions);
-                  testEstimator.update(
-                      gyroInputs.connected
-                          ? Optional.of(Rotation2d.fromRadians(gyroInputs.yaw))
-                          : Optional.empty(),
-                      new SwerveDriveWheelPositions(swerveModulePositions));
-                }
-              }
+          synchronized (swerveModulePositions) {
+            synchronized (gyroInputs) {
+              odometry.update(Rotation2d.fromRadians(gyroInputs.yaw), swerveModulePositions);
+            }
+          }
+        }
+        synchronized (estimator) {
+          synchronized (swerveModulePositions) {
+            synchronized (gyroInputs) {
+              estimator.update(Rotation2d.fromRadians(gyroInputs.yaw), swerveModulePositions);
+            }
+          }
+        }
+        synchronized (testEstimator) {
+          synchronized (swerveModulePositions) {
+            synchronized (gyroInputs) {
+              testEstimator.update(
+                  gyroInputs.connected
+                      ? Optional.of(Rotation2d.fromRadians(gyroInputs.yaw))
+                      : Optional.empty(),
+                  new SwerveDriveWheelPositions(swerveModulePositions));
             }
           }
         }
@@ -360,8 +368,7 @@ public class DriveSubsystem extends SubsystemBase {
       Logger.recordOutput("Drive/TestOdometryPose", testEstimator.getOdometryPosition());
     }
     Logger.recordOutput(
-        "Drive/OdometryThread/Average Loop Time", 
-        odometryUpdateThread.getAverageLoopTime());
+        "Drive/OdometryThread/Average Loop Time", odometryUpdateThread.getAverageLoopTime());
     Logger.recordOutput(
         "Drive/OdometryThread/Successful Data Acquisitions",
         odometryUpdateThread.getSuccessfulDataAcquisitions());
@@ -435,13 +442,19 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void resetPose(Pose2d poseMeters) {
     synchronized (odometry) {
-      synchronized (estimator) {
-        synchronized (swerveModulePositions) {
-          synchronized (gyroInputs) {
-            odometry.resetPosition(new Rotation2d(gyroInputs.yaw), swerveModulePositions, poseMeters);
-            estimator.resetPosition(new Rotation2d(gyroInputs.yaw), swerveModulePositions, poseMeters);
-            testEstimator.resetPosition(poseMeters, new SwerveDriveWheelPositions(swerveModulePositions));
-          }
+      synchronized (swerveModulePositions) {
+        synchronized (gyroInputs) {
+          odometry.resetPosition(new Rotation2d(gyroInputs.yaw), swerveModulePositions, poseMeters);
+          // testEstimator.resetPosition(
+          //     poseMeters, new SwerveDriveWheelPositions(swerveModulePositions));
+        }
+      }
+    }
+    synchronized (estimator) {
+      synchronized (swerveModulePositions) {
+        synchronized (gyroInputs) {
+          estimator.resetPosition(
+              new Rotation2d(gyroInputs.yaw), swerveModulePositions, poseMeters);
         }
       }
     }
