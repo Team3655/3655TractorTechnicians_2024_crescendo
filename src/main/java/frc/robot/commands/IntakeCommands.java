@@ -44,7 +44,7 @@ public class IntakeCommands {
               intake.setState(IntakeState.STAGE_ONE);
             },
             intake)
-        .andThen(new WaitCommand(0.25))
+        .andThen(new WaitCommand(0.15))
         .andThen(Commands.runOnce(() -> intake.setState(IntakeState.IDLE), intake));
   }
 

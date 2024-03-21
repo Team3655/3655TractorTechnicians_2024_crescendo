@@ -326,9 +326,9 @@ public class RobotContainer {
         .onTrue(IntakeCommands.intakeSearch(intake))
         .onFalse(
             IntakeCommands.retract(intake)
-                .andThen(new WaitCommand(0.15))
+                .andThen(new WaitCommand(0.25))
                 .andThen(new IndexCommand(shooter, intake))
-                .withTimeout(6));
+                .withTimeout(4));
 
     driveJoystick
         .a2()

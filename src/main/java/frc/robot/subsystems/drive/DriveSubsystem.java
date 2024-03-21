@@ -27,7 +27,6 @@ import frc.robot.subsystems.vision.VisionSubsystem;
 import frc.robot.util.TestPoseEstimator;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Optional;
 import org.littletonrobotics.junction.Logger;
 
 /** Coordinator for the drivetrain. Speaks to the Gyro and the Swerve Modules */
@@ -165,11 +164,12 @@ public class DriveSubsystem extends SubsystemBase {
         synchronized (testEstimator) {
           synchronized (swerveModulePositions) {
             synchronized (gyroInputs) {
-              testEstimator.update(
-                  gyroInputs.connected
-                      ? Optional.of(Rotation2d.fromRadians(gyroInputs.yaw))
-                      : Optional.empty(),
-                  new SwerveDriveWheelPositions(swerveModulePositions));
+              // testEstimator.update(
+              //     0.0,
+              //     gyroInputs.connected
+              //         ? Optional.of(Rotation2d.fromRadians(gyroInputs.yaw))
+              //         : Optional.empty(),
+              //     new SwerveDriveWheelPositions(swerveModulePositions));
             }
           }
         }

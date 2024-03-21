@@ -125,7 +125,7 @@ public class TestPoseEstimator {
    * @param wheelPositions The current encoder readings.
    */
   public void update(Optional<Rotation2d> gyroAngle, SwerveDriveWheelPositions wheelPositions) {
-    updateWithTime(MathSharedStore.getTimestamp(), gyroAngle, wheelPositions);
+    update(MathSharedStore.getTimestamp(), gyroAngle, wheelPositions);
   }
 
   /**
@@ -136,7 +136,7 @@ public class TestPoseEstimator {
    * @param gyroAngle The current gyro angle.
    * @param wheelPositions The current encoder readings.
    */
-  public void updateWithTime(
+  public void update(
       double currentTimeSeconds,
       Optional<Rotation2d> gyroAngle,
       SwerveDriveWheelPositions wheelPositions) {
