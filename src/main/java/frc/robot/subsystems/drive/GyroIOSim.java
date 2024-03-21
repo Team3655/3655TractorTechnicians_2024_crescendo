@@ -19,7 +19,7 @@ public class GyroIOSim implements GyroIO {
   @Override
   public void updateInputs(GyroIOInputs inputs) {
     calcAngle();
-    inputs.yaw = simOdometry.getRotation().getRadians();
+    inputs.yaw = simOdometry.getRotation();
   }
 
   private void calcAngle() {

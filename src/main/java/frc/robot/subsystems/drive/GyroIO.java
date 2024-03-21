@@ -1,6 +1,9 @@
 package frc.robot.subsystems.drive;
 
 import com.ctre.phoenix6.BaseStatusSignal;
+
+import edu.wpi.first.math.geometry.Rotation2d;
+
 import org.littletonrobotics.junction.AutoLog;
 
 /** Connects the software to the hardware and directly receives data from the gyroscope. */
@@ -20,9 +23,9 @@ public interface GyroIO {
   @AutoLog
   class GyroIOInputs {
     public boolean connected = false;
-    public double yaw = 0;
+    public Rotation2d yaw = new Rotation2d();
     public double pitch = 0;
     public double roll = 0;
-    public double angularVelocity = 0;
+    public double yawVelocityRadPerSec = 0;
   }
 }

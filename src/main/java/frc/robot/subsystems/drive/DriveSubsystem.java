@@ -150,14 +150,14 @@ public class DriveSubsystem extends SubsystemBase {
         synchronized (odometry) {
           synchronized (swerveModulePositions) {
             synchronized (gyroInputs) {
-              odometry.update(Rotation2d.fromRadians(gyroInputs.yaw), swerveModulePositions);
+              odometry.update(gyroInputs.yaw, swerveModulePositions);
             }
           }
         }
         synchronized (estimator) {
           synchronized (swerveModulePositions) {
             synchronized (gyroInputs) {
-              estimator.update(Rotation2d.fromRadians(gyroInputs.yaw), swerveModulePositions);
+              estimator.update(gyroInputs.yaw, swerveModulePositions);
             }
           }
         }
@@ -444,9 +444,7 @@ public class DriveSubsystem extends SubsystemBase {
     synchronized (odometry) {
       synchronized (swerveModulePositions) {
         synchronized (gyroInputs) {
-          odometry.resetPosition(new Rotation2d(gyroInputs.yaw), swerveModulePositions, poseMeters);
-          // testEstimator.resetPosition(
-          //     poseMeters, new SwerveDriveWheelPositions(swerveModulePositions));
+          odometry.resetPosition(gyroInputs.yaw, swerveModulePositions, poseMeters);
         }
       }
     }
@@ -454,7 +452,7 @@ public class DriveSubsystem extends SubsystemBase {
       synchronized (swerveModulePositions) {
         synchronized (gyroInputs) {
           estimator.resetPosition(
-              new Rotation2d(gyroInputs.yaw), swerveModulePositions, poseMeters);
+              gyroInputs.yaw, swerveModulePositions, poseMeters);
         }
       }
     }
@@ -495,7 +493,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public double getAngularVelocity() {
     synchronized (gyroInputs) {
-      return gyroInputs.angularVelocity;
+      return gyroInputs.yawVelocityRadPerSec;
     }
   }
 }
