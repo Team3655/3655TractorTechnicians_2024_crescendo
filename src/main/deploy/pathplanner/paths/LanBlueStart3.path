@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.753887125489869,
-        "y": 1.3395122361340301
+        "x": 0.7402841845310726,
+        "y": 4.487365991048999
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.567462002056871,
-        "y": 1.27253662432733
+        "x": 1.1325699108274667,
+        "y": 4.17162382110312
       },
       "isLocked": false,
       "linkedName": null
@@ -20,8 +20,8 @@
         "y": 2.822543640425277
       },
       "prevControl": {
-        "x": 3.1035664868532535,
-        "y": 1.7509338515180528
+        "x": 2.3668347569795367,
+        "y": 3.0234704758453814
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -44.02897806892084,
+    "rotation": -38.233825177446754,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Lansing",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -60.64224645720876,
     "velocity": 0
   },
   "useDefaultConstraints": true

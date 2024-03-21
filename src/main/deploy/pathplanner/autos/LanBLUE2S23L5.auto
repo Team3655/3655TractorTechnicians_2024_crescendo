@@ -62,6 +62,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "DeployIntake"
+          }
+        },
+        {
           "type": "race",
           "data": {
             "commands": [
@@ -147,6 +153,18 @@
           "type": "path",
           "data": {
             "pathName": "LanRedGL5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LanBlueShootL45"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "RetractIntake"
           }
         }
       ]

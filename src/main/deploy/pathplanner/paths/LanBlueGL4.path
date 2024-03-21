@@ -3,38 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.0128208088584008,
-        "y": 4.353414767435595
+        "x": 2.634737204206343,
+        "y": 2.822543640425277
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1180681988403602,
-        "y": 0.7941393971366036
+        "x": 3.5628278249563494,
+        "y": 0.8993867871185643
       },
       "isLocked": false,
-      "linkedName": "LanGS3-End"
+      "linkedName": "LanBlueStart3-End"
     },
     {
       "anchor": {
-        "x": 7.753587535147099,
-        "y": 0.9280906207500055
+        "x": 7.543092755183181,
+        "y": 2.353714357778366
       },
       "prevControl": {
-        "x": 5.696479458226982,
-        "y": 1.0237700661881506
+        "x": 6.461915021732142,
+        "y": 1.0620418443634085
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1.0,
-      "rotationDegrees": 0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
@@ -63,8 +57,8 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
-    "rotateFast": false
+    "rotation": 39.20720350496782,
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "Lansing",
