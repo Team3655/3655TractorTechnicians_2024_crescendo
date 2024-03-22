@@ -6,6 +6,8 @@ import com.ctre.phoenix6.configs.GyroTrimConfigs;
 import com.ctre.phoenix6.configs.MountPoseConfigs;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
+
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -20,18 +22,19 @@ public class GyroIOPigeon2 implements GyroIO {
    */
   private final Pigeon2 gyro;
 
+  private StatusSignal<Double> yawSignal;
+  private StatusSignal<Double> pitchSignal;
+  private StatusSignal<Double> rollSignal;
+  private StatusSignal<Double> angularVelocitySignal;
+
+  private BaseStatusSignal[] signals;
+
   /**
    * Pigeon2 gyroIO implementation.
    *
    * @param canId Is the unique identifier to the gyroscope used on the robot.
    * @param canBus The name of the CAN bus the device is connected to.
    */
-  private StatusSignal<Double> yawSignal;
-
-  private StatusSignal<Double> angularVelocitySignal;
-
-  private BaseStatusSignal[] signals;
-
   public GyroIOPigeon2(int canId, int mountPose, double error, String canBus) {
     gyro = new Pigeon2(canId, canBus);
 
@@ -45,26 +48,26 @@ public class GyroIOPigeon2 implements GyroIO {
     gyro.getConfigurator().apply(config);
 
     yawSignal = gyro.getYaw();
+    pitchSignal = gyro.getPitch();
+    rollSignal = gyro.getRoll();
     angularVelocitySignal = gyro.getAngularVelocityZDevice();
     signals = new BaseStatusSignal[2];
     signals[0] = yawSignal;
     signals[1] = angularVelocitySignal;
+    signals[2] = pitchSignal;
+    signals[3] = rollSignal;
+
   }
 
   @Override
   public void updateInputs(GyroIOInputs inputs) {
-    inputs.connected = true;
+    inputs.connected = BaseStatusSignal.refreshAll(signals).isOK();
 
     inputs.yaw =
-        Units.degreesToRadians(
+        Rotation2d.fromDegrees(
             BaseStatusSignal.getLatencyCompensatedValue(yawSignal, angularVelocitySignal));
-    inputs.pitch = Units.degreesToRadians(gyro.getPitch().getValue());
-    inputs.roll = Units.degreesToRadians(gyro.getRoll().getValue());
-    inputs.angularVelocity = Units.degreesToRadians(angularVelocitySignal.getValue());
-  }
-
-  @Override
-  public BaseStatusSignal[] getSignals() {
-    return signals;
+    inputs.pitch = Units.degreesToRadians(pitchSignal.getValue());
+    inputs.roll = Units.degreesToRadians(rollSignal.getValue());
+    inputs.yawVelocityRadPerSec = Units.degreesToRadians(angularVelocitySignal.getValue());
   }
 }

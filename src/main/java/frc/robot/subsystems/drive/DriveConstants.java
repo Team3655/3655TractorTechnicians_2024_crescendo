@@ -8,6 +8,7 @@ import edu.wpi.first.math.util.Units;
 
 /** Add your docs here. */
 public class DriveConstants {
+  public static final double DRIVE_JOYSTICK_DEADBAND = 0.1;
 
   public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.85);
 }
