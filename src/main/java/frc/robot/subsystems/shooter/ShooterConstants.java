@@ -55,7 +55,7 @@ public class ShooterConstants {
         new ShooterTarget(Rotation2d.fromDegrees(60.0), Optional.of(SPEAKER_RPM));
 
     public static final ShooterTarget AMP =
-        new ShooterTarget(Rotation2d.fromDegrees(52), Optional.of(2000));
+        new ShooterTarget(Rotation2d.fromDegrees(52), Optional.of(1750));
 
     public static final ShooterTarget BABY_BIRD =
         new ShooterTarget(Rotation2d.fromDegrees(70), Optional.of(-1500));
@@ -79,7 +79,7 @@ public class ShooterConstants {
         new ShooterTarget(Rotation2d.fromDegrees(80.0), Optional.empty());
 
     public static final ShooterTarget TRAP =
-        new ShooterTarget(Rotation2d.fromDegrees(60), Optional.of(SPEAKER_RPM));
+        new ShooterTarget(Rotation2d.fromDegrees(65), Optional.of(6000));
   }
 
   /**

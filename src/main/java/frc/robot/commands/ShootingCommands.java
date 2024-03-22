@@ -61,7 +61,7 @@ public class ShootingCommands {
     return Commands.runOnce(
             () -> {
               shooter.requestState(ShooterTargets.AMP);
-              climber.setAngle(Rotation2d.fromDegrees(100.0));
+              climber.setAngle(Rotation2d.fromDegrees(95.0));
             },
             shooter,
             climber)
