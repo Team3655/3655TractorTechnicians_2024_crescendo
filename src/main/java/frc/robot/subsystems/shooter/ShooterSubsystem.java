@@ -27,7 +27,7 @@ public class ShooterSubsystem extends SubsystemBase {
     switch (Constants.currentMode) {
       case REAL:
         io.configureFlywheelPID(0.001, 0.0, 0.0);
-        io.configurePivotPID(-30.0, 0.0, 0.0);
+        io.configurePivotPID(30.0, 0.0, 0.0);
         break;
 
       case SIM:
