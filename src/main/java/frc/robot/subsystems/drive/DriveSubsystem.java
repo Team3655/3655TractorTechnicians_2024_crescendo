@@ -451,8 +451,7 @@ public class DriveSubsystem extends SubsystemBase {
     synchronized (estimator) {
       synchronized (swerveModulePositions) {
         synchronized (gyroInputs) {
-          estimator.resetPosition(
-              gyroInputs.yaw, swerveModulePositions, poseMeters);
+          estimator.resetPosition(gyroInputs.yaw, swerveModulePositions, poseMeters);
         }
       }
     }

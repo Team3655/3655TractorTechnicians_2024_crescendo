@@ -6,7 +6,6 @@ import com.ctre.phoenix6.configs.GyroTrimConfigs;
 import com.ctre.phoenix6.configs.MountPoseConfigs;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 
@@ -51,12 +50,11 @@ public class GyroIOPigeon2 implements GyroIO {
     pitchSignal = gyro.getPitch();
     rollSignal = gyro.getRoll();
     angularVelocitySignal = gyro.getAngularVelocityZDevice();
-    signals = new BaseStatusSignal[2];
+    signals = new BaseStatusSignal[4];
     signals[0] = yawSignal;
     signals[1] = angularVelocitySignal;
     signals[2] = pitchSignal;
     signals[3] = rollSignal;
-
   }
 
   @Override
