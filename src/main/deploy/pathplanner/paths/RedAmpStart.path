@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.4723817373042668,
-        "y": 4.095080264752603
+        "x": 0.7881239072501453,
+        "y": 6.573177901600559
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.6470585722400441,
-        "y": 4.173725312116226
+        "x": 1.4387441362295308,
+        "y": 7.0324392397036535
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.9829992417337774,
-        "y": 4.270531591001908
+        "x": 2.6251692596625285,
+        "y": 6.860216237914993
       },
       "prevControl": {
-        "x": 1.821945877347637,
-        "y": 4.230030708069996
+        "x": 2.1372040879279894,
+        "y": 6.927191849721695
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "EscanabaStart-End"
+      "linkedName": "RedAmpStart-End"
     }
   ],
   "rotationTargets": [],
@@ -41,7 +41,7 @@
             {
               "type": "named",
               "data": {
-                "name": "AdjustShooter"
+                "name": "DeployIntake"
               }
             }
           ]
@@ -57,13 +57,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -19.0,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "New Folder",
+  "folder": "Red",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 59.036243467926575,
     "velocity": 0
   },
   "useDefaultConstraints": true

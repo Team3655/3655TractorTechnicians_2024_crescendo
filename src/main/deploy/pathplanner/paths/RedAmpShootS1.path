@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.591853076082834,
-        "y": 5.549558004945607
+        "x": 2.6251692596625285,
+        "y": 6.860216237914993
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.374872411781861,
-        "y": 5.335092522036897
+        "x": 2.443378313330053,
+        "y": 6.841080348827364
       },
       "isLocked": false,
-      "linkedName": "Pickup2End"
+      "linkedName": "RedAmpStart-End"
     },
     {
       "anchor": {
-        "x": 2.0286614878785314,
-        "y": 5.133245021119673
+        "x": 1.9936849197707716,
+        "y": 6.649721457951075
       },
       "prevControl": {
-        "x": 2.3048830521170025,
-        "y": 5.140252505263318
+        "x": 2.2520194224537624,
+        "y": 6.802808570652107
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Shoot2End"
+      "linkedName": "RedAmpShootS1-End"
     }
   ],
   "rotationTargets": [],
@@ -39,11 +39,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -7.021809068742256,
+    "rotation": 42.33699923393278,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "4PeiceAmp",
-  "previewStartingState": null,
+  "folder": "Red",
+  "previewStartingState": {
+    "rotation": 0.7252242990592431,
+    "velocity": 0
+  },
   "useDefaultConstraints": true
 }

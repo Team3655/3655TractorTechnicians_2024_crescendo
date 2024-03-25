@@ -1,0 +1,107 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7881239072501453,
+      "y": 6.573177901600559
+    },
+    "rotation": 59.48976259388449
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShooterSubwofer"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.8
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShooterSubwoferShoot"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.3
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RedAmpStart"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RedAmpShootS1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShooterLeaveLine"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShooterLeaveLineShoot"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.5
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RedAmpL1"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Red",
+  "choreoAuto": false
+}

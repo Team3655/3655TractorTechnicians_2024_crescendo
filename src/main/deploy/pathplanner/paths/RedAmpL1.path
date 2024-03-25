@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.9829992417337774,
-        "y": 4.270531591001908
+        "x": 1.9936849197707716,
+        "y": 6.649721457951075
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.176867345172339,
-        "y": 4.219769346487478
+        "x": 2.7591204832759315,
+        "y": 7.348181409649532
       },
       "isLocked": false,
-      "linkedName": "EscanabaStart-End"
+      "linkedName": "RedAmpShootS1-End"
     },
     {
       "anchor": {
-        "x": 2.4166714525218267,
-        "y": 3.9677053412011243
+        "x": 7.9066746478481305,
+        "y": 7.434292910543863
       },
       "prevControl": {
-        "x": 2.0518751691149024,
-        "y": 3.9348617403171517
+        "x": 9.04526004856206,
+        "y": 7.415157021456234
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "EscanabaShort3-End"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -50,21 +50,21 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.5,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 5.24,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 720.0,
     "maxAngularAcceleration": 540.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "New Folder",
+  "folder": "Red",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 37.476179561361306,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
