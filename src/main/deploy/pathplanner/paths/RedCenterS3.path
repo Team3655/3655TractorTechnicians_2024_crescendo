@@ -17,18 +17,18 @@
     {
       "anchor": {
         "x": 2.63,
-        "y": 4.248167377453636
+        "y": 4.2
       },
       "prevControl": {
         "x": 2.3162287944599202,
-        "y": 4.377658502383646
+        "y": 4.32949112493001
       },
       "nextControl": {
         "x": 2.699552538732116,
-        "y": 4.219463543822193
+        "y": 4.171296166368557
       },
       "isLocked": false,
-      "linkedName": "LanGS3-End"
+      "linkedName": null
     },
     {
       "anchor": {
@@ -74,7 +74,7 @@
   "goalEndState": {
     "velocity": 0,
     "rotation": -31.0,
-    "rotateFast": true
+    "rotateFast": false
   },
   "reversed": false,
   "folder": "Red",

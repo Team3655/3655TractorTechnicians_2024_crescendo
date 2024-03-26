@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 2.63,
-        "y": 4.248167377453636
+        "y": 6.85
       },
       "prevControl": null,
       "nextControl": {
         "x": 2.7352473899819594,
-        "y": 0.6888920071546446
+        "y": 3.290724629701008
       },
       "isLocked": false,
       "linkedName": "LanGS3-End"

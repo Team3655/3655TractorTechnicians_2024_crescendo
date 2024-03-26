@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.8020264385517115,
+        "x": 3.75,
         "y": 6.793240626108292
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.036291284703782,
-        "y": 7.185526352404685
+        "x": 5.101106619229556,
+        "y": 7.5873800232448945
       },
       "isLocked": false,
       "linkedName": "RedTuckStart-End"
@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 7.88,
-        "y": 7.5
+        "y": 7.55
       },
       "prevControl": {
         "x": 6.655303098391744,
-        "y": 7.461728221824742
+        "y": 7.511728221824741
       },
       "nextControl": null,
       "isLocked": false,
