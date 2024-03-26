@@ -216,6 +216,12 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "ShooterPodiumShoot",
         new DeadReckoningCommand(shooter, intake, ShooterTargets.BEHIND_PODIUM, () -> true));
+    NamedCommands.registerCommand(
+        "ShooterLong",
+        new DeadReckoningCommand(shooter, intake, ShooterTargets.AUTO_LONG, () -> false));
+    NamedCommands.registerCommand(
+        "ShooterPodiumShoot",
+        new DeadReckoningCommand(shooter, intake, ShooterTargets.AUTO_LONG, () -> true));
     NamedCommands.registerCommand("RunKicker", ShootingCommands.runKicker(intake).withTimeout(1.0));
     NamedCommands.registerCommand("DeployIntake", IntakeCommands.intakeSearch(intake));
     NamedCommands.registerCommand("RetractIntake", IntakeCommands.retract(intake));

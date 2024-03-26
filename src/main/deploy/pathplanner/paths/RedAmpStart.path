@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4387441362295308,
-        "y": 7.0324392397036535
+        "x": 1.0081866317578785,
+        "y": 6.582745846144372
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.6251692596625285,
-        "y": 6.860216237914993
+        "x": 2.05,
+        "y": 6.841080348827364
       },
       "prevControl": {
-        "x": 2.1372040879279894,
-        "y": 6.927191849721695
+        "x": 1.6768501627912347,
+        "y": 6.965463627896954
       },
       "nextControl": null,
       "isLocked": false,
@@ -41,7 +41,7 @@
             {
               "type": "named",
               "data": {
-                "name": "DeployIntake"
+                "name": "ShooterLeaveLine"
               }
             }
           ]
@@ -51,13 +51,13 @@
   ],
   "globalConstraints": {
     "maxVelocity": 5.24,
-    "maxAcceleration": 3.5,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 720.0,
     "maxAngularAcceleration": 540.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 26.0,
     "rotateFast": false
   },
   "reversed": false,
@@ -66,5 +66,5 @@
     "rotation": 59.036243467926575,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

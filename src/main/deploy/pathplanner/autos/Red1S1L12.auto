@@ -2,69 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.285657023528499,
-      "y": 5.5302719463247785
+      "x": 0.7881239072501453,
+      "y": 6.573177901600559
     },
-    "rotation": 0
+    "rotation": 59.48976259388449
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShooterSubwofer"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.75
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShooterSubwoferShoot"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.5
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "LanStart2GS2"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "LanShortShot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "DeployIntake"
+            "pathName": "RedAmpStart"
           }
         },
         {
@@ -74,13 +24,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShooterLeaveLine"
+                  "name": "ShooterLeaveLineShoot"
                 }
               },
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.5
+                  "waitTime": 0.4
                 }
               }
             ]
@@ -99,7 +49,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.75
+                  "waitTime": 0.3
                 }
               }
             ]
@@ -108,13 +58,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LanRedGS3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "DeployIntake"
+            "pathName": "RedAmpS1"
           }
         },
         {
@@ -124,13 +68,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShooterLeaveLine"
+                  "name": "ShooterPodium"
                 }
               },
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.75
+                  "waitTime": 0.25
                 }
               }
             ]
@@ -143,7 +87,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShooterLeaveLineShoot"
+                  "name": "ShooterPodiumShoot"
                 }
               },
               {
@@ -158,12 +102,94 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LanRedGL5A"
+            "pathName": "RedAmpL1"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShooterLong"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RedAmpShootL12"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShooterLongShoot"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.75
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RedL2Transfer"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShooterLong"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RedAmpShootL12"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShooterLongShoot"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.75
+                }
+              }
+            ]
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Red",
   "choreoAuto": false
 }

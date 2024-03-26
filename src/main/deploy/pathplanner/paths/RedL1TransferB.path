@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.285657023528499,
-        "y": 5.5302719463247785
+        "x": 3.8020264385517115,
+        "y": 6.793240626108292
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.285657023528498,
-        "y": 5.5302719463247785
+        "x": 5.036291284703782,
+        "y": 7.185526352404685
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "RedTuckStart-End"
     },
     {
       "anchor": {
-        "x": 2.6251692596625285,
-        "y": 5.5302719463247785
+        "x": 7.88,
+        "y": 7.5
       },
       "prevControl": {
-        "x": 1.6251692596625285,
-        "y": 5.5302719463247785
+        "x": 6.655303098391744,
+        "y": 7.461728221824742
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "LanStart-End"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -50,21 +50,21 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 0.75,
-    "maxAcceleration": 1.0,
+    "maxVelocity": 5.24,
+    "maxAcceleration": 3.5,
     "maxAngularVelocity": 720.0,
     "maxAngularAcceleration": 540.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
-    "rotateFast": false
+    "rotation": 0.0,
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": "Lansing",
+  "folder": "Red",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 24.943905263424696,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

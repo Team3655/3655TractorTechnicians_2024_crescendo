@@ -69,6 +69,9 @@ public class ShooterConstants {
     public static final ShooterTarget BEHIND_PODIUM =
         new ShooterTarget(Rotation2d.fromDegrees(33.5), Optional.of(SPEAKER_RPM));
 
+    public static final ShooterTarget AUTO_LONG =
+        new ShooterTarget(Rotation2d.fromDegrees(29), Optional.of(SPEAKER_RPM));
+
     public static final ShooterTarget PREP_CLIMB =
         new ShooterTarget(Rotation2d.fromDegrees(88.75), Optional.empty());
 

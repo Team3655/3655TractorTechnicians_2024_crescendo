@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.285657023528499,
-      "y": 5.5302719463247785
+      "x": 1.4387441362295308,
+      "y": 7.329045520561904
     },
     "rotation": 0
   },
@@ -12,59 +12,15 @@
     "data": {
       "commands": [
         {
-          "type": "race",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShooterSubwofer"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.75
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShooterSubwoferShoot"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.5
-                }
-              }
-            ]
+            "pathName": "RedTuckStart"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "CenterS2"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "LanShortShot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "DeployIntake"
+            "pathName": "RedL1TransferB"
           }
         },
         {
@@ -74,13 +30,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShooterLeaveLine"
+                  "name": "ShooterLong"
                 }
               },
               {
-                "type": "wait",
+                "type": "path",
                 "data": {
-                  "waitTime": 0.5
+                  "pathName": "RedAmpShootL12"
                 }
               }
             ]
@@ -93,7 +49,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShooterLeaveLineShoot"
+                  "name": "ShooterLongShoot"
                 }
               },
               {
@@ -108,13 +64,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LanBlueGS3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "DeployIntake"
+            "pathName": "RedL2Transfer"
           }
         },
         {
@@ -124,13 +74,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShooterLeaveLine"
+                  "name": "ShooterLong"
                 }
               },
               {
-                "type": "wait",
+                "type": "path",
                 "data": {
-                  "waitTime": 0.75
+                  "pathName": "RedAmpShootL12"
                 }
               }
             ]
@@ -143,7 +93,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShooterLeaveLineShoot"
+                  "name": "ShooterLongShoot"
                 }
               },
               {
@@ -158,12 +108,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LanRedGL5A"
+            "pathName": "RedL3Transfer"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Red",
   "choreoAuto": false
 }

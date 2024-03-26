@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.170542098659955,
-        "y": 7.080278962422727
+        "x": 5.31,
+        "y": 6.33
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.184744220304291,
-        "y": 7.49170057780675
+        "x": 6.173148463592964,
+        "y": 6.353115177092826
       },
       "isLocked": false,
-      "linkedName": "RedAmpShootS1-End"
+      "linkedName": "RedAmpShootL12-End"
     },
     {
       "anchor": {
-        "x": 7.75,
-        "y": 7.4
+        "x": 7.887538758760503,
+        "y": 7.348181409649532
       },
       "prevControl": {
-        "x": 7.1567874382835015,
-        "y": 7.380864110912372
+        "x": 6.653273912608432,
+        "y": 6.965463627896954
       },
       "nextControl": null,
       "isLocked": false,
@@ -57,13 +57,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
-    "rotateFast": true
+    "rotation": 17.198541220065955,
+    "rotateFast": false
   },
   "reversed": false,
   "folder": "Red",
   "previewStartingState": {
-    "rotation": 37.476179561361306,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

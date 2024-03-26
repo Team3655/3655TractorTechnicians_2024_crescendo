@@ -3,45 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.63,
-        "y": 4.248167377453636
+        "x": 1.4387441362295308,
+        "y": 7.3
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.802223001788661,
-        "y": 1.8274774078685678
-      },
-      "isLocked": false,
-      "linkedName": "LanGS3-End"
-    },
-    {
-      "anchor": {
-        "x": 7.801427257866172,
-        "y": 0.9950662325567081
-      },
-      "prevControl": {
-        "x": 6.978584027098125,
-        "y": 1.0237700661881515
-      },
-      "nextControl": {
-        "x": 8.206662992467576,
-        "y": 0.9809301022799151
+        "x": 1.3909044135104585,
+        "y": 7.788306858664999
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.5964654260310844,
-        "y": 3.1000140321958964
+        "x": 2.950479374152221,
+        "y": 7.68305946868304
       },
       "prevControl": {
-        "x": 4.9214759501780065,
-        "y": 1.3586481252216573
+        "x": 2.3282127162204245,
+        "y": 7.68305946868304
+      },
+      "nextControl": {
+        "x": 3.5543485591005806,
+        "y": 7.68305946868304
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.8020264385517115,
+        "y": 6.793240626108292
+      },
+      "prevControl": {
+        "x": 3.8211623276393407,
+        "y": 7.319477576018089
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "RedTuckStart-End"
     }
   ],
   "rotationTargets": [
@@ -63,7 +63,7 @@
             {
               "type": "named",
               "data": {
-                "name": "DeployIntake"
+                "name": "ShooterPodium"
               }
             }
           ]
@@ -72,15 +72,21 @@
     },
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 1.8,
+      "waypointRelativePos": 1.75,
       "command": {
-        "type": "parallel",
+        "type": "race",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "ShooterPodium"
+                "name": "ShooterPodiumShoot"
+              }
+            },
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 0.5
               }
             }
           ]
@@ -89,21 +95,21 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 5.24,
-    "maxAcceleration": 3.5,
+    "maxVelocity": 5.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 720.0,
     "maxAngularAcceleration": 540.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -39.20720350496781,
-    "rotateFast": false
+    "rotation": 12.0,
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": "Lansing",
+  "folder": "Red",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.634737204206343,
-        "y": 2.822543640425277
+        "x": 2.7,
+        "y": 5.53
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.45758043497439,
-        "y": 0.6219163953479426
+        "x": 3.849866161270784,
+        "y": 4.745700493731991
       },
       "isLocked": false,
-      "linkedName": "LanStart3-End"
+      "linkedName": "CenterS2-End"
     },
     {
       "anchor": {
-        "x": 7.638772200621324,
-        "y": 0.8
+        "x": 7.858834925129059,
+        "y": 3.961129041139201
       },
       "prevControl": {
-        "x": 6.638772200621324,
-        "y": 0.8
+        "x": 6.241852297224408,
+        "y": 3.7410663166314673
       },
       "nextControl": null,
       "isLocked": false,
@@ -61,9 +61,9 @@
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "Lansing",
+  "folder": "Red",
   "previewStartingState": {
-    "rotation": -49.236394799058885,
+    "rotation": 0.0,
     "velocity": 0
   },
   "useDefaultConstraints": true
