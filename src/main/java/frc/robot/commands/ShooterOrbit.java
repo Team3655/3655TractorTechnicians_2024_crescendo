@@ -92,8 +92,8 @@ public class ShooterOrbit extends Command {
     Rotation2d rotationTarget =
         reletiveTarget
             .getAngle()
-            .plus(Rotation2d.fromDegrees(180))
-            .plus(Rotation2d.fromDegrees(5.5));
+            // .plus(Rotation2d.fromDegrees(180))
+            .plus(Rotation2d.fromDegrees(2.5));
 
     // calculate pid output based on the delta to target rotation
     turnFeedback.setGoal(rotationTarget.getRotations());

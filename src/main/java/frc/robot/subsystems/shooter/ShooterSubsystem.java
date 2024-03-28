@@ -87,7 +87,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setShooterAngleFromDist(double distance) {
     Rotation2d angle = Rotation2d.fromDegrees(ShooterConstants.ANGLE_MAP.get(distance));
-    ShooterTarget state = new ShooterTarget(angle, Optional.of(5000));
+    ShooterTarget state = new ShooterTarget(angle, Optional.of(5000.0));
     requestState(state);
   }
 

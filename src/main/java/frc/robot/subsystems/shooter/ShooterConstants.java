@@ -28,14 +28,14 @@ public class ShooterConstants {
   }
 
   static {
-    ANGLE_MAP.put(5.1436, 24.5);
-    ANGLE_MAP.put(4.9348, 24.5);
-    ANGLE_MAP.put(4.6436, 28.0);
-    ANGLE_MAP.put(4.5866, 28.0);
-    ANGLE_MAP.put(4.3000, 28.0);
-    ANGLE_MAP.put(4.0225, 29.0);
-    ANGLE_MAP.put(3.4130, 33.0);
-    ANGLE_MAP.put(2.7768, 36.0);
+    ANGLE_MAP.put(5.1436, 28.0);
+    ANGLE_MAP.put(5.1436, 29.0);
+    ANGLE_MAP.put(4.8000, 29.5);
+    ANGLE_MAP.put(4.5866, 29.5);
+    ANGLE_MAP.put(4.3000, 31.0);
+    ANGLE_MAP.put(4.0225, 32.0);
+    ANGLE_MAP.put(3.6000, 33.0);
+    ANGLE_MAP.put(2.2668, 42.0);
     ANGLE_MAP.put(2.1333, 45.0);
     ANGLE_MAP.put(1.6488, 50.0);
     ANGLE_MAP.put(1.3854, 60.0);
@@ -43,22 +43,22 @@ public class ShooterConstants {
 
   public static class ShooterTargets {
 
-    public static final int SPEAKER_RPM = 5000;
+    public static final double SPEAKER_RPM = 5000.0;
 
     public static final ShooterTarget IDLE =
         new ShooterTarget(Rotation2d.fromDegrees(65.0), Optional.empty());
 
     public static final ShooterTarget DEFAULT_STOP =
-        new ShooterTarget(Rotation2d.fromDegrees(65.0), Optional.of(0));
+        new ShooterTarget(Rotation2d.fromDegrees(65.0), Optional.of(0.0));
 
     public static final ShooterTarget SUBWOFER =
         new ShooterTarget(Rotation2d.fromDegrees(60.0), Optional.of(SPEAKER_RPM));
 
     public static final ShooterTarget AMP =
-        new ShooterTarget(Rotation2d.fromDegrees(52), Optional.of(1750));
+        new ShooterTarget(Rotation2d.fromDegrees(52), Optional.of(1750.0));
 
     public static final ShooterTarget BABY_BIRD =
-        new ShooterTarget(Rotation2d.fromDegrees(70), Optional.of(-1500));
+        new ShooterTarget(Rotation2d.fromDegrees(70), Optional.of(-1500.0));
 
     public static final ShooterTarget INDEX =
         new ShooterTarget(Rotation2d.fromDegrees(45), Optional.empty());
@@ -82,12 +82,12 @@ public class ShooterConstants {
         new ShooterTarget(Rotation2d.fromDegrees(80.0), Optional.empty());
 
     public static final ShooterTarget TRAP =
-        new ShooterTarget(Rotation2d.fromDegrees(65), Optional.of(6000));
+        new ShooterTarget(Rotation2d.fromDegrees(65), Optional.of(6000.0));
   }
 
   /**
    * @param angle A Rotation2d, use Rotation2d.fromdegrees(88.75 - 24.5)
    * @param rpm An Optional<Integer> for the shooter rpm, use Optional.empty() for 0 volts
    */
-  public record ShooterTarget(Rotation2d angle, Optional<Integer> rpm) {}
+  public record ShooterTarget(Rotation2d angle, Optional<Double> rpm) {}
 }
