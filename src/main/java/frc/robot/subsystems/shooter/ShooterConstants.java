@@ -28,16 +28,18 @@ public class ShooterConstants {
   }
 
   static {
-    ANGLE_MAP.put(5.1436, 28.0);
-    ANGLE_MAP.put(5.1436, 29.0);
-    ANGLE_MAP.put(4.8000, 29.5);
-    ANGLE_MAP.put(4.5866, 29.5);
-    ANGLE_MAP.put(4.3000, 31.0);
-    ANGLE_MAP.put(4.0225, 32.0);
-    ANGLE_MAP.put(3.6000, 33.0);
-    ANGLE_MAP.put(2.2668, 42.0);
-    ANGLE_MAP.put(2.1333, 45.0);
-    ANGLE_MAP.put(1.6488, 50.0);
+    ANGLE_MAP.put(6.0000, 24.5);
+    ANGLE_MAP.put(5.7500, 25.0);
+    ANGLE_MAP.put(5.5000, 25.5);
+    ANGLE_MAP.put(5.0000, 25.5);
+    ANGLE_MAP.put(4.5000, 27.0);
+    ANGLE_MAP.put(4.0000, 29.0);
+    ANGLE_MAP.put(3.5000, 30.5);
+    ANGLE_MAP.put(3.0000, 32.5);
+    ANGLE_MAP.put(2.5000, 38.0);
+    ANGLE_MAP.put(2.0000, 44.0);
+    ANGLE_MAP.put(1.7500, 50.0);
+    ANGLE_MAP.put(1.5000, 55.0);
     ANGLE_MAP.put(1.3854, 60.0);
   }
 
