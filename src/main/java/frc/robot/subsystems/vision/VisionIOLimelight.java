@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.util.Units;
 import frc.robot.util.LimelightHelpers;
+import frc.robot.util.LimelightHelpers.LimelightResults;
 import java.util.Optional;
 
 /** Add your docs here. */
@@ -32,11 +33,20 @@ public class VisionIOLimelight implements VisionIO {
       inputs.robotPose = new Pose2d[] {LimelightHelpers.getBotPose2d_wpiBlue(name)};
       inputs.distanceToCamera =
           LimelightHelpers.getCameraPose3d_TargetSpace(name).getTranslation().getNorm();
-      Optional<Pose3d> targetPose =
-          TAG_LAYOUT.getTagPose((int) LimelightHelpers.getFiducialID(name));
-      if (targetPose.isPresent()) {
-        inputs.targetPoses = new Pose3d[] {targetPose.get()};
+
+      LimelightResults llresult = LimelightHelpers.getLatestResults(name);
+
+      int numTargets = llresult.targetingResults.targets_Fiducials.length;
+      if (llresult.targetingResults.valid) {
+        inputs.targetPoses = new Pose3d[numTargets];
+        for (int i = 0; i < numTargets; i++) {
+          Optional<Pose3d> targetPose =
+              TAG_LAYOUT.getTagPose(
+                  (int) llresult.targetingResults.targets_Fiducials[i].fiducialID);
+          inputs.targetPoses[i] = targetPose.get();
+        }
       }
+
       inputs.timestamp =
           MathSharedStore.getTimestamp()
               - Units.millisecondsToSeconds(
@@ -45,6 +55,7 @@ public class VisionIOLimelight implements VisionIO {
     } else {
       inputs.hasValidTarget = false;
       inputs.robotPose = new Pose2d[] {};
+      inputs.targetPoses = new Pose3d[] {};
     }
   }
 }

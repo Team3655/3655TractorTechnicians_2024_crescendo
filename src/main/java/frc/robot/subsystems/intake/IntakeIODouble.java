@@ -101,8 +101,16 @@ public class IntakeIODouble implements IntakeIO {
     inputs.feedCurrentAmps = new double[] {feedMotor.getOutputCurrent()};
     inputs.feedMotorTemp = feedMotor.getMotorTemperature();
 
-    inputs.indexDistanceMM = indexDistance.getMeasurement().distance_mm;
-    inputs.indexDistanceAmbient = indexDistance.getMeasurement().ambient;
+    var measurement = indexDistance.getMeasurement();
+    if (measurement != null) {
+      inputs.indexDistanceConnected = true;
+      inputs.indexDistanceMM = measurement.distance_mm;
+      inputs.indexDistanceAmbient = measurement.ambient;
+    } else {
+      inputs.indexDistanceConnected = false;
+      inputs.indexDistanceMM = 0;
+      inputs.indexDistanceAmbient = 0;
+    }
 
     inputs.hasPiece = !proximity.get();
 

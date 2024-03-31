@@ -332,7 +332,7 @@ public class RobotContainer {
         .onTrue(IntakeCommands.intakeSearch(intake))
         .onFalse(
             IntakeCommands.retract(intake)
-                .andThen(new WaitCommand(0.25))
+                .andThen(new WaitCommand(0.45))
                 .andThen(new IndexCommand(shooter, intake))
                 .withTimeout(4));
 

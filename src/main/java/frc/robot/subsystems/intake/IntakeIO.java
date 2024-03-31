@@ -22,6 +22,7 @@ public interface IntakeIO {
     public double[] feedCurrentAmps = new double[] {};
     public double feedMotorTemp = 0.0;
 
+    public boolean indexDistanceConnected = false;
     public double indexDistanceMM = 0.0;
     public double indexDistanceAmbient = 0.0;
 

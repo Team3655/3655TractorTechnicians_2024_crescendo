@@ -19,7 +19,7 @@ public class VisionSubsystem extends SubsystemBase {
    * Multiply the distance to the vision target by this number in order to trust further
    * measurements less
    */
-  private static final double ESTIMATION_COEFFICIENT = 0.8;
+  private static final double ESTIMATION_COEFFICIENT = 0.65;
 
   private final VisionIO limelight;
   private final VisionIOInputsAutoLogged llInputs = new VisionIOInputsAutoLogged();
@@ -57,9 +57,15 @@ public class VisionSubsystem extends SubsystemBase {
 
     for (int i = 0; i < llInputs.robotPose.length; i++) {
 
-      double xyStdDev = Math.pow(llInputs.distanceToCamera * ESTIMATION_COEFFICIENT, 1.5);
+      if (llInputs.robotPose[i] == null || !llInputs.hasValidTarget) continue;
 
-      double thetaStdDev = Math.pow(llInputs.distanceToCamera * ESTIMATION_COEFFICIENT, 1.5);
+      double xyStdDev =
+          Math.pow(llInputs.distanceToCamera * ESTIMATION_COEFFICIENT, 1.6)
+              / (double) llInputs.targetPoses.length;
+
+      double thetaStdDev =
+          Math.pow(llInputs.distanceToCamera * ESTIMATION_COEFFICIENT, 1.6)
+              / (double) llInputs.targetPoses.length;
 
       if (llInputs.hasValidTarget && llInputs.distanceToCamera <= 6.0) {
         acceptedMeasurements.add(

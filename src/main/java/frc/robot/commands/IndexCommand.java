@@ -45,6 +45,6 @@ public class IndexCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return intake.getIndexDistanceMM() <= 330;
+    return intake.getIndexDistanceMM() <= 275;
   }
 }

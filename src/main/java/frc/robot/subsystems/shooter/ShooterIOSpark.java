@@ -20,7 +20,7 @@ import org.littletonrobotics.junction.Logger;
 /** Add your docs here. */
 public class ShooterIOSpark implements ShooterIO {
 
-  private static final Rotation2d PIVOT_OFFSET = Rotation2d.fromDegrees(146.1);
+  private static final Rotation2d PIVOT_OFFSET = Rotation2d.fromDegrees(145.72);
   private static final Rotation2d PIVOT_START = Rotation2d.fromDegrees(88.75);
 
   private final CANSparkFlex top;
