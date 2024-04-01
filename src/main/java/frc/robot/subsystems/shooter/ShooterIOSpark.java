@@ -80,7 +80,7 @@ public class ShooterIOSpark implements ShooterIO {
     pivotAbsolute.setZeroOffset(0.0);
 
     pivotPID = pivot.getPIDController();
-    pivotPID.setOutputRange(-0.5, 0.5, 0);
+    pivotPID.setOutputRange(-0.5, 1.0, 0);
     pivotPID.setPositionPIDWrappingEnabled(false);
     pivotPID.setPositionPIDWrappingMaxInput(0.0);
     pivotPID.setPositionPIDWrappingMaxInput(1.0);

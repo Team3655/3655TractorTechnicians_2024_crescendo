@@ -65,7 +65,7 @@ public class ShootingCommands {
             },
             shooter,
             climber)
-        .andThen(new WaitCommand(1.25))
+        .andThen(new WaitCommand(0.75))
         .andThen(
             Commands.run(
                 () -> {

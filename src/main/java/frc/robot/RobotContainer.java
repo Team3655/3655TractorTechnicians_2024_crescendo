@@ -348,6 +348,12 @@ public class RobotContainer {
                 },
                 intake));
 
+    driveJoystick
+        .firePaddleDown()
+        .whileTrue(
+            new DeadReckoningCommand(
+                shooter, intake, ShooterTargets.SPIT, () -> driveJoystick.d1().getAsBoolean()));
+
     tractorController
         .button(11)
         .whileTrue(
@@ -371,6 +377,12 @@ public class RobotContainer {
                 intake,
                 ShooterTargets.BEHIND_PODIUM,
                 () -> driveJoystick.d1().getAsBoolean()));
+
+    tractorController
+        .button(19)
+        .whileTrue(
+            new DeadReckoningCommand(
+                shooter, intake, ShooterTargets.PASS, () -> driveJoystick.d1().getAsBoolean()));
 
     tractorController
         .button(24)

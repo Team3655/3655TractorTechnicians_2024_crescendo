@@ -34,7 +34,7 @@ public class ShooterConstants {
     ANGLE_MAP.put(5.0000, 25.5);
     ANGLE_MAP.put(4.5000, 27.0);
     ANGLE_MAP.put(4.0000, 29.0);
-    ANGLE_MAP.put(3.5000, 30.5);
+    ANGLE_MAP.put(3.5000, 31.0);
     ANGLE_MAP.put(3.0000, 32.5);
     ANGLE_MAP.put(2.5000, 38.0);
     ANGLE_MAP.put(2.0000, 44.0);
@@ -48,16 +48,16 @@ public class ShooterConstants {
     public static final double SPEAKER_RPM = 5000.0;
 
     public static final ShooterTarget IDLE =
-        new ShooterTarget(Rotation2d.fromDegrees(65.0), Optional.empty());
+        new ShooterTarget(Rotation2d.fromDegrees(70.0), Optional.empty());
 
     public static final ShooterTarget DEFAULT_STOP =
-        new ShooterTarget(Rotation2d.fromDegrees(65.0), Optional.of(0.0));
+        new ShooterTarget(Rotation2d.fromDegrees(70.0), Optional.of(0.0));
 
     public static final ShooterTarget SUBWOFER =
         new ShooterTarget(Rotation2d.fromDegrees(60.0), Optional.of(SPEAKER_RPM));
 
     public static final ShooterTarget AMP =
-        new ShooterTarget(Rotation2d.fromDegrees(52), Optional.of(1750.0));
+        new ShooterTarget(Rotation2d.fromDegrees(57), Optional.of(1500.0));
 
     public static final ShooterTarget BABY_BIRD =
         new ShooterTarget(Rotation2d.fromDegrees(70), Optional.of(-1500.0));
@@ -85,6 +85,12 @@ public class ShooterConstants {
 
     public static final ShooterTarget TRAP =
         new ShooterTarget(Rotation2d.fromDegrees(65), Optional.of(6000.0));
+
+    public static final ShooterTarget PASS =
+        new ShooterTarget(Rotation2d.fromDegrees(55), Optional.of(4000.0));
+
+    public static final ShooterTarget SPIT =
+        new ShooterTarget(Rotation2d.fromDegrees(30), Optional.of(3000.0));
   }
 
   /**
