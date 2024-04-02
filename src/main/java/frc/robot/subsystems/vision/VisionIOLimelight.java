@@ -58,4 +58,9 @@ public class VisionIOLimelight implements VisionIO {
       inputs.targetPoses = new Pose3d[] {};
     }
   }
+
+  @Override
+  public String getName() {
+    return name;
+  }
 }

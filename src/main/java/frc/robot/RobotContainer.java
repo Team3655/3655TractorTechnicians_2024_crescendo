@@ -91,7 +91,10 @@ public class RobotContainer {
             RobotConfigurations.getCharacterizationConfiguration(Constants.currentVersion);
 
         // Real robot, instantiate hardware IO implementations
-        vision = new VisionSubsystem(new VisionIOLimelight(portConfig.limelightName));
+        vision =
+            new VisionSubsystem(
+                new VisionIOLimelight(portConfig.leftLimelightName),
+                new VisionIOLimelight(portConfig.rightLimelightName));
 
         drive =
             new DriveSubsystem(

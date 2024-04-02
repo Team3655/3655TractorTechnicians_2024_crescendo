@@ -21,24 +21,17 @@ public class VisionSubsystem extends SubsystemBase {
    */
   private static final double ESTIMATION_COEFFICIENT = 0.65;
 
-  private final VisionIO limelight;
-  private final VisionIOInputsAutoLogged llInputs = new VisionIOInputsAutoLogged();
-
-  private final VisionIO[] cameras;
-  private final VisionIOInputsAutoLogged[] inputs;
-
-  private Pose2d robotPose = new Pose2d();
+  private final VisionIO[] limelights;
+  private final VisionIOInputsAutoLogged[] llInputs;
 
   private ArrayList<visionMeasurement> acceptedMeasurements = new ArrayList<>();
-  private ArrayList<visionMeasurement> rejectedMeasurements = new ArrayList<>();
 
   /** Creates a new VisionSubsystem. */
-  public VisionSubsystem(VisionIO limelight, VisionIO... cameras) {
-    this.limelight = limelight;
-    this.cameras = cameras;
-    inputs = new VisionIOInputsAutoLogged[cameras.length];
-    for (int i = 0; i < cameras.length; i++) {
-      inputs[i] = new VisionIOInputsAutoLogged();
+  public VisionSubsystem(VisionIO... limelights) {
+    this.limelights = limelights;
+    llInputs = new VisionIOInputsAutoLogged[limelights.length];
+    for (int i = 0; i < limelights.length; i++) {
+      llInputs[i] = new VisionIOInputsAutoLogged();
     }
   }
 
@@ -46,49 +39,37 @@ public class VisionSubsystem extends SubsystemBase {
   public void periodic() {
     acceptedMeasurements.clear();
 
-    for (int i = 0; i < cameras.length; i++) {
-      cameras[i].updateRobotPose(robotPose);
-      cameras[i].updateInputs(inputs[i]);
-      Logger.processInputs("Vision/" + cameras[i].getName(), inputs[i]);
-    }
+    for (int i = 0; i < limelights.length; i++) {
 
-    limelight.updateInputs(llInputs);
-    Logger.processInputs("Vision/limelight", llInputs);
+      limelights[i].updateInputs(llInputs[i]);
+      Logger.processInputs("Vision/" + limelights[i].getName(), llInputs[i]);
 
-    for (int i = 0; i < llInputs.robotPose.length; i++) {
+      for (int j = 0; j < llInputs[i].robotPose.length; j++) {
 
-      if (llInputs.robotPose[i] == null || !llInputs.hasValidTarget) continue;
+        if (llInputs[i].robotPose[j] == null) continue;
+        if (llInputs[i].targetPoses.length < 1) continue;
 
-      double xyStdDev =
-          Math.pow(llInputs.distanceToCamera * ESTIMATION_COEFFICIENT, 1.6)
-              / (double) llInputs.targetPoses.length;
+        double xyStdDev =
+            Math.pow(llInputs[i].distanceToCamera * ESTIMATION_COEFFICIENT, 1.6)
+                / (double) llInputs[i].targetPoses.length;
 
-      double thetaStdDev =
-          Math.pow(llInputs.distanceToCamera * ESTIMATION_COEFFICIENT, 1.6)
-              / (double) llInputs.targetPoses.length;
+        double thetaStdDev =
+            Math.pow(llInputs[i].distanceToCamera * ESTIMATION_COEFFICIENT, 1.6)
+                / (double) llInputs[i].targetPoses.length;
 
-      if (llInputs.hasValidTarget && llInputs.distanceToCamera <= 6.0) {
-        acceptedMeasurements.add(
-            new visionMeasurement(
-                llInputs.robotPose[i],
-                llInputs.timestamp,
-                VecBuilder.fill(xyStdDev, xyStdDev, thetaStdDev)));
-      } else {
-        rejectedMeasurements.add(
-            new visionMeasurement(
-                llInputs.robotPose[i],
-                llInputs.timestamp,
-                VecBuilder.fill(xyStdDev, xyStdDev, thetaStdDev)));
+        if (llInputs[i].hasValidTarget && llInputs[i].distanceToCamera <= 6.0) {
+          acceptedMeasurements.add(
+              new visionMeasurement(
+                  llInputs[i].robotPose[j],
+                  llInputs[i].timestamp,
+                  VecBuilder.fill(xyStdDev, xyStdDev, thetaStdDev)));
+        }
       }
     }
   }
 
   public ArrayList<visionMeasurement> getMeasurements() {
     return acceptedMeasurements;
-  }
-
-  public void updateRobotPose(Pose2d robotPose) {
-    this.robotPose = robotPose;
   }
 
   /**
