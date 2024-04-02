@@ -15,8 +15,8 @@ import org.littletonrobotics.junction.Logger;
 
 public class VisionSubsystem extends SubsystemBase {
 
-  private static final double TRANSLATION_COEFFICIENT = 0.5;
-  private static final double ROTATION_COEFFICENT = 0.5;
+  private static final double TRANSLATION_COEFFICIENT = 0.55;
+  private static final double ROTATION_COEFFICENT = 2.0;
 
   // the maximum distance a measurent will be accepted in meters
   private static final double SINGLE_TAG_MAXIMUM = 4.0;
