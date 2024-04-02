@@ -8,36 +8,36 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4865803135287745,
-        "y": 5.932116500252084
+        "x": 1.2378173008094264,
+        "y": 6.075644785322205
       },
       "isLocked": false,
       "linkedName": "LanShortShot-End"
     },
     {
       "anchor": {
-        "x": 2.63,
-        "y": 6.7
+        "x": 2.653873093293972,
+        "y": 6.8793521270026226
       },
       "prevControl": {
-        "x": 2.3162387659989108,
-        "y": 6.5704847155744615
+        "x": 2.271155311541392,
+        "y": 6.7454009033892195
       },
       "nextControl": {
-        "x": 2.6995503283768008,
-        "y": 6.7287091889802415
+        "x": 2.7248915557715003,
+        "y": 6.904208588869757
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.55,
-        "y": 6.65
+        "x": 2.2,
+        "y": 6.6
       },
       "prevControl": {
-        "x": 2.5882717781752573,
-        "y": 6.630864110912372
+        "x": 2.2382717781752577,
+        "y": 6.580864110912371
       },
       "nextControl": null,
       "isLocked": false,
@@ -74,7 +74,7 @@
   "goalEndState": {
     "velocity": 0,
     "rotation": 25.0,
-    "rotateFast": false
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "Red",

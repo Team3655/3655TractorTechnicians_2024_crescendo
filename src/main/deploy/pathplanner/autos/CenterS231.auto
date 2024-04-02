@@ -56,15 +56,28 @@
           }
         },
         {
-          "type": "path",
+          "type": "race",
           "data": {
-            "pathName": "LanShortShot"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShooterLeaveLineShoot"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.75
+                }
+              }
+            ]
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "DeployIntake"
+            "pathName": "RedCenterS3"
           }
         },
         {
@@ -108,13 +121,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LanBlueGS3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "DeployIntake"
+            "pathName": "RedCenterS1"
           }
         },
         {
@@ -130,7 +137,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.75
+                  "waitTime": 0.5
                 }
               }
             ]
@@ -154,16 +161,10 @@
               }
             ]
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "LanRedGL5A"
-          }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Neutral",
   "choreoAuto": false
 }

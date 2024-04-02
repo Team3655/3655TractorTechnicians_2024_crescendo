@@ -28,7 +28,7 @@ public class ShooterOrbit extends Command {
   private static final double KP = 3.0;
   private static final double KI = 0.0012;
 
-  private static final double LATANCY_SEC = 0.15;
+  private static final double LATANCY_SEC = 0.30;
 
   public static Translation2d blueTarget = new Translation2d(0.0, 5.55);
   public static Translation2d redTarget = new Translation2d(16.535, 5.55);
