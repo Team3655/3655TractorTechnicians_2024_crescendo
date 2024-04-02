@@ -15,16 +15,19 @@ import org.littletonrobotics.junction.Logger;
 
 public class VisionSubsystem extends SubsystemBase {
 
-  /**
-   * Multiply the distance to the vision target by this number in order to trust further
-   * measurements less
-   */
-  private static final double ESTIMATION_COEFFICIENT = 0.65;
+  private static final double TRANSLATION_COEFFICIENT = 0.5;
+  private static final double ROTATION_COEFFICENT = 0.5;
+
+  // the maximum distance a measurent will be accepted in meters
+  private static final double SINGLE_TAG_MAXIMUM = 4.0;
+  private static final double MULTI_TAG_MAXIMUM = 6.0;
 
   private final VisionIO[] limelights;
   private final VisionIOInputsAutoLogged[] llInputs;
 
-  private ArrayList<visionMeasurement> acceptedMeasurements = new ArrayList<>();
+  private ArrayList<VisionMeasurement> acceptedMeasurements = new ArrayList<>();
+  private ArrayList<Pose2d> acceptedPoses = new ArrayList<>();
+  private ArrayList<Pose2d> rejectedPoses = new ArrayList<>();
 
   /** Creates a new VisionSubsystem. */
   public VisionSubsystem(VisionIO... limelights) {
@@ -38,6 +41,8 @@ public class VisionSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     acceptedMeasurements.clear();
+    rejectedPoses.clear();
+    acceptedPoses.clear();
 
     for (int i = 0; i < limelights.length; i++) {
 
@@ -46,29 +51,43 @@ public class VisionSubsystem extends SubsystemBase {
 
       for (int j = 0; j < llInputs[i].robotPose.length; j++) {
 
-        if (llInputs[i].robotPose[j] == null) continue;
-        if (llInputs[i].targetPoses.length < 1) continue;
+        if (!llInputs[i].isNew
+            || !llInputs[i].hasValidTarget
+            || llInputs[i].robotPose[j] == null
+            || llInputs[i].targetPoses.length < 1) {
+          continue;
+        }
+
+        if (llInputs[i].avgDistanceToCamera
+            >= (llInputs[i].targetPoses.length > 1 ? MULTI_TAG_MAXIMUM : SINGLE_TAG_MAXIMUM)) {
+          rejectedPoses.add(llInputs[i].robotPose[j]);
+          continue;
+        }
 
         double xyStdDev =
-            Math.pow(llInputs[i].distanceToCamera * ESTIMATION_COEFFICIENT, 1.6)
+            Math.pow(llInputs[i].avgDistanceToCamera, 1.6)
+                * TRANSLATION_COEFFICIENT
                 / (double) llInputs[i].targetPoses.length;
 
         double thetaStdDev =
-            Math.pow(llInputs[i].distanceToCamera * ESTIMATION_COEFFICIENT, 1.6)
+            Math.pow(llInputs[i].avgDistanceToCamera, 1.6)
+                * ROTATION_COEFFICENT
                 / (double) llInputs[i].targetPoses.length;
 
-        if (llInputs[i].hasValidTarget && llInputs[i].distanceToCamera <= 6.0) {
-          acceptedMeasurements.add(
-              new visionMeasurement(
-                  llInputs[i].robotPose[j],
-                  llInputs[i].timestamp,
-                  VecBuilder.fill(xyStdDev, xyStdDev, thetaStdDev)));
-        }
+        acceptedPoses.add(llInputs[i].robotPose[j]);
+        acceptedMeasurements.add(
+            new VisionMeasurement(
+                llInputs[i].robotPose[j],
+                llInputs[i].timestamp,
+                VecBuilder.fill(xyStdDev, xyStdDev, thetaStdDev)));
       }
     }
+
+    Logger.recordOutput("Vision/acceptedPoses", acceptedPoses.toArray(Pose2d[]::new));
+    Logger.recordOutput("Vision/rejectedPoses", rejectedPoses.toArray(Pose2d[]::new));
   }
 
-  public ArrayList<visionMeasurement> getMeasurements() {
+  public ArrayList<VisionMeasurement> getMeasurements() {
     return acceptedMeasurements;
   }
 
@@ -79,5 +98,5 @@ public class VisionSubsystem extends SubsystemBase {
    * @param distance the distance to the closest target
    * @param timestamp the timestamp of when the measurement was taken
    */
-  public record visionMeasurement(Pose2d pose, double timestamp, Matrix<N3, N1> stdDevs) {}
+  public record VisionMeasurement(Pose2d pose, double timestamp, Matrix<N3, N1> stdDevs) {}
 }
