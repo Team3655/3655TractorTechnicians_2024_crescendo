@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.4819496818480812,
-      "y": 2.047540132376301
+      "x": 0.7498521290748871,
+      "y": 4.487365991048999
     },
-    "rotation": 0
+    "rotation": -59.53445508054015
   },
   "command": {
     "type": "sequential",
@@ -14,13 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RedKittyCornerL4"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RedSourceShotL45"
+            "pathName": "RedSourceStart"
           }
         },
         {
@@ -71,6 +65,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RedL4Transfer"
           }
         }
       ]

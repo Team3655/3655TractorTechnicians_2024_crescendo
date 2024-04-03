@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 6.442779132644511,
+        "y": 6.5349061234253005
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.040925461804302,
+        "y": 6.515770234337672
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.95,
+        "y": 6.33
+      },
+      "prevControl": {
+        "x": 5.170062724507733,
+        "y": 6.444815334525774
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "RedAmpShootL12-End"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.24,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 720.0,
+    "maxAngularAcceleration": 540.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 9.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Blue",
+  "previewStartingState": {
+    "rotation": 0.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

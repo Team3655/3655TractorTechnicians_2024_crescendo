@@ -3,67 +3,51 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.4819496818480812,
-        "y": 2.047540132376301
+        "x": 1.4387441362295308,
+        "y": 7.3
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4819496818480795,
-        "y": 2.047540132376301
+        "x": 1.3909044135104585,
+        "y": 7.788306858664999
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.227949765922842,
-        "y": 3.0330384203891945
+        "x": 2.950479374152221,
+        "y": 7.66
       },
       "prevControl": {
-        "x": 2.756792508148957,
-        "y": 2.7439191940279466
+        "x": 2.3285709083345116,
+        "y": 7.6388894879770275
       },
       "nextControl": {
-        "x": 3.64893932585068,
-        "y": 3.291372923072186
+        "x": 3.629803436763051,
+        "y": 7.68305946868304
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.2946257873867735,
-        "y": 3.836745762069612
+        "x": 5.0,
+        "y": 6.4
       },
       "prevControl": {
-        "x": 4.7925137680790035,
-        "y": 3.7251653133345526
-      },
-      "nextControl": {
-        "x": 5.897406293647087,
-        "y": 3.970696985683014
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 7.954514370567202,
-        "y": 2.7460000840747596
-      },
-      "prevControl": {
-        "x": 7.112535250711527,
-        "y": 3.7602022057190965
+        "x": 4.818209053667524,
+        "y": 7.289818842574748
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "RedTuckStart-End"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.0,
-      "rotationDegrees": -23.0,
+      "waypointRelativePos": 1.35,
+      "rotationDegrees": 0,
       "rotateFast": false
     }
   ],
@@ -79,7 +63,7 @@
             {
               "type": "named",
               "data": {
-                "name": "ShooterPodium"
+                "name": "ShooterLong"
               }
             }
           ]
@@ -88,7 +72,7 @@
     },
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 0.95,
+      "waypointRelativePos": 1.75,
       "command": {
         "type": "race",
         "data": {
@@ -96,7 +80,7 @@
             {
               "type": "named",
               "data": {
-                "name": "ShooterPodiumShoot"
+                "name": "ShooterLongShoot"
               }
             },
             {
@@ -108,38 +92,21 @@
           ]
         }
       }
-    },
-    {
-      "name": "New Event Marker",
-      "waypointRelativePos": 2.35,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "DeployIntake"
-              }
-            }
-          ]
-        }
-      }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 5.24,
-    "maxAcceleration": 2.5,
+    "maxVelocity": 3.5,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 720.0,
     "maxAngularAcceleration": 540.0
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": -40.91438322002512,
-    "rotateFast": false
+    "velocity": 0.5,
+    "rotation": 9.0,
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": "Red",
+  "folder": "Blue",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

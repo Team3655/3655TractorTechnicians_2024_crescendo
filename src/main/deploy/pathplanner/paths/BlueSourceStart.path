@@ -1,0 +1,70 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.7498521290748871,
+        "y": 4.487365991048999
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.2473852453532408,
+        "y": 3.9037213738763143
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.180110043203769,
+        "y": 3.166989644002598
+      },
+      "prevControl": {
+        "x": 1.92670930796407,
+        "y": 3.5497074257551775
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "RedSourceShotL45-End"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "ShooterPodium"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 5.24,
+    "maxAcceleration": 2.5,
+    "maxAngularVelocity": 720.0,
+    "maxAngularAcceleration": 540.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -34.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Blue",
+  "previewStartingState": {
+    "rotation": -59.036243467926475,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}
