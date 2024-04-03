@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4387441362295308,
-      "y": 7.3
+      "x": 0.4819496818480812,
+      "y": 2.047540132376301
     },
     "rotation": 0
   },
@@ -14,13 +14,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RedTuckStart"
+            "pathName": "RedKittyCornerL4"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "RedL1TransferB"
+            "pathName": "RedSourceShotL45"
           }
         },
         {
@@ -30,26 +30,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShooterLong"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "RedAmpShootL12"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShooterLongShoot"
+                  "name": "ShooterPodiumShoot"
                 }
               },
               {
@@ -64,7 +45,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RedL2Transfer"
+            "pathName": "RedL5Transfer"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RedSourceShotL45"
           }
         },
         {
@@ -74,26 +61,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShooterLong"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "RedAmpShootL12"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShooterLongShoot"
+                  "name": "ShooterPodiumShoot"
                 }
               },
               {

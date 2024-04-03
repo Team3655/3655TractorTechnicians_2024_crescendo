@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7594200736187017,
-        "y": 6.601881735232002
+        "x": 3.180110043203769,
+        "y": 3.166989644002598
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.9794827981264349,
-        "y": 6.6114496797758155
+        "x": 4.347399277549138,
+        "y": 1.645686461536092
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "RedSourceShotL45-End"
     },
     {
       "anchor": {
-        "x": 2.05,
-        "y": 6.841080348827364
+        "x": 7.772723424234728,
+        "y": 0.7941393971366036
       },
       "prevControl": {
-        "x": 1.6768501627912347,
-        "y": 6.965463627896954
+        "x": 6.772723424234728,
+        "y": 0.7941393971366036
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "RedAmpStart-End"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -41,7 +41,7 @@
             {
               "type": "named",
               "data": {
-                "name": "ShooterLeaveLine"
+                "name": "DeployIntake"
               }
             }
           ]
@@ -50,20 +50,20 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 5.24,
+    "maxVelocity": 4.0,
     "maxAcceleration": 2.0,
     "maxAngularVelocity": 720.0,
     "maxAngularAcceleration": 540.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 26.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Red",
   "previewStartingState": {
-    "rotation": 59.036243467926575,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": false

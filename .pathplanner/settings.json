@@ -1,11 +1,12 @@
 {
-  "robotWidth": 0.78,
-  "robotLength": 0.78,
+  "robotWidth": 0.81,
+  "robotLength": 0.81,
   "holonomicMode": true,
   "pathFolders": [
     "Blue",
     "Lansing",
     "Neutral",
+    "Testing",
     "Pathfinding",
     "Red"
   ],

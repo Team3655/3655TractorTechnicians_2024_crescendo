@@ -3,7 +3,7 @@
   "startingPose": {
     "position": {
       "x": 1.285657023528499,
-      "y": 5.5302719463247785
+      "y": 5.539839890868593
     },
     "rotation": 0
   },
@@ -14,45 +14,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CenterS2"
+            "pathName": "Center Test"
           }
         },
         {
-          "type": "race",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShooterLeaveLine"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.75
-                }
-              }
-            ]
+            "pathName": "Shuffle"
           }
         },
         {
-          "type": "race",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShooterLeaveLineShoot"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 2.0
-                }
-              }
-            ]
+            "pathName": "Shuffle"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RedCenterL3"
           }
         }
       ]

@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.25,
+        "x": 4.95,
         "y": 6.33
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.870744304379052,
-        "y": 6.391386955268083
+        "x": 7.304388921551737,
+        "y": 6.25743573165468
       },
       "isLocked": false,
       "linkedName": "RedAmpShootL12-End"
     },
     {
       "anchor": {
-        "x": 6.796793080765649,
-        "y": 5.204961831835086
+        "x": 7.849266980585243,
+        "y": 4.219463543822193
       },
       "prevControl": {
-        "x": 6.682827676887754,
-        "y": 5.679817681326318
-      },
-      "nextControl": {
-        "x": 6.911608415291423,
-        "y": 4.72656460464436
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 7.877970814216686,
-        "y": 4.24
-      },
-      "prevControl": {
-        "x": 6.701113635327503,
-        "y": 4.259135889087628
+        "x": 6.2705561308558515,
+        "y": 4.927491440064465
       },
       "nextControl": null,
       "isLocked": false,
@@ -73,8 +57,8 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
-    "rotateFast": true
+    "rotation": -12.011478386365411,
+    "rotateFast": false
   },
   "reversed": false,
   "folder": "Red",

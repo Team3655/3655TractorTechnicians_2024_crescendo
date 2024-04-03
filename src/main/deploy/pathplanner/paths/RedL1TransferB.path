@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.75,
-        "y": 6.793240626108292
+        "x": 5.0,
+        "y": 6.4
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.101106619229556,
-        "y": 7.5873800232448945
+        "x": 5.937658565293821,
+        "y": 6.113303350616025
       },
       "isLocked": false,
       "linkedName": "RedTuckStart-End"
     },
     {
       "anchor": {
-        "x": 7.88,
-        "y": 7.55
+        "x": 7.964082315111018,
+        "y": 7.3
       },
       "prevControl": {
-        "x": 6.655303098391744,
-        "y": 7.511728221824741
+        "x": 6.835064858940907,
+        "y": 6.831512404283549
       },
       "nextControl": null,
       "isLocked": false,
@@ -51,14 +51,14 @@
   ],
   "globalConstraints": {
     "maxVelocity": 5.24,
-    "maxAcceleration": 3.5,
+    "maxAcceleration": 2.5,
     "maxAngularVelocity": 720.0,
     "maxAngularAcceleration": 540.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
-    "rotateFast": true
+    "rotation": 31.26372832998294,
+    "rotateFast": false
   },
   "reversed": false,
   "folder": "Red",
@@ -66,5 +66,5 @@
     "rotation": 24.943905263424696,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

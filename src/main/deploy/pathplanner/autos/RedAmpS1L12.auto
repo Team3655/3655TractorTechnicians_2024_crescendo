@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7881239072501453,
-      "y": 6.573177901600559
+      "x": 0.7594200736187017,
+      "y": 6.601881735232002
     },
     "rotation": 59.48976259388449
   },
@@ -128,44 +128,6 @@
           "type": "path",
           "data": {
             "pathName": "RedL2Transfer"
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShooterLong"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "RedAmpShootL12"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShooterLongShoot"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.75
-                }
-              }
-            ]
           }
         }
       ]
