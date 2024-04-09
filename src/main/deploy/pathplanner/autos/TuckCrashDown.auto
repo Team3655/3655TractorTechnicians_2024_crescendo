@@ -1,0 +1,31 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.4387441362295308,
+      "y": 7.3
+    },
+    "rotation": 0.04650285088950003
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueTuckStart"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CrashPlowDown"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Neutral",
+  "choreoAuto": false
+}

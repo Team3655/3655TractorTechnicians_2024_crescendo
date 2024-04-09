@@ -24,7 +24,7 @@ import edu.wpi.first.math.util.Units;
  * software to the motors. For use with the SDS MK4i modules only.
  */
 public class ModuleIOTalonFXPro implements ModuleIO {
-  private static final int DRIVE_CURRENT_LIMIT = 25;
+  private static final int DRIVE_CURRENT_LIMIT = 35;
   private static final int STEER_CURRENT_LIMIT = 15;
 
   // Used to calculate feed forward for turn speed in 2nd order dynamics calc.

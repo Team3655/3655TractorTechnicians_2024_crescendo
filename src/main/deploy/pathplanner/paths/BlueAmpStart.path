@@ -3,50 +3,68 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7402841845310726,
-        "y": 6.6114496797758155
+        "x": 0.7594200736187017,
+        "y": 6.601881735232002
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2760890789846844,
-        "y": 6.917623905177881
+        "x": 0.9794827981264349,
+        "y": 6.6114496797758155
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.8405978070697395,
-        "y": 7.290773742386645
+        "x": 2.1,
+        "y": 6.841080348827364
       },
       "prevControl": {
-        "x": 1.582263304386748,
-        "y": 7.2142301860361275
+        "x": 1.726850162791235,
+        "y": 6.965463627896954
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "RedAmpStart-End"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "ShooterLeaveLine"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 5.24,
-    "maxAcceleration": 3.5,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 720.0,
     "maxAngularAcceleration": 540.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 45.000000000000036,
+    "rotation": 28.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Blue",
   "previewStartingState": {
-    "rotation": 60.10109816138541,
+    "rotation": 59.036243467926575,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

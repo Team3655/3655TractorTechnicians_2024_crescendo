@@ -28,6 +28,7 @@ public class ShooterConstants {
   }
 
   static {
+    ANGLE_MAP.put(7.2500, 25.0);
     ANGLE_MAP.put(7.0000, 24.5);
     ANGLE_MAP.put(6.5000, 25.0);
     ANGLE_MAP.put(6.0000, 25.5);
@@ -59,10 +60,10 @@ public class ShooterConstants {
         new ShooterTarget(Rotation2d.fromDegrees(60.0), Optional.of(SPEAKER_RPM));
 
     public static final ShooterTarget AMP =
-        new ShooterTarget(Rotation2d.fromDegrees(57), Optional.of(1500.0));
+        new ShooterTarget(Rotation2d.fromDegrees(57), Optional.of(1250.0));
 
     public static final ShooterTarget BABY_BIRD =
-        new ShooterTarget(Rotation2d.fromDegrees(70), Optional.of(-1500.0));
+        new ShooterTarget(Rotation2d.fromDegrees(70), Optional.of(-2500.0));
 
     public static final ShooterTarget INDEX =
         new ShooterTarget(Rotation2d.fromDegrees(45), Optional.empty());
@@ -83,10 +84,10 @@ public class ShooterConstants {
         new ShooterTarget(Rotation2d.fromDegrees(45.0), Optional.empty());
 
     public static final ShooterTarget CLIMBE_STAGE_TWO =
-        new ShooterTarget(Rotation2d.fromDegrees(80.0), Optional.empty());
+        new ShooterTarget(Rotation2d.fromDegrees(70.0), Optional.empty());
 
     public static final ShooterTarget TRAP =
-        new ShooterTarget(Rotation2d.fromDegrees(65), Optional.of(6000.0));
+        new ShooterTarget(Rotation2d.fromDegrees(43), Optional.of(5500.0));
 
     public static final ShooterTarget PASS =
         new ShooterTarget(Rotation2d.fromDegrees(55), Optional.of(4000.0));

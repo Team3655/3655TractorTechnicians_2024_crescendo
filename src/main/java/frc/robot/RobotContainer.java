@@ -225,9 +225,12 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "ShooterLongShoot",
         new DeadReckoningCommand(shooter, intake, ShooterTargets.AUTO_LONG, () -> true));
+
     NamedCommands.registerCommand("RunKicker", ShootingCommands.runKicker(intake).withTimeout(1.0));
     NamedCommands.registerCommand("DeployIntake", IntakeCommands.intakeSearch(intake));
     NamedCommands.registerCommand("RetractIntake", IntakeCommands.retract(intake));
+    NamedCommands.registerCommand(
+        "AutoTarget", ShootingCommands.adjustShooter(shooter, () -> drive.getPose()));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());

@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.985991694361012,
-        "y": 6.716697069757776
+        "x": 6.39493940992544,
+        "y": 6.506202289793857
       },
       "isLocked": false,
       "linkedName": "RedAmpShootL12-End"
     },
     {
       "anchor": {
-        "x": 7.887538758760503,
-        "y": 5.7
+        "x": 7.849266980585243,
+        "y": 5.673791114481996
       },
       "prevControl": {
-        "x": 6.586298300801732,
-        "y": 5.2311707173530895
+        "x": 6.423643243556883,
+        "y": 5.750334670832512
       },
       "nextControl": null,
       "isLocked": false,
@@ -57,7 +57,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 23.025492008527976,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,

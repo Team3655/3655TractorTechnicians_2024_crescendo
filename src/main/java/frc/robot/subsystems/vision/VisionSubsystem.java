@@ -19,8 +19,8 @@ public class VisionSubsystem extends SubsystemBase {
   private static final double ROTATION_COEFFICENT = 2.0;
 
   // the maximum distance a measurent will be accepted in meters
-  private static final double SINGLE_TAG_MAXIMUM = 4.0;
-  private static final double MULTI_TAG_MAXIMUM = 6.0;
+  private static final double SINGLE_TAG_MAXIMUM = 4.5;
+  private static final double MULTI_TAG_MAXIMUM = 6.5;
 
   private final VisionIO[] limelights;
   private final VisionIOInputsAutoLogged[] llInputs;

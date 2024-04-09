@@ -3,52 +3,57 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.4387441362295308,
-        "y": 7.3
+        "x": 1.304792912616128,
+        "y": 5.568543724500036
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3909044135104585,
-        "y": 7.788306858664999
+        "x": 2.7017128160130444,
+        "y": 6.707129125213962
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.950479374152221,
-        "y": 7.66
+        "x": 5.2946257873867735,
+        "y": 6.333979288005196
       },
       "prevControl": {
-        "x": 2.3285709083345116,
-        "y": 7.6388894879770275
+        "x": 4.309127499373879,
+        "y": 6.4009548998118975
       },
       "nextControl": {
-        "x": 3.629803436763051,
-        "y": 7.68305946868304
+        "x": 6.292324396458204,
+        "y": 6.26617452816539
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.75,
-        "y": 6.4
+        "x": 7.820563146953799,
+        "y": 5.941693561708802
       },
       "prevControl": {
-        "x": 4.568209053667524,
-        "y": 7.289818842574748
+        "x": 7.485685087920293,
+        "y": 6.152188341672721
       },
       "nextControl": null,
-      "isLocked": false,
-      "linkedName": "RedTuckStart-End"
+      "isLocked": true,
+      "linkedName": null
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.35,
-      "rotationDegrees": 0,
+      "waypointRelativePos": 0.35,
+      "rotationDegrees": 7.0,
       "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 0.85,
+      "rotationDegrees": 7.0,
+      "rotateFast": true
     }
   ],
   "constraintZones": [],
@@ -63,7 +68,7 @@
             {
               "type": "named",
               "data": {
-                "name": "ShooterLong"
+                "name": "AutoTarget"
               }
             }
           ]
@@ -72,21 +77,32 @@
     },
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 1.75,
+      "waypointRelativePos": 0.75,
       "command": {
-        "type": "race",
+        "type": "parallel",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "ShooterLongShoot"
+                "name": "RunKicker"
               }
-            },
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 1.25,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
             {
-              "type": "wait",
+              "type": "named",
               "data": {
-                "waitTime": 0.5
+                "name": "DeployIntake"
               }
             }
           ]
@@ -95,20 +111,20 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.5,
+    "maxVelocity": 1.0,
     "maxAcceleration": 2.0,
     "maxAngularVelocity": 720.0,
     "maxAngularAcceleration": 540.0
   },
   "goalEndState": {
-    "velocity": 0.5,
-    "rotation": 9.0,
-    "rotateFast": true
+    "velocity": 0,
+    "rotation": -16.55707137563672,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "Blue",
+  "folder": null,
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 0.0,
     "velocity": 0
   },
   "useDefaultConstraints": false
