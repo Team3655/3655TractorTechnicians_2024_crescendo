@@ -6,13 +6,15 @@
     "Blue",
     "Lansing",
     "Neutral",
-    "Testing",
+    "Targeting",
     "Pathfinding",
-    "Red"
+    "Red",
+    "Testing"
   ],
   "autoFolders": [
-    "Neutral",
     "Blue",
+    "NeutralTargeting",
+    "Neutral",
     "Red"
   ],
   "defaultMaxVel": 5.24,

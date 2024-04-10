@@ -1,0 +1,44 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.285657023528499,
+      "y": 3.5497074257551775
+    },
+    "rotation": -45.909380449199155
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoTarget"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.7
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueTargetingOffsetStartL3"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "NeutralTargeting",
+  "choreoAuto": false
+}

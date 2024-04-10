@@ -230,7 +230,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("DeployIntake", IntakeCommands.intakeSearch(intake));
     NamedCommands.registerCommand("RetractIntake", IntakeCommands.retract(intake));
     NamedCommands.registerCommand(
-        "AutoTarget", ShootingCommands.adjustShooter(shooter, () -> drive.getPose()));
+        "AutoTarget",
+        ShootingCommands.adjustShooter(shooter, () -> drive.getProjectedPose(0.25, false)));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
