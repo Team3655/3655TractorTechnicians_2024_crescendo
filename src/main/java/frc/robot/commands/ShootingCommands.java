@@ -30,13 +30,13 @@ public class ShootingCommands {
   public static Command adjustShooter(ShooterSubsystem shooter, Supplier<Pose2d> pose) {
     return Commands.run(
         () -> {
-          Translation2d reletiveTarget =
+          Translation2d relativeTarget =
               pose.get()
                   // get the drive position reletive to the target position
                   .relativeTo(new Pose2d(ShooterOrbit.blueTarget, new Rotation2d()))
                   // get as a vector
                   .getTranslation();
-          shooter.setShooterAngleFromDist(reletiveTarget.getNorm());
+          shooter.setShooterAngleFromDist(relativeTarget.getNorm());
         },
         shooter);
   }
