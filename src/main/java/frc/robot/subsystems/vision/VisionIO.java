@@ -21,9 +21,9 @@ public interface VisionIO {
 
     public double avgDistanceToCamera = 0.0;
 
-    public double captureLatancySec = 0.0;
-    public double pipelineLatancySec = 0.0;
-    public double jsonParseLatancySec = 0.0;
+    public double captureLatencySec = 0.0;
+    public double pipelineLatencySec = 0.0;
+    public double jsonParseLatencySec = 0.0;
     public double timestamp = 0.0;
   }
 

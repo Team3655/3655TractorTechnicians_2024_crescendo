@@ -66,15 +66,15 @@ public class VisionIOLimelight implements VisionIO {
       inputs.avgDistanceToCamera = 0.0;
     }
 
-    // log latancys
-    inputs.captureLatancySec =
+    // log latency
+    inputs.captureLatencySec =
         Units.millisecondsToSeconds(llresult.targetingResults.latency_capture);
-    inputs.pipelineLatancySec =
+    inputs.pipelineLatencySec =
         Units.millisecondsToSeconds(llresult.targetingResults.latency_pipeline);
-    inputs.jsonParseLatancySec =
+    inputs.jsonParseLatencySec =
         Units.millisecondsToSeconds(llresult.targetingResults.latency_jsonParse);
 
-    // record latancy compensated timestamp
+    // record latency compensated timestamp
     inputs.timestamp =
         MathSharedStore.getTimestamp()
             - Units.millisecondsToSeconds(
