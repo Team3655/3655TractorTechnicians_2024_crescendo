@@ -28,7 +28,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private final IntakeIO io;
   private final IntakeIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
 
-  private final LinearFilter lowpass = LinearFilter.movingAverage(35);
+  private final LinearFilter lowpass = LinearFilter.movingAverage(15);
 
   private final LoggedDashboardBoolean hasPiece;
 

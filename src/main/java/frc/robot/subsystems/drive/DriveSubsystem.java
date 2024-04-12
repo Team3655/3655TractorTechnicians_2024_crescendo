@@ -350,10 +350,10 @@ public class DriveSubsystem extends SubsystemBase {
     if (shouldUseVisionData) {
       synchronized (estimator) {
         for (int i = 0; i < vision.getMeasurements().size(); i++) {
+          // poll the queue of measurements, this will get and remove the oldest measurement
+          var measurement = vision.getMeasurements().poll();
           estimator.addVisionMeasurement(
-              vision.getMeasurements().get(i).pose(),
-              vision.getMeasurements().get(i).timestamp(),
-              vision.getMeasurements().get(i).stdDevs());
+              measurement.pose(), measurement.timestamp(), measurement.stdDevs());
         }
       }
     }

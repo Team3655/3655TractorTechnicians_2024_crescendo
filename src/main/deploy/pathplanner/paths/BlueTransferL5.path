@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.25,
-        "y": 7.08
+        "x": 6.4810509108197705,
+        "y": 1.2725366243273275
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.2642021216443355,
-        "y": 7.491421615384023
+        "x": 7.055127583448641,
+        "y": 1.2534007352396996
       },
       "isLocked": false,
-      "linkedName": "RedAmpShootS1-End"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.75,
-        "y": 7.4
+        "x": 7.94494642602339,
+        "y": 1.2725366243273275
       },
       "prevControl": {
-        "x": 7.1567874382835015,
-        "y": 7.380864110912372
+        "x": 7.409141531569776,
+        "y": 1.2821045688711432
       },
       "nextControl": null,
       "isLocked": false,
@@ -57,13 +57,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
-    "rotateFast": true
+    "rotation": -15.376251248826168,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "Red",
+  "folder": "Targeting",
   "previewStartingState": {
-    "rotation": 37.476179561361306,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": false

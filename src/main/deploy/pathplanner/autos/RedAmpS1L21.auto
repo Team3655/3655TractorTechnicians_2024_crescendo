@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueAmpStart"
+            "pathName": "RedAmpStart"
           }
         },
         {
@@ -39,7 +39,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueAmpS1"
+            "pathName": "RedAmpS1"
           }
         },
         {
@@ -83,7 +83,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RedAmpL1"
+            "pathName": "RedL2Transfer"
           }
         },
         {
@@ -99,7 +99,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BlueAmpShootL12"
+                  "pathName": "RedAmpShootL12"
                 }
               }
             ]
@@ -127,12 +127,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RedL2Transfer"
+            "pathName": "RedL1TransferA"
           }
         }
       ]
     }
   },
-  "folder": "Blue",
+  "folder": "Red",
   "choreoAuto": false
 }

@@ -44,6 +44,7 @@ import frc.robot.subsystems.shooter.ShooterIO;
 import frc.robot.subsystems.shooter.ShooterIOSim;
 import frc.robot.subsystems.shooter.ShooterIOSpark;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
+import frc.robot.subsystems.vision.VisionConstants.VisionMode;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.subsystems.vision.VisionSubsystem;
@@ -93,8 +94,10 @@ public class RobotContainer {
         // Real robot, instantiate hardware IO implementations
         vision =
             new VisionSubsystem(
-                new VisionIOLimelight(portConfig.leftLimelightName),
-                new VisionIOLimelight(portConfig.rightLimelightName));
+                new VisionIOLimelight(portConfig.leftLimelightName)
+                    .withPipeline(VisionMode.APRILTAG_LOCALIZE, 0),
+                new VisionIOLimelight(portConfig.rightLimelightName)
+                    .withPipeline(VisionMode.APRILTAG_LOCALIZE, 0));
 
         drive =
             new DriveSubsystem(
@@ -225,9 +228,13 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "ShooterLongShoot",
         new DeadReckoningCommand(shooter, intake, ShooterTargets.AUTO_LONG, () -> true));
+
     NamedCommands.registerCommand("RunKicker", ShootingCommands.runKicker(intake).withTimeout(1.0));
     NamedCommands.registerCommand("DeployIntake", IntakeCommands.intakeSearch(intake));
     NamedCommands.registerCommand("RetractIntake", IntakeCommands.retract(intake));
+    NamedCommands.registerCommand(
+        "AutoTarget",
+        ShootingCommands.adjustShooter(shooter, () -> drive.getProjectedPose(0.25, false)));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());

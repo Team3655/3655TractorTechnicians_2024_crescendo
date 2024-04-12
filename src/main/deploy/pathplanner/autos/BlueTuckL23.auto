@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7594200736187017,
-      "y": 6.601881735232002
+      "x": 1.4387441362295308,
+      "y": 7.3
     },
-    "rotation": 59.48976259388449
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -14,76 +14,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueAmpStart"
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShooterLeaveLineShoot"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.4
-                }
-              }
-            ]
+            "pathName": "BlueTuckStart"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BlueAmpS1"
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShooterPodium"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.25
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShooterPodiumShoot"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.75
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RedAmpL1"
+            "pathName": "RedL2Transfer"
           }
         },
         {
@@ -127,7 +64,45 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RedL2Transfer"
+            "pathName": "RedL3Transfer"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShooterLong"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BlueAmpShootL12"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShooterLongShoot"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.75
+                }
+              }
+            ]
           }
         }
       ]

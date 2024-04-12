@@ -6,6 +6,7 @@ package frc.robot.subsystems.vision;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import frc.robot.subsystems.vision.VisionConstants.VisionMode;
 import org.littletonrobotics.junction.AutoLog;
 
 /** Add your docs here. */
@@ -20,10 +21,13 @@ public interface VisionIO {
     public Pose2d[] robotPose = new Pose2d[] {};
 
     public double avgDistanceToCamera = 0.0;
+    public double targetErrorRads = 0.0;
 
-    public double captureLatancySec = 0.0;
-    public double pipelineLatancySec = 0.0;
-    public double jsonParseLatancySec = 0.0;
+    public int currentPipeline = 0;
+
+    public double captureLatencySec = 0.0;
+    public double pipelineLatencySec = 0.0;
+    public double jsonParseLatencySec = 0.0;
     public double timestamp = 0.0;
   }
 
@@ -34,6 +38,8 @@ public interface VisionIO {
   public default String getName() {
     return "";
   }
+
+  public default void setMode(VisionMode mode) {}
 
   public default void updateRobotPose(Pose2d robotPose) {}
 }

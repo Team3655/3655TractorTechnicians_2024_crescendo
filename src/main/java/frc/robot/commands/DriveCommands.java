@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.drive.DriveConstants;
@@ -67,6 +68,7 @@ public class DriveCommands {
    */
   public static Translation2d getDriveTranslation(
       DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
+
     // Apply deadband, and curve joystick inputs
     double linearMagnitude =
         JoystickUtils.curveInput(
@@ -76,6 +78,11 @@ public class DriveCommands {
             DriveConstants.DRIVE_JOYSTICK_DEADBAND);
 
     Rotation2d linearDirection = new Rotation2d(xSupplier.getAsDouble(), ySupplier.getAsDouble());
+
+    var alliance = DriverStation.getAlliance();
+    if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
+      linearDirection = linearDirection.rotateBy(Rotation2d.fromDegrees(180));
+    }
 
     // Calcaulate new linear velocity
     return new Pose2d(new Translation2d(), linearDirection)

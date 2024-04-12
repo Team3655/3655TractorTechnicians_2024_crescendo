@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueAmpStart"
+            "pathName": "RedAmpStart"
           }
         },
         {
@@ -83,7 +83,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RedAmpL1"
+            "pathName": "RedL2Transfer"
           }
         },
         {
@@ -127,7 +127,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RedL2Transfer"
+            "pathName": "RedL1TransferA"
           }
         }
       ]

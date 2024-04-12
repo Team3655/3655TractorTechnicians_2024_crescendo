@@ -74,7 +74,7 @@ public class RobotConfigurations {
     private static final int STAGE_ONE_REVERSE_PORT = 10;
     private static final int STAGE_TWO_FORWARD_PORT = 9;
     private static final int STAGE_TWO_REVERSE_PORT = 8;
-    private static final int INTAKE_BEAMBREAK_PORT = 0;
+    private static final int INTAKE_BEAMBREAK_PORT = 2;
 
     private static final int RIGHT_CLIMER_ID = 41;
     private static final int LEFT_CLIMER_ID = 42;
@@ -187,7 +187,7 @@ public class RobotConfigurations {
     private static final int STAGE_ONE_REVERSE_PORT = 11;
     private static final int STAGE_TWO_FORWARD_PORT = 8;
     private static final int STAGE_TWO_REVERSE_PORT = 9;
-    private static final int INTAKE_BEAMBREAK_PORT = 0;
+    private static final int INTAKE_BEAMBREAK_PORT = 2;
 
     private static final int RIGHT_CLIMER_ID = 41;
     private static final int LEFT_CLIMER_ID = 42;

@@ -36,7 +36,7 @@ public class TrapCommand extends Command {
   @Override
   public void initialize() {
     shooter.requestState(ShooterTargets.TRAP);
-    climber.setAngle(Rotation2d.fromDegrees(128.0));
+    climber.setAngle(Rotation2d.fromDegrees(0.0));
   }
 
   // Called every time the scheduler runs while the command is scheduled.

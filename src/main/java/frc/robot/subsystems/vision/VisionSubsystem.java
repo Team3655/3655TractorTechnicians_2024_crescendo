@@ -9,29 +9,26 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import org.littletonrobotics.junction.Logger;
 
 public class VisionSubsystem extends SubsystemBase {
 
-  private static final double TRANSLATION_COEFFICIENT = 0.55;
-  private static final double ROTATION_COEFFICENT = 2.0;
-
-  // the maximum distance a measurent will be accepted in meters
-  private static final double SINGLE_TAG_MAXIMUM = 4.0;
-  private static final double MULTI_TAG_MAXIMUM = 6.0;
-
   private final VisionIO[] limelights;
   private final VisionIOInputsAutoLogged[] llInputs;
 
-  private ArrayList<VisionMeasurement> acceptedMeasurements = new ArrayList<>();
+  private Queue<VisionMeasurement> acceptedMeasurements = new LinkedList<>();
   private ArrayList<Pose2d> acceptedPoses = new ArrayList<>();
   private ArrayList<Pose2d> rejectedPoses = new ArrayList<>();
 
   /** Creates a new VisionSubsystem. */
   public VisionSubsystem(VisionIO... limelights) {
     this.limelights = limelights;
+    // create and fill a list of autologged inputs;
     llInputs = new VisionIOInputsAutoLogged[limelights.length];
     for (int i = 0; i < limelights.length; i++) {
       llInputs[i] = new VisionIOInputsAutoLogged();
@@ -40,7 +37,6 @@ public class VisionSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    acceptedMeasurements.clear();
     rejectedPoses.clear();
     acceptedPoses.clear();
 
@@ -51,6 +47,7 @@ public class VisionSubsystem extends SubsystemBase {
 
       for (int j = 0; j < llInputs[i].robotPose.length; j++) {
 
+        // basic checks to avoid errors
         if (!llInputs[i].isNew
             || !llInputs[i].hasValidTarget
             || llInputs[i].robotPose[j] == null
@@ -58,23 +55,34 @@ public class VisionSubsystem extends SubsystemBase {
           continue;
         }
 
+        // if the camera to target distance is too great reject the measurement
+        // depending on the number of tags in view use a different maximum
         if (llInputs[i].avgDistanceToCamera
-            >= (llInputs[i].targetPoses.length > 1 ? MULTI_TAG_MAXIMUM : SINGLE_TAG_MAXIMUM)) {
+                >= (llInputs[i].targetPoses.length > 1
+                    ? VisionConstants.MULTI_TAG_MAXIMUM
+                    : VisionConstants.SINGLE_TAG_MAXIMUM)
+            // reject measure if outside of field
+            || !isInField(llInputs[i].robotPose[j])) {
+          // add pose to rejected poses for logging
           rejectedPoses.add(llInputs[i].robotPose[j]);
           continue;
         }
 
+        // calculate the standard deviations for the robots x and y position
         double xyStdDev =
             Math.pow(llInputs[i].avgDistanceToCamera, 1.6)
-                * TRANSLATION_COEFFICIENT
+                * VisionConstants.TRANSLATION_COEFFICIENT
                 / (double) llInputs[i].targetPoses.length;
 
+        // calculate the standard deviations for the robots rotation
         double thetaStdDev =
             Math.pow(llInputs[i].avgDistanceToCamera, 1.6)
-                * ROTATION_COEFFICENT
+                * VisionConstants.ROTATION_COEFFICIENT
                 / (double) llInputs[i].targetPoses.length;
 
+        // add pose to the accepted poses for logging
         acceptedPoses.add(llInputs[i].robotPose[j]);
+        // add measurements to the queue
         acceptedMeasurements.add(
             new VisionMeasurement(
                 llInputs[i].robotPose[j],
@@ -87,12 +95,27 @@ public class VisionSubsystem extends SubsystemBase {
     Logger.recordOutput("Vision/rejectedPoses", rejectedPoses.toArray(Pose2d[]::new));
   }
 
-  public ArrayList<VisionMeasurement> getMeasurements() {
+  /**
+   * Gets the vision Measurements from the subsystem
+   *
+   * @return A Queue of VisionMeasurements
+   */
+  public Queue<VisionMeasurement> getMeasurements() {
     return acceptedMeasurements;
   }
 
+  private static boolean isInField(Pose2d pose) {
+    if (pose.getX() >= 0
+        && pose.getX() <= Units.feetToMeters(54 + (1.0 / 12.0))
+        && pose.getY() >= 0
+        && pose.getY() <= Units.feetToMeters(26 + (7.0 / 12.0))) {
+      return true;
+    }
+    return false;
+  }
+
   /**
-   * A class holding the data relevent to adding vision data to poseEstimation
+   * A class holding the data relevant to adding vision data to poseEstimation
    *
    * @param pose the Pose2d reported by the camera
    * @param distance the distance to the closest target
