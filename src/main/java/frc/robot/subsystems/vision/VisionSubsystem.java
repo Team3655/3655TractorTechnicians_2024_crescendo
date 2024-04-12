@@ -9,6 +9,7 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -57,7 +58,11 @@ public class VisionSubsystem extends SubsystemBase {
         // if the camera to target distance is too great reject the measurement
         // depending on the number of tags in view use a different maximum
         if (llInputs[i].avgDistanceToCamera
-            >= (llInputs[i].targetPoses.length > 1 ? VisionConstants.MULTI_TAG_MAXIMUM : VisionConstants.SINGLE_TAG_MAXIMUM)) {
+                >= (llInputs[i].targetPoses.length > 1
+                    ? VisionConstants.MULTI_TAG_MAXIMUM
+                    : VisionConstants.SINGLE_TAG_MAXIMUM)
+            // reject measure if outside of field
+            || !isInField(llInputs[i].robotPose[j])) {
           // add pose to rejected poses for logging
           rejectedPoses.add(llInputs[i].robotPose[j]);
           continue;
@@ -89,7 +94,7 @@ public class VisionSubsystem extends SubsystemBase {
     Logger.recordOutput("Vision/acceptedPoses", acceptedPoses.toArray(Pose2d[]::new));
     Logger.recordOutput("Vision/rejectedPoses", rejectedPoses.toArray(Pose2d[]::new));
   }
-  
+
   /**
    * Gets the vision Measurements from the subsystem
    *
@@ -97,6 +102,16 @@ public class VisionSubsystem extends SubsystemBase {
    */
   public Queue<VisionMeasurement> getMeasurements() {
     return acceptedMeasurements;
+  }
+
+  private static boolean isInField(Pose2d pose) {
+    if (pose.getX() >= 0
+        && pose.getX() <= Units.feetToMeters(54 + (1.0 / 12.0))
+        && pose.getY() >= 0
+        && pose.getY() <= Units.feetToMeters(26 + (7.0 / 12.0))) {
+      return true;
+    }
+    return false;
   }
 
   /**

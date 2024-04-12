@@ -19,5 +19,4 @@ public class VisionConstants {
     DETECT_GAMEPIECE,
     RETRO_REFLECTIVE
   }
-
 }

@@ -4,10 +4,6 @@
 
 package frc.robot.subsystems.vision;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.MathSharedStore;
@@ -18,6 +14,9 @@ import frc.robot.subsystems.vision.VisionConstants.VisionMode;
 import frc.robot.util.LimelightHelpers;
 import frc.robot.util.LimelightHelpers.LimelightResults;
 import frc.robot.util.LimelightHelpers.LimelightTarget_Fiducial;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 /** Add your docs here. */
 public class VisionIOLimelight implements VisionIO {
@@ -103,30 +102,34 @@ public class VisionIOLimelight implements VisionIO {
   @Override
   public void setMode(VisionMode mode) {
     if (!pipelines.containsKey(mode)) {
-      System.out.println("WARNING, COULD NOT SET MODE! NO VALID PIPELINE FOUND FOR " + name.toUpperCase());
+      System.out.println(
+          "WARNING, COULD NOT SET MODE! NO VALID PIPELINE FOUND FOR " + name.toUpperCase());
       return;
     }
     LimelightHelpers.setPipelineIndex(name, pipelines.get(mode));
   }
 
   /**
-   * Adds a new association to VisionIOLimelight's pipeline mao and returns itself for method-chaining and easier to use.
-   * <p>
-   * The map cannot contain duplicate keys or indexes. if duplicates are entered a warning will be printed.
+   * Adds a new association to VisionIOLimelight's pipeline mao and returns itself for
+   * method-chaining and easier to use.
+   *
+   * <p>The map cannot contain duplicate keys or indexes. if duplicates are entered a warning will
+   * be printed.
    *
    * @param mode A VisionMode to associate with and index
    * @param pipeline The index of the associate pipeline
    * @return
    */
   public VisionIOLimelight withPipeline(VisionMode mode, int pipeline) {
-    if (pipelines.containsKey(mode) ) {
-      System.out.println("WARNING, CANNOT ASSIGN PIPELINE FOR " + name.toUpperCase() + ": invalid key!");
+    if (pipelines.containsKey(mode)) {
+      System.out.println(
+          "WARNING, CANNOT ASSIGN PIPELINE FOR " + name.toUpperCase() + ": invalid key!");
     } else if (pipelines.containsValue(pipeline)) {
-      System.out.println("WARNING, CANNOT ASSIGN PIPELINE FOR " + name.toUpperCase() + ": invalid pipeline ID!");
+      System.out.println(
+          "WARNING, CANNOT ASSIGN PIPELINE FOR " + name.toUpperCase() + ": invalid pipeline ID!");
     } else {
       this.pipelines.put(mode, pipeline);
     }
     return this;
   }
-
 }

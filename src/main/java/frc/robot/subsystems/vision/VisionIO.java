@@ -7,7 +7,6 @@ package frc.robot.subsystems.vision;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import frc.robot.subsystems.vision.VisionConstants.VisionMode;
-
 import org.littletonrobotics.junction.AutoLog;
 
 /** Add your docs here. */
