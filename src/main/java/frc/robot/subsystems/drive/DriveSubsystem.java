@@ -27,6 +27,7 @@ import frc.robot.subsystems.vision.VisionSubsystem;
 import frc.robot.util.TestPoseEstimator;
 import java.util.ArrayList;
 import java.util.Arrays;
+import lombok.Getter;
 import org.littletonrobotics.junction.Logger;
 
 /** Coordinator for the drivetrain. Speaks to the Gyro and the Swerve Modules */
@@ -67,16 +68,16 @@ public class DriveSubsystem extends SubsystemBase {
    * We use this to calculate angular calculations based off of the swerve module locations on the
    * bot
    */
-  private final SwerveDriveKinematics kinematics;
+  @Getter private final SwerveDriveKinematics kinematics;
 
   /**
    * Allows us to track the robot's position using the swerve module positions on the robot and the
    * current values of each module
    */
-  private final SwerveDriveOdometry odometry;
+  @Getter private final SwerveDriveOdometry odometry;
 
   /** Same as odometry but with vision measurements */
-  private final SwerveDrivePoseEstimator estimator;
+  @Getter private final SwerveDrivePoseEstimator estimator;
 
   private final TestPoseEstimator testEstimator;
 
@@ -386,21 +387,6 @@ public class DriveSubsystem extends SubsystemBase {
     this.targetVelocity = targetVelocity;
   }
 
-  /**
-   * Gets the field-oriented position of the robot.
-   *
-   * <p>Using the <a href=
-   * https://docs.wpilib.org/en/stable/docs/software/advanced-controls/geometry/coordinate-systems.html>WPILIB
-   * Coordinate System</a>.
-   *
-   * @return The pose of the robot on the field.
-   */
-  public SwerveDrivePoseEstimator getOdometry() {
-    synchronized (estimator) {
-      return estimator;
-    }
-  }
-
   public Pose2d getOdomPose() {
     synchronized (odometry) {
       return odometry.getPoseMeters();
@@ -428,10 +414,6 @@ public class DriveSubsystem extends SubsystemBase {
     synchronized (swerveModules) {
       return swerveModules;
     }
-  }
-
-  public SwerveDriveKinematics getKinematics() {
-    return kinematics;
   }
 
   public void resetPose() {

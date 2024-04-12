@@ -23,7 +23,6 @@ public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new shooter. */
   public ShooterSubsystem(ShooterIO io) {
     this.io = io;
-    // TODO: tune FF values for shooter
     switch (Constants.currentMode) {
       case REAL:
         io.configureFlywheelPID(0.001, 0.0, 0.0);
