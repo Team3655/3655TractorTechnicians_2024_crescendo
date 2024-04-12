@@ -4,22 +4,28 @@
 
 package frc.robot.subsystems.vision;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.util.Units;
+import frc.robot.subsystems.vision.VisionConstants.VisionMode;
 import frc.robot.util.LimelightHelpers;
 import frc.robot.util.LimelightHelpers.LimelightResults;
 import frc.robot.util.LimelightHelpers.LimelightTarget_Fiducial;
-import java.util.Optional;
 
 /** Add your docs here. */
 public class VisionIOLimelight implements VisionIO {
 
   private static final AprilTagFieldLayout TAG_LAYOUT =
       AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);
+
+  private final Map<VisionMode, Integer> pipelines = new HashMap<>();
 
   private final String name;
 
@@ -42,8 +48,11 @@ public class VisionIOLimelight implements VisionIO {
 
     if (llresult.targetingResults.valid && numTargets > 0) {
       inputs.hasValidTarget = true;
-      inputs.robotPose = new Pose2d[] {robotPose};
 
+      inputs.targetErrorRads = Units.degreesToRadians(LimelightHelpers.getTX(name));
+
+      // region: pose estimation
+      inputs.robotPose = new Pose2d[] {robotPose};
       // find the targets poses on the field
       inputs.targetPoses = new Pose3d[numTargets];
       for (int i = 0; i < numTargets; i++) {
@@ -58,6 +67,7 @@ public class VisionIOLimelight implements VisionIO {
         totalDistance += target.getCameraPose_TargetSpace().getTranslation().getNorm();
       }
       inputs.avgDistanceToCamera = totalDistance / numTargets;
+      // endregion
 
     } else {
       inputs.hasValidTarget = false;
@@ -89,4 +99,34 @@ public class VisionIOLimelight implements VisionIO {
   public String getName() {
     return name;
   }
+
+  @Override
+  public void setMode(VisionMode mode) {
+    if (!pipelines.containsKey(mode)) {
+      System.out.println("WARNING, COULD NOT SET MODE! NO VALID PIPELINE FOUND FOR " + name.toUpperCase());
+      return;
+    }
+    LimelightHelpers.setPipelineIndex(name, pipelines.get(mode));
+  }
+
+  /**
+   * Adds a new association to VisionIOLimelight's pipeline mao and returns itself for method-chaining and easier to use.
+   * <p>
+   * The map cannot contain duplicate keys or indexes. if duplicates are entered a warning will be printed.
+   *
+   * @param mode A VisionMode to associate with and index
+   * @param pipeline The index of the associate pipeline
+   * @return
+   */
+  public VisionIOLimelight withPipeline(VisionMode mode, int pipeline) {
+    if (pipelines.containsKey(mode) ) {
+      System.out.println("WARNING, CANNOT ASSIGN PIPELINE FOR " + name.toUpperCase() + ": invalid key!");
+    } else if (pipelines.containsValue(pipeline)) {
+      System.out.println("WARNING, CANNOT ASSIGN PIPELINE FOR " + name.toUpperCase() + ": invalid pipeline ID!");
+    } else {
+      this.pipelines.put(mode, pipeline);
+    }
+    return this;
+  }
+
 }

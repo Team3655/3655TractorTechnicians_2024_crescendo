@@ -47,6 +47,7 @@ import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.subsystems.vision.VisionSubsystem;
+import frc.robot.subsystems.vision.VisionConstants.VisionMode;
 import frc.robot.util.CommandNXT;
 import java.io.IOException;
 import java.util.Optional;
@@ -93,8 +94,10 @@ public class RobotContainer {
         // Real robot, instantiate hardware IO implementations
         vision =
             new VisionSubsystem(
-                new VisionIOLimelight(portConfig.leftLimelightName),
-                new VisionIOLimelight(portConfig.rightLimelightName));
+                new VisionIOLimelight(portConfig.leftLimelightName)
+                    .withPipeline(VisionMode.APRILTAG_LOCALIZE, 0),
+                new VisionIOLimelight(portConfig.rightLimelightName)
+                    .withPipeline(VisionMode.APRILTAG_LOCALIZE, 0));
 
         drive =
             new DriveSubsystem(

@@ -17,13 +17,6 @@ import org.littletonrobotics.junction.Logger;
 
 public class VisionSubsystem extends SubsystemBase {
 
-  private static final double TRANSLATION_COEFFICIENT = 0.55;
-  private static final double ROTATION_COEFFICIENT = 2.0;
-
-  // the maximum distance a measurement will be accepted in meters
-  private static final double SINGLE_TAG_MAXIMUM = 4.5;
-  private static final double MULTI_TAG_MAXIMUM = 6.5;
-
   private final VisionIO[] limelights;
   private final VisionIOInputsAutoLogged[] llInputs;
 
@@ -64,7 +57,7 @@ public class VisionSubsystem extends SubsystemBase {
         // if the camera to target distance is too great reject the measurement
         // depending on the number of tags in view use a different maximum
         if (llInputs[i].avgDistanceToCamera
-            >= (llInputs[i].targetPoses.length > 1 ? MULTI_TAG_MAXIMUM : SINGLE_TAG_MAXIMUM)) {
+            >= (llInputs[i].targetPoses.length > 1 ? VisionConstants.MULTI_TAG_MAXIMUM : VisionConstants.SINGLE_TAG_MAXIMUM)) {
           // add pose to rejected poses for logging
           rejectedPoses.add(llInputs[i].robotPose[j]);
           continue;
@@ -73,13 +66,13 @@ public class VisionSubsystem extends SubsystemBase {
         // calculate the standard deviations for the robots x and y position
         double xyStdDev =
             Math.pow(llInputs[i].avgDistanceToCamera, 1.6)
-                * TRANSLATION_COEFFICIENT
+                * VisionConstants.TRANSLATION_COEFFICIENT
                 / (double) llInputs[i].targetPoses.length;
 
         // calculate the standard deviations for the robots rotation
         double thetaStdDev =
             Math.pow(llInputs[i].avgDistanceToCamera, 1.6)
-                * ROTATION_COEFFICIENT
+                * VisionConstants.ROTATION_COEFFICIENT
                 / (double) llInputs[i].targetPoses.length;
 
         // add pose to the accepted poses for logging
@@ -96,6 +89,7 @@ public class VisionSubsystem extends SubsystemBase {
     Logger.recordOutput("Vision/acceptedPoses", acceptedPoses.toArray(Pose2d[]::new));
     Logger.recordOutput("Vision/rejectedPoses", rejectedPoses.toArray(Pose2d[]::new));
   }
+  
   /**
    * Gets the vision Measurements from the subsystem
    *
