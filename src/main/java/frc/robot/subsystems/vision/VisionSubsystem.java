@@ -98,6 +98,7 @@ public class VisionSubsystem extends SubsystemBase {
   }
   /**
    * Gets the vision Measurements from the subsystem
+   *
    * @return A Queue of VisionMeasurements
    */
   public Queue<VisionMeasurement> getMeasurements() {

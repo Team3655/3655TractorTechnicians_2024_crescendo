@@ -389,10 +389,7 @@ public class RobotContainer {
         .button(19)
         .whileTrue(
             new DeadReckoningCommand(
-                shooter,
-                intake,
-                ShooterTargets.PASS,
-                () -> driveJoystick.d1().getAsBoolean()));
+                shooter, intake, ShooterTargets.PASS, () -> driveJoystick.d1().getAsBoolean()));
 
     tractorController
         .button(24)
