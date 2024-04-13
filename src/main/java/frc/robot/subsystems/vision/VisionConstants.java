@@ -12,7 +12,7 @@ public class VisionConstants {
 
   // the maximum distance a measurement will be accepted in meters
   public static final double SINGLE_TAG_MAXIMUM = 4.5;
-  public static final double MULTI_TAG_MAXIMUM = 6.5;
+  public static final double MULTI_TAG_MAXIMUM = 7.5;
 
   public enum VisionMode {
     APRILTAG_LOCALIZE,

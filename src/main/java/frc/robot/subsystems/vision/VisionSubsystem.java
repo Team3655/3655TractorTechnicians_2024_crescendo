@@ -91,6 +91,7 @@ public class VisionSubsystem extends SubsystemBase {
       }
     }
 
+    Logger.recordOutput("Vision/Queue Size", acceptedMeasurements.size());
     Logger.recordOutput("Vision/acceptedPoses", acceptedPoses.toArray(Pose2d[]::new));
     Logger.recordOutput("Vision/rejectedPoses", rejectedPoses.toArray(Pose2d[]::new));
   }

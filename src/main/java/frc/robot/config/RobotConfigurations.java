@@ -89,10 +89,10 @@ public class RobotConfigurations {
 
     public final PortConfiguration portConfig = new PortConfiguration();
 
-    private static final double FRONT_LEFT_OFFSET = -0.302246;
-    private static final double FRONT_RIGHT_OFFSET = -0.419922;
-    private static final double BACK_LEFT_OFFSET = -0.749000;
-    private static final double BACK_RIGHT_OFFSET = -0.282959;
+    private static final double FRONT_LEFT_OFFSET = -0.307861;
+    private static final double FRONT_RIGHT_OFFSET = -0.416748;
+    private static final double BACK_LEFT_OFFSET = -0.514404;
+    private static final double BACK_RIGHT_OFFSET = -0.504395;
 
     private static final double DRIVE_GEAR_RATIO = (50.0 / 16.0) * (16.0 / 28.0) * (45.0 / 15.0);
     private static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.85);
@@ -179,7 +179,7 @@ public class RobotConfigurations {
     private static final int BOTTOM_FLYWHEEL_ID = 31;
     private static final int KICKER_ID = 32;
     private static final int PIVOT_ID = 33;
-    private static final int INDEX_DISTANE_ID = 34;
+    private static final int INDEX_DISTANCE_ID = 34;
     private static final int FLYWHEEL_BEAMBREAK_PORT = 2;
 
     private static final int INTAKE_MOTOR_ID = 40;
@@ -189,8 +189,8 @@ public class RobotConfigurations {
     private static final int STAGE_TWO_REVERSE_PORT = 9;
     private static final int INTAKE_BEAMBREAK_PORT = 2;
 
-    private static final int RIGHT_CLIMER_ID = 41;
-    private static final int LEFT_CLIMER_ID = 42;
+    private static final int RIGHT_CLIMBER_ID = 41;
+    private static final int LEFT_CLIMBER_ID = 42;
 
     private static final int PNEUMATIC_HUB_ID = 50;
 
@@ -236,7 +236,7 @@ public class RobotConfigurations {
       portConfig.bottomFlywheelMotorID = BOTTOM_FLYWHEEL_ID;
       portConfig.feedMotorID = KICKER_ID;
       portConfig.pivotMotorID = PIVOT_ID;
-      portConfig.indexDistanceID = INDEX_DISTANE_ID;
+      portConfig.indexDistanceID = INDEX_DISTANCE_ID;
       portConfig.flyWheelBeamBreakport = FLYWHEEL_BEAMBREAK_PORT;
 
       portConfig.intakeMotorID = INTAKE_MOTOR_ID;
@@ -246,8 +246,8 @@ public class RobotConfigurations {
       portConfig.stageTwoReversePort = STAGE_TWO_REVERSE_PORT;
       portConfig.intakeBeamBreakPort = INTAKE_BEAMBREAK_PORT;
 
-      portConfig.rightClimberMotorID = RIGHT_CLIMER_ID;
-      portConfig.leftClimberMotorID = LEFT_CLIMER_ID;
+      portConfig.rightClimberMotorID = RIGHT_CLIMBER_ID;
+      portConfig.leftClimberMotorID = LEFT_CLIMBER_ID;
 
       portConfig.pneumaticHubID = PNEUMATIC_HUB_ID;
 

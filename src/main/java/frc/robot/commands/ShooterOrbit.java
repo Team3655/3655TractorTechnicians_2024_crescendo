@@ -25,7 +25,7 @@ import org.littletonrobotics.junction.Logger;
 
 public class ShooterOrbit extends Command {
 
-  private static final double KP = 3.0;
+  private static final double KP = 3.5;
   private static final double KI = 0.0012;
 
   private static final double LATANCY_SEC = 0.20;
@@ -138,6 +138,11 @@ public class ShooterOrbit extends Command {
   @Override
   public boolean isFinished() {
     return false;
+  }
+
+  @Override
+  public InterruptionBehavior getInterruptionBehavior() {
+    return InterruptionBehavior.kCancelIncoming;
   }
 
   public Translation2d getMirroredTarget() {
