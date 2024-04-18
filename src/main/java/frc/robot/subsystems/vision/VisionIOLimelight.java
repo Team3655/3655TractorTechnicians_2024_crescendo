@@ -58,6 +58,7 @@ public class VisionIOLimelight implements VisionIO {
         Optional<Pose3d> targetPose =
             TAG_LAYOUT.getTagPose((int) llresult.targetingResults.targets_Fiducials[i].fiducialID);
       inputs.targetPoses[i] = targetPose.orElse(new Pose3d());
+      }
 
       // calculate average distance from target to camera
       double totalDistance = 0.0;
