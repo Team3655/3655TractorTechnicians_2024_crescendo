@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.95,
-        "y": 6.33
+        "x": 4.510054334793984,
+        "y": 4.592613381030958
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.39493940992544,
-        "y": 6.506202289793857
+        "x": 5.964381905453788,
+        "y": 4.2098955992783775
       },
       "isLocked": false,
-      "linkedName": "RedAmpShootL12-End"
+      "linkedName": "BlueTargetingShootUnderStage-End"
     },
     {
       "anchor": {
-        "x": 8.279824485056894,
-        "y": 5.817310282639213
+        "x": 8.002354093286277,
+        "y": 4.123784098384047
       },
       "prevControl": {
-        "x": 6.854200748028534,
-        "y": 5.893853838989729
+        "x": 6.595866245345545,
+        "y": 4.142919987471677
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.2,
       "command": {
         "type": "parallel",
         "data": {
@@ -51,17 +51,17 @@
   ],
   "globalConstraints": {
     "maxVelocity": 5.24,
-    "maxAcceleration": 2.0,
+    "maxAcceleration": 2.5,
     "maxAngularVelocity": 720.0,
     "maxAngularAcceleration": 540.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 0.9548412538722686,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Red",
+  "folder": "Targeting",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

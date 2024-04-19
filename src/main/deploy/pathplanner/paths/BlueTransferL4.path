@@ -3,43 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.7396850038455325,
-        "y": 2.1145157441830036
+        "x": 4.510054334793984,
+        "y": 4.592613381030958
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.289991610286251,
-        "y": 2.382418191409809
+        "x": 6.2992599644872955,
+        "y": 4.142919987471677
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "BlueTargetingShootUnderStage-End"
     },
     {
       "anchor": {
-        "x": 3.7063469931135664,
-        "y": 2.7268641949871304
+        "x": 8.270256540513081,
+        "y": 2.755568028618574
       },
       "prevControl": {
-        "x": 4.089064774866147,
-        "y": 2.478097636847955
+        "x": 7.035991694361011,
+        "y": 3.836745762069613
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.2,
-      "rotationDegrees": -32.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 0.75,
+      "waypointRelativePos": 0.2,
       "command": {
         "type": "parallel",
         "data": {
@@ -47,7 +41,7 @@
             {
               "type": "named",
               "data": {
-                "name": "RunKicker"
+                "name": "DeployIntake"
               }
             }
           ]
@@ -63,13 +57,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -32.0,
+    "rotation": -23.02549200852796,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Targeting",
   "previewStartingState": {
-    "rotation": -28.072486935852986,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": false

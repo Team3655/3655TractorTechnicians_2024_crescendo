@@ -28,7 +28,7 @@ public class ShooterOrbit extends Command {
   private static final double KP = 3.5;
   private static final double KI = 0.0012;
 
-  private static final double LATANCY_SEC = 0.20;
+  private static final double LATANCY_SEC = 0.275;
 
   public static Translation2d blueTarget = new Translation2d(0.0, 5.55);
   public static Translation2d redTarget = new Translation2d(16.535, 5.55);
@@ -93,7 +93,7 @@ public class ShooterOrbit extends Command {
         reletiveTarget
             .getAngle()
             // .plus(Rotation2d.fromDegrees(180))
-            .plus(Rotation2d.fromDegrees(4.5));
+            .plus(Rotation2d.fromDegrees(3.5));
 
     // calculate pid output based on the delta to target rotation
     turnFeedback.setGoal(rotationTarget.getRotations());

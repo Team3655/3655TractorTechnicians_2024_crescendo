@@ -216,7 +216,7 @@ public class DriveSubsystem extends SubsystemBase {
         // ChassisSpeeds
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in
             // your Constants class
-            new PIDConstants(7.0, 0.0, 0.0), // Translation PID constants
+            new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
             new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
             maxVelocityMetersPerSec, // Max module speed, in m/s
             diveBaseRadius, // Drive base radius in meters. Distance from robot center to furthest

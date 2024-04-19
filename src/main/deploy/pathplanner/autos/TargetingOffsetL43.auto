@@ -33,7 +33,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueTargetingOffsetStartL3"
+            "pathName": "BlueTargetingOffsetStartL4"
           }
         },
         {
@@ -70,7 +70,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueTransferL4"
+            "pathName": "BlueTransferL3"
           }
         },
         {

@@ -18,7 +18,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
 
   private ShooterTarget targetState = ShooterTargets.IDLE;
-  private Rotation2d pivotOffset = ShooterConstants.PIVOT_DEFAULT_OFFSET;
+  private Rotation2d pivotOffset = ShooterConstants.PIVOT_TARGETING_OFFSET;
 
   /** Creates a new shooter. */
   public ShooterSubsystem(ShooterIO io) {
@@ -44,7 +44,7 @@ public class ShooterSubsystem extends SubsystemBase {
     Logger.recordOutput("Shooter/PIVOT_TRACK_RATIO ", ShooterConstants.PIVOT_TRACK_RATIO);
     Logger.recordOutput("Shooter/PIVOT_GEARBOX_RATIO", ShooterConstants.PIVOT_GEARBOX_RATIO);
     Logger.recordOutput("Shooter/PIVOT_GEAR_RATIO", ShooterConstants.PIVOT_GEAR_RATIO);
-    Logger.recordOutput("Shooter/PIVOT_DEFAULT_OFFSET", ShooterConstants.PIVOT_DEFAULT_OFFSET);
+    Logger.recordOutput("Shooter/PIVOT_DEFAULT_OFFSET", ShooterConstants.PIVOT_TARGETING_OFFSET);
   }
 
   @Override
@@ -53,7 +53,7 @@ public class ShooterSubsystem extends SubsystemBase {
     Logger.processInputs("Shooter", inputs);
 
     // modify the pivot target by the offset
-    Rotation2d pivotTarget = targetState.angle().plus(pivotOffset);
+    Rotation2d pivotTarget = targetState.angle();
     Logger.recordOutput("Shooter/Pivot Offset", pivotOffset);
 
     // ensure the target is within the safe operating range
@@ -85,7 +85,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setShooterAngleFromDist(double distance) {
-    Rotation2d angle = Rotation2d.fromDegrees(ShooterConstants.ANGLE_MAP.get(distance));
+    Rotation2d angle =
+        Rotation2d.fromDegrees(ShooterConstants.ANGLE_MAP.get(distance)).plus(pivotOffset);
     ShooterTarget state = new ShooterTarget(angle, Optional.of(5500.0));
     requestState(state);
   }

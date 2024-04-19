@@ -13,7 +13,7 @@ public class ShooterConstants {
 
   public static final Rotation2d PIVOT_MAX_ANGLE = Rotation2d.fromDegrees(88.75);
   public static final Rotation2d PIVOT_MIN_ANGLE = Rotation2d.fromDegrees(24.5);
-  public static final Rotation2d PIVOT_DEFAULT_OFFSET = Rotation2d.fromDegrees(0.0);
+  public static final Rotation2d PIVOT_TARGETING_OFFSET = Rotation2d.fromDegrees(0.8);
 
   public static final double PIVOT_TRACK_RATIO = 130.0 / 17.0;
   public static final double PIVOT_GEARBOX_RATIO = 25.0 / 1.0;
