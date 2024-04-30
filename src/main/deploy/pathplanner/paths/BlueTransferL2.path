@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.849566570928014,
-        "y": 4.25773532199745
+        "x": 4.510054334793984,
+        "y": 4.592613381030958
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.639071790964095,
-        "y": 4.324710933804152
+        "x": 6.2992599644872955,
+        "y": 4.142919987471677
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "BlueTargetingShootUnderStage-End"
     },
     {
       "anchor": {
-        "x": 2.7,
-        "y": 5.48
+        "x": 8.078897649636792,
+        "y": 5.645087280850552
       },
       "prevControl": {
-        "x": 3.8273365530414045,
-        "y": 4.743540216451063
+        "x": 6.3279637981187395,
+        "y": 4.487365991048999
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "CenterS2-End"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.2,
       "command": {
         "type": "parallel",
         "data": {
@@ -41,7 +41,7 @@
             {
               "type": "named",
               "data": {
-                "name": "ShooterLeaveLine"
+                "name": "DeployIntake"
               }
             }
           ]
@@ -50,18 +50,18 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 5.24,
+    "maxAcceleration": 2.5,
     "maxAngularVelocity": 720.0,
     "maxAngularAcceleration": 540.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 33.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Red",
+  "folder": "Targeting",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

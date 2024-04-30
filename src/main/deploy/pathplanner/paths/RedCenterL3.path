@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.65,
-        "y": 5.53
+        "x": 2.7,
+        "y": 5.48
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.7998661612707836,
-        "y": 4.745700493731991
+        "x": 3.849866161270784,
+        "y": 4.695700493731991
       },
       "isLocked": false,
       "linkedName": "CenterS2-End"

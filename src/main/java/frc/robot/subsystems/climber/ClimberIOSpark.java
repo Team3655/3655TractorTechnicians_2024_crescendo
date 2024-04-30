@@ -34,10 +34,10 @@ public class ClimberIOSpark implements ClimberIO {
     rightEncoder = rightMotor.getEncoder();
 
     leftMotor = new CANSparkMax(leftID, MotorType.kBrushless);
-    rightMotor.restoreFactoryDefaults();
-    rightMotor.setCANTimeout(250);
-    rightMotor.enableVoltageCompensation(12.0);
-    rightMotor.setSmartCurrentLimit(30);
+    leftMotor.restoreFactoryDefaults();
+    leftMotor.setCANTimeout(250);
+    leftMotor.enableVoltageCompensation(12.0);
+    leftMotor.setSmartCurrentLimit(30);
     leftMotor.setIdleMode(IdleMode.kBrake);
     leftEncoder = rightMotor.getEncoder();
 
@@ -46,6 +46,7 @@ public class ClimberIOSpark implements ClimberIO {
     pid.setP(0.06);
 
     leftMotor.follow(rightMotor, true);
+    //rightMotor.follow(leftMotor,true);
   }
 
   @Override

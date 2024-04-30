@@ -13,7 +13,7 @@ public class ShooterConstants {
 
   public static final Rotation2d PIVOT_MAX_ANGLE = Rotation2d.fromDegrees(88.75);
   public static final Rotation2d PIVOT_MIN_ANGLE = Rotation2d.fromDegrees(24.5);
-  public static final Rotation2d PIVOT_TARGETING_OFFSET = Rotation2d.fromDegrees(0.8);
+  public static final Rotation2d PIVOT_TARGETING_OFFSET = Rotation2d.fromDegrees(0.0);
 
   public static final double PIVOT_TRACK_RATIO = 130.0 / 17.0;
   public static final double PIVOT_GEARBOX_RATIO = 25.0 / 1.0;
@@ -28,27 +28,27 @@ public class ShooterConstants {
   }
 
   static {
-    ANGLE_MAP.put(7.2500, 25.3);
-    ANGLE_MAP.put(7.0000, 24.5);
-    ANGLE_MAP.put(6.5000, 25.5);
-    ANGLE_MAP.put(6.0000, 26.3);
-    ANGLE_MAP.put(5.7500, 26.0);
-    ANGLE_MAP.put(5.5000, 26.5);
-    ANGLE_MAP.put(5.0000, 28.0);
-    ANGLE_MAP.put(4.5000, 29.0);
-    ANGLE_MAP.put(4.0000, 31.0);
-    ANGLE_MAP.put(3.5000, 34.0);
-    ANGLE_MAP.put(3.0000, 37.5);
-    ANGLE_MAP.put(2.5000, 41.0);
-    ANGLE_MAP.put(2.0000, 47.0);
-    ANGLE_MAP.put(1.7500, 50.0);
-    ANGLE_MAP.put(1.5000, 55.0);
-    ANGLE_MAP.put(1.3854, 60.0);
+    ANGLE_MAP.put(7.2500, 29.0);
+    ANGLE_MAP.put(7.0000, 29.0);
+    ANGLE_MAP.put(6.5000, 29.0);
+    ANGLE_MAP.put(6.0000, 29.6);
+    ANGLE_MAP.put(5.7500, 29.9);
+    ANGLE_MAP.put(5.5000, 30.3);
+    ANGLE_MAP.put(5.0000, 31.0);
+    ANGLE_MAP.put(4.5000, 32.0);
+    ANGLE_MAP.put(4.0000, 34.0);
+    ANGLE_MAP.put(3.5000, 36.0);
+    ANGLE_MAP.put(3.0000, 39.5);
+    ANGLE_MAP.put(2.5000, 42.0);
+    ANGLE_MAP.put(2.0000, 49.0);
+    ANGLE_MAP.put(1.7500, 53.0);
+    ANGLE_MAP.put(1.5000, 58.0);
+    ANGLE_MAP.put(1.3854, 63.0);
   }
 
   public static class ShooterTargets {
 
-    public static final double SPEAKER_RPM = 5000.0;
+    public static final double SPEAKER_RPM = 6000.0;
 
     public static final ShooterTarget IDLE =
         new ShooterTarget(Rotation2d.fromDegrees(70.0), Optional.empty());
@@ -60,7 +60,7 @@ public class ShooterConstants {
         new ShooterTarget(Rotation2d.fromDegrees(60.0), Optional.of(SPEAKER_RPM));
 
     public static final ShooterTarget AMP =
-        new ShooterTarget(Rotation2d.fromDegrees(57), Optional.of(1250.0));
+        new ShooterTarget(Rotation2d.fromDegrees(57), Optional.of(1300.0));
 
     public static final ShooterTarget BABY_BIRD =
         new ShooterTarget(Rotation2d.fromDegrees(70), Optional.of(-2500.0));
