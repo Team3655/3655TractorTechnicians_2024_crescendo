@@ -49,7 +49,6 @@ import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.subsystems.vision.VisionSubsystem;
 import frc.robot.util.CommandNXT;
-import java.io.IOException;
 import java.util.Optional;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
@@ -78,11 +77,8 @@ public class RobotContainer {
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
-   *
-   * @throws IOException
-   * @throws IllegalAccessException
    */
-  public RobotContainer() throws IOException {
+  public RobotContainer() {
 
     switch (Constants.currentMode) {
       case REAL:
