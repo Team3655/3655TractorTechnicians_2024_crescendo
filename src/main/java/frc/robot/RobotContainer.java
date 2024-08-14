@@ -5,14 +5,12 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.units.Angle;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.BabyBirdCommand;
 import frc.robot.commands.ClimbingCommands;
@@ -68,9 +66,9 @@ public class RobotContainer {
   private final IntakeSubsystem intake;
   private final ClimberSubsystem climber;
 
-  // Controller
-  private final CommandNXT driveJoystick = new CommandNXT(0);
-  private final CommandJoystick turnJoystick = new CommandJoystick(1);
+// Controller
+  private final CommandNXT translationJoystick = new CommandNXT(0);
+  private final CommandNXT rotationJoystick = new CommandNXT(1);
   private final CommandGenericHID tractorController = new CommandGenericHID(2);
   private final CommandXboxController controller = new CommandXboxController(3);
 
@@ -263,21 +261,21 @@ public class RobotContainer {
             drive,
             // multiply by (1 - RightTrigger) to act as a variable "brake" or "damper" on
             // the robots zoomieness
-            () -> -driveJoystick.getY() - controller.getLeftY(),
-            () -> -driveJoystick.getX() - controller.getLeftX(),
-            () -> -turnJoystick.getX() - controller.getRightX()));
+            () -> -translationJoystick.getY() - controller.getLeftY(),
+            () -> -translationJoystick.getX() - controller.getLeftX(),
+            () -> -rotationJoystick.getX() - controller.getRightX()));
 
     controller
         .rightBumper()
-        .or(driveJoystick.fireStage1())
+        .or(translationJoystick.fireStage1())
         .whileTrue(
             new ShooterOrbit(
                 drive,
                 shooter,
                 intake,
-                () -> -driveJoystick.getY() - controller.getLeftY(),
-                () -> -driveJoystick.getX() - controller.getLeftX(),
-                () -> driveJoystick.fireStage2().getAsBoolean(),
+                () -> -translationJoystick.getY() - controller.getLeftY(),
+                () -> -translationJoystick.getX() - controller.getLeftX(),
+                () -> translationJoystick.fireStage2().getAsBoolean(),
                 Optional.empty()));
 
     tractorController
@@ -287,15 +285,15 @@ public class RobotContainer {
                 drive,
                 shooter,
                 intake,
-                () -> -driveJoystick.getY() - controller.getLeftY(),
-                () -> -driveJoystick.getX() - controller.getLeftX(),
-                () -> turnJoystick.button(1).getAsBoolean(),
+                () -> -translationJoystick.getY() - controller.getLeftY(),
+                () -> -translationJoystick.getX() - controller.getLeftX(),
+                () -> rotationJoystick.fireStage1().getAsBoolean(),
                 Optional.of(Rotation2d.fromDegrees(54.0))));
 
-    driveJoystick.b1().or(controller.back()).onTrue(DriveCommands.zeroDrive(drive));
+    translationJoystick.b1().or(controller.back()).onTrue(DriveCommands.zeroDrive(drive));
 
-    turnJoystick
-        .button(2)
+    rotationJoystick
+    .F1()
         .or(controller.start())
         .onTrue(
             DriveCommands.zeroOdometry(
@@ -319,7 +317,7 @@ public class RobotContainer {
 
     controller
         .povUp()
-        .or(turnJoystick.button(5))
+        .or(rotationJoystick.a3Down())
         .onTrue(
             Commands.runOnce(
                 () -> {
@@ -329,7 +327,7 @@ public class RobotContainer {
 
     controller
         .povDown()
-        .or(turnJoystick.button(3))
+        .or(rotationJoystick.a3Up())
         .onTrue(
             Commands.runOnce(
                 () -> {
@@ -337,7 +335,7 @@ public class RobotContainer {
                 },
                 shooter));
 
-    driveJoystick
+    translationJoystick
         .firePaddleUp()
         .or(controller.povLeft())
         .onTrue(IntakeCommands.intakeSearch(intake))
@@ -347,7 +345,7 @@ public class RobotContainer {
                 .andThen(new IndexCommand(shooter, intake))
                 .withTimeout(4));
 
-    driveJoystick
+    translationJoystick
         .a2()
         .whileTrue(
             Commands.startEnd(
@@ -359,17 +357,17 @@ public class RobotContainer {
                 },
                 intake));
 
-    driveJoystick
+    translationJoystick
         .firePaddleDown()
         .whileTrue(
             new DeadReckoningCommand(
-                shooter, intake, ShooterTargets.SPIT, () -> driveJoystick.d1().getAsBoolean()));
+                shooter, intake, ShooterTargets.SPIT, () -> translationJoystick.d1().getAsBoolean()));
 
     tractorController
         .button(11)
         .whileTrue(
             new DeadReckoningCommand(
-                shooter, intake, ShooterTargets.SUBWOFER, () -> driveJoystick.d1().getAsBoolean()));
+                shooter, intake, ShooterTargets.SUBWOFER, () -> translationJoystick.d1().getAsBoolean()));
 
     tractorController
         .button(13)
@@ -378,7 +376,7 @@ public class RobotContainer {
                 shooter,
                 intake,
                 ShooterTargets.LEAVE_LINE,
-                () -> driveJoystick.d1().getAsBoolean()));
+                () -> translationJoystick.d1().getAsBoolean()));
 
     tractorController
         .button(15)
@@ -387,13 +385,13 @@ public class RobotContainer {
                 shooter,
                 intake,
                 ShooterTargets.BEHIND_PODIUM,
-                () -> driveJoystick.d1().getAsBoolean()));
+                () -> translationJoystick.d1().getAsBoolean()));
 
     tractorController
         .button(19)
         .whileTrue(
             new DeadReckoningCommand(
-                shooter, intake, ShooterTargets.PASS, () -> driveJoystick.d1().getAsBoolean()));
+                shooter, intake, ShooterTargets.PASS, () -> translationJoystick.d1().getAsBoolean()));
 
     tractorController
         .button(24)
@@ -402,7 +400,7 @@ public class RobotContainer {
     tractorController
         .button(9)
         .whileTrue(
-            new TrapCommand(shooter, climber, intake, () -> driveJoystick.d1().getAsBoolean()));
+            new TrapCommand(shooter, climber, intake, () -> translationJoystick.d1().getAsBoolean()));
 
     tractorController
         .button(1)
